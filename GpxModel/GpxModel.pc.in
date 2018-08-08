@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: @PROJECT_NAME@
+Description: GPX model C++ library
+Version: @BUILD_VERSION@
+Libs: -L${libdir} -lGpxModel
+Cflags: -I${includedir} 
+

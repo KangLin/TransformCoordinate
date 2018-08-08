@@ -42,7 +42,8 @@ ENDIF(MSVC)
 option(BUILD_GPXMODEL  "Set to ON to build GpxModel"  ON)
 if(BUILD_GPXMODEL)
     add_subdirectory(GpxModel)
-    add_definitions(-DBUILD_GPXMODEL)
+    SET(GpxModel_DEFINITIONS -DBUILD_GPXMODEL)
+    add_definitions(${GpxModel_DEFINITIONS})
     set(GPXMODEL_LIB GpxModel)
 endif()
 
@@ -64,6 +65,9 @@ INSTALL(FILES ${HEAD_FILES} DESTINATION "include")
 # Install cmake files
 configure_file(TransformCoordinate.cmake.in ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake DESTINATION .)
+# Install pc files
+configure_file(TransformCoordinate.pc.in ${CMAKE_BINARY_DIR}/TransformCoordinate.pc @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinate.pc DESTINATION lib/pkgconfig)
 
 # Build options
 option(BUILD_APP  "Set to ON to build applaction"  ON)

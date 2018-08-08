@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: @PROJECT_NAME@
+Description: Transform coordinate C++ library
+Version: @BUILD_VERSION@
+Libs: -L${libdir} -lTransformCoordinate
+Cflags: -I${includedir} @GpxModel_DEFINITIONS@
+Requires:@GPXMODEL_LIB@

@@ -22,11 +22,6 @@ set(TransformCoordinate_VERSION_STRING @BUILD_VERSION@)
 find_package(PkgConfig)
 if(PKG_CONFIG_FOUND)
 	pkg_check_modules(TransformCoordinate TransformCoordinate)
-	pkg_check_modeles(GpxModel GpxModel)
-	if(GpxModel_FOUND)
-		SET(TransformCoordinate_LIBRARIES ${GpxModel_LIBRARIES})
-		SET(TransformCoordinate_DEFINITIONS ${GpxModel_DEFINITIONS})
-	endif()
 endif()
 
 # Compute and install package configuration and version files
