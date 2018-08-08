@@ -1,16 +1,30 @@
 #TODO: Change version
-version: 'v0.0.1.{build}'
+version: '0.0.1.{build}'
 
 configuration:
   - Release
   - Debug
 
+platform:
+  - x64
+  - x86
+
 environment:
   matrix:
+  - GENERATORS: "Visual Studio 9 2008"
+  - GENERATORS: "Visual Studio 15 2017"
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  - GENERATORS: "Visual Studio 14 2015" 
+  - GENERATORS: "Visual Studio 12 2013"
+  - GENERATORS: "Visual Studio 11 2012"
+  - GENERATORS: "Visual Studio 10 2010"
+  - GENERATORS: "MSYS Makefiles"
 
 init:
+  - if "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x86" (call SET PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin;C:\MinGW\msys\1.0\bin;%PATH%) else (call SET PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin;C:\MinGW\msys\1.0\bin;%PATH%) 
+  #- if NOT "%GENERATORS%"=="MSYS Makefiles" if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%)
+  - if NOT "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x64" set GENERATORS=%GENERATORS% Win64
 
-  
 install:
 
 before_build:
@@ -18,53 +32,29 @@ before_build:
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir build
-  - cmake ..
+  - cd build
+  - echo "   cmake .. -G%GENERATORS% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\install -DBUILD_APP=OFF "
+  - cmake .. -G"%GENERATORS%" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%/install" -DBUILD_APP=OFF
   - cmake --build . --target install --config %CONFIGURATION%
 
 #after_build:
 
 artifacts:
-  #- path: build_$(BUILD_TARGERT)/install
-  #  name: RabbitGIS_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
-  #  type: zip
-
-  - path: build_${BUILD_TARGERT}/RabbitGIS-Setup-*.exe
-    name: RabbitGIS_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
-#    type: zip
+  - path: install
+    name: TransformCoordinate_$(GENERATORS)_$(CONFIGURATION)_v$(appveyor_build_version)
+    type: zip
 
 test: off
 
 deploy:
-  - provider: FTP #https://sourceforge.net/p/forge/documentation/Release%20Files%20for%20Download/#scp
-    protocol: sftp #https://sourceforge.net/p/forge/documentation/SFTP/
-    host: frs.sourceforge.net
-    username: kl222,rabbitgis
-    #password encrypt: https://ci.appveyor.com/tools/encrypt
-    password:
-      secure: 2WEtOQrdty3V3g0aEVvS3Q==
-    folder: pfs   #link pfs to /home/frs/project/r/ra/rabbitgis
-    draft: false
-    active_mode: false
-    on:
-      #branch: master
-      appveyor_repo_tag: true
-      BUILD_TARGERT: windows_msvc
-      TOOLCHAIN_VERSION: 14
-      QT_VERSION: qt5.7.1
-
-
   - provider: GitHub
-    #release: RabbitGIS-v$(appveyor_build_version)
-    description: 'Release RabbitGIS $(APPVEYOR_REPO_TAG_NAME) on windows'
+    #release: TransformCoordinate-v$(appveyor_build_version)
+    description: 'Release TransformCoordinate $(APPVEYOR_REPO_TAG_NAME) on windows'
     #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
     auth_token:
       secure: xgIFN2iAfgj1gsWabdHrmFXvj0rce/ZWtKUwm3aDUNfLGu+kO/q94MYD8a46AbDL
-    #artifact: RabbitGIS_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
+    #artifact: TransformCoordinate_$(GENERATORS)_$(CONFIGURATION)_$(appveyor_build_version)
     #draft: true
     #prerelease: true
     on:
-      BUILD_TARGERT: windows_msvc
-      TOOLCHAIN_VERSION: 14
-      QT_VERSION: qt5.7.1
-      AUTOBUILD_ARCH: x86
       appveyor_repo_tag: true        # deploy on tag push only

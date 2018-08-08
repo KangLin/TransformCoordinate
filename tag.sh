@@ -22,7 +22,7 @@ if [ -z "$VERSION" ]; then
     VERSION=` git rev-parse HEAD`
 fi
 
-#sed -i "s/^\!define PRODUCT_VERSION.*/\!define PRODUCT_VERSION \"${VERSION}\"/g" ${SOURCE_DIR}/Install/Install.nsi
+sed -i "s/^\SET(BUILD_VERSION.*/\SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
 
 APPVERYOR_VERSION="version: '${VERSION}.{build}'"
 sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
