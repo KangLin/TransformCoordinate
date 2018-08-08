@@ -1,0 +1,67 @@
+# Author: KangLin(kl222@126.com)
+
+#.rst:
+# TransformCoordinate
+# --------
+#
+# Find TransformCoordinate
+#
+# Find the TransformCoordinate libraries (asound)
+#
+# ::
+#
+#   This module defines the following variables:
+#      TransformCoordinate_FOUND          - True if TransformCoordinate libraries are found
+#      TransformCoordinate_LIBRARIES      - Set when TransformCoordinate libraries is found
+#      TransformCoordinate_INCLUDE_DIRS   - where to find TransformCoordinate heard directory.
+#      TransformCoordinate_DEFINITIONS    - Set definitions
+#      TransformCoordinate_VERSION_STRING - the version of TransformCoordinate found (since CMake 2.8.8)
+
+set(TransformCoordinate_VERSION_STRING @BUILD_VERSION@)
+
+find_package(PkgConfig)
+if(PKG_CONFIG_FOUND)
+	pkg_check_modules(TransformCoordinate TransformCoordinate)
+	pkg_check_modeles(GpxModel GpxModel)
+	if(GpxModel_FOUND)
+		SET(TransformCoordinate_LIBRARIES ${GpxModel_LIBRARIES})
+		SET(TransformCoordinate_DEFINITIONS ${GpxModel_DEFINITIONS})
+	endif()
+endif()
+
+# Compute and install package configuration and version files
+get_filename_component(_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(_prefix "${_dir}" ABSOLUTE)
+
+find_path(TransformCoordinate_INCLUDE_DIR TransformCoordinate.h
+	HINTS ${_prefix}/include)
+find_library(TransformCoordinate_LIBRARY TransformCoordinate
+	HINTS ${_prefix}/lib)
+
+find_package_handle_standard_args(TransformCoordinate
+    REQUIRED_VARS TransformCoordinate_INCLUDE_DIR
+                  TransformCoordinate_LIBRARY
+    VERSION_VAR   TransformCoordinate_VERSION_STRING)
+
+if(TransformCoordinate_FOUND)
+	SET(TransformCoordinate_INCLUDE_DIRS ${TransformCoordinate_INCLUDE_DIR})
+	SET(TransformCoordinate_LIBRARIES ${TransformCoordinate_LIBRARY})
+endif()
+
+MARK_AS_ADVANCED(TransformCoordinate_INCLUDE_DIR TransformCoordinate_LIBRARY)
+
+find_path(GpxModel_INCLUDE_DIRS gpx_model.h
+	HINTS ${_prefix}/include)
+find_library(GpxModel_LIBRARIES GpxModel
+	HINTS ${_prefix}/lib)
+
+find_package_handle_standard_args(GpxModel
+    REQUIRED_VARS GpxModel_INCLUDE_DIRS
+                  GpxModel_LIBRARIES)
+if(GpxModel_FOUND)
+	SET(TransformCoordinate_LIBRARIES
+		${TransformCoordinate_LIBRARIES}
+		${GpxModel_LIBRARIES})
+	SET(TransformCoordinate_DEFINITIONS -DBUILD_GPXMODEL)
+endif()
+MARK_AS_ADVANCED(GpxModel_LIBRARIES GpxModel_INCLUDE_DIRS)

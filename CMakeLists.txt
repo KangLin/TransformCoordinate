@@ -16,6 +16,7 @@ IF(NOT CMAKE_INSTALL_PREFIX)
     SET(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/${PROJECT_NAME} CACHE STRING "Install path prefix.") 
 ENDIF() 
 
+SET(BUILD_VERSION 1.0.0)
 # Find Git Version Patch
 if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     FIND_PROGRAM(GIT git)
@@ -55,12 +56,14 @@ add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 
 # Install target
 INSTALL(TARGETS ${PROJECT_NAME}
-		RUNTIME DESTINATION bin
+        RUNTIME DESTINATION bin
         LIBRARY DESTINATION "lib"
         ARCHIVE DESTINATION "lib")
-    
 # Install head files
 INSTALL(FILES ${HEAD_FILES} DESTINATION "include")
+# Install cmake files
+configure_file(TransformCoordinate.cmake.in ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake DESTINATION .)
 
 # Build options
 option(BUILD_APP  "Set to ON to build applaction"  ON)
@@ -81,7 +84,7 @@ if(BUILD_APP)
         FIND_PACKAGE(Qt5${_COMPONENT} REQUIRED)
         SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5${_COMPONENT}_LIBRARIES})
     ENDFOREACH()
-    
+   
     set(HEAD_FILES
         mainwindow.h)
     SET(SOURCES_FILES 
@@ -89,7 +92,6 @@ if(BUILD_APP)
         main.cpp)
     SET(SOURCE_UI_FILES 
         mainwindow.ui)
-    
     add_executable(${PROJECT_NAME}_app ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES})
     target_link_libraries(${PROJECT_NAME}_app ${PROJECT_NAME} ${GPXMODEL_LIB} ${QT_LIBRARIES})
 endif()
