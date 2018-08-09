@@ -6,25 +6,28 @@ configuration:
   - Debug
 
 platform:
-  - x64
   - x86
+  - x64
 
 environment:
   matrix:
-  - GENERATORS: "Visual Studio 9 2008"
   - GENERATORS: "Visual Studio 15 2017"
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - GENERATORS: "Visual Studio 14 2015" 
   - GENERATORS: "Visual Studio 12 2013"
   - GENERATORS: "Visual Studio 11 2012"
   - GENERATORS: "Visual Studio 10 2010"
+  #- GENERATORS: "Visual Studio 9 2008"
   - GENERATORS: "MSYS Makefiles"
 
 init:
-  - if "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x86" (call SET PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin;C:\MinGW\msys\1.0\bin;%PATH%) else (call SET PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin;C:\MinGW\msys\1.0\bin;%PATH%) 
+  - if "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x86" SET PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%;C:\MinGW\msys\1.0\bin
+  - if "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x64" SET PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%;C:\MinGW\msys\1.0\bin
+  #- echo "PATH:%PATH%"
+
   #- if NOT "%GENERATORS%"=="MSYS Makefiles" if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%)
   - if NOT "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x64" set GENERATORS=%GENERATORS% Win64
-
+  
 install:
 
 before_build:
@@ -36,6 +39,7 @@ build_script:
   - echo "   cmake .. -G%GENERATORS% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\install -DBUILD_APP=OFF "
   - cmake .. -G"%GENERATORS%" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%/install" -DBUILD_APP=OFF
   - cmake --build . --target install --config %CONFIGURATION%
+  - if "%GENERATORS%"=="MSYS Makefiles" set GENERATORS=%GENERATORS%_%PLATFORM%
 
 #after_build:
 
