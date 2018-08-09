@@ -39,6 +39,7 @@ IF(MSVC)
         ENDIF(WIN32_USE_MP)
 ENDIF(MSVC)
 
+option(BUILD_SHARED_LIBS "Build shared library" ON)
 option(BUILD_GPXMODEL  "Set to ON to build GpxModel"  ON)
 if(BUILD_GPXMODEL)
     add_subdirectory(GpxModel)
@@ -52,7 +53,18 @@ set(HEAD_FILES
 set(SOURCE_FILES
     TransformCoordinate.cpp)
 
+if (BUILD_SHARED_LIBS)
+      if (CMAKE_COMPILER_IS_GNUCXX)
+         # Just setting CMAKE_POSITION_INDEPENDENT_CODE should be enough to set
+         # -fPIC for GCC but sometimes it still doesn't get set, so make sure it
+         # does.
+         add_definitions("-fPIC")
+      endif()
+      set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
+
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
+target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
 #add_dependencies(${PROJECT_NAME} GpxModel)
 
 # Install target
