@@ -1,6 +1,7 @@
 坐标系统转换
 
-[![Build status](https://ci.appveyor.com/api/projects/status/yxkcu6b6o2av6wmk?svg=true)](https://ci.appveyor.com/project/KangLin/transformcoordinate)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/yxkcu6b6o2av6wmk?svg=true)](https://ci.appveyor.com/project/KangLin/transformcoordinate)  
+[![Linux Build status](https://travis-ci.org/KangLin/TransformCoordinate.svg?branch=master)](https://travis-ci.org/KangLin/TransformCoordinate.svg?branch=master)
 
 本项目对WGS84、GCJ02、百度坐标系之间进行转换。
 

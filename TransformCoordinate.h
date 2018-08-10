@@ -22,7 +22,9 @@ static std::string gCoordinateDescription[] = {"WGS84", "GCJ02", "BD09LL", "BD09
 int TransformCoordinate(double oldx, double oldy, double &newx, double &newy, _COORDINATE from = WGS84, _COORDINATE to = GCJ02);
 
 #ifdef BUILD_GPXMODEL
+
 int TransformCoordinateFiles(const char *szSrc, const char *szDst,  _COORDINATE from = WGS84, _COORDINATE to = GCJ02);
+
 #endif
 
 #endif

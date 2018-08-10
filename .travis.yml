@@ -1,0 +1,96 @@
+sudo: required
+dist: trusty
+
+language: cpp
+
+compiler:
+  - g++
+  - clang
+
+os:
+  - unix
+  - osx
+
+addons:
+  ssh_known_hosts:
+    - github.com
+
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env:
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+before_install:
+
+install:
+
+before_script:
+  - eval "${MATRIX_EVAL}"
+
+script: 
+  - mkdir build
+  - cd build
+  - cmake .. -DBUILD_APP=OFF 
+  - cmake --build . 
+
+notifications:
+  email: kl222@126.com
+  on_success: never  # [always|never|change]
+  on_failure: always
+
+deploy:
+  provider: releases
+  api_key: 177ce637a8ec54e66ea8693092caf35059cf95d7
+  file: 
+    - ./build_android/android-build/bin/QtApp-debug.apk
+  skip_cleanup: true
+  on:
+    condition: $TRAVIS_OS_NAME = android
+    repo: KangLin/TransformCoordinate
+    tags: true

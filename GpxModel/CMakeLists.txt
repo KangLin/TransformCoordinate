@@ -24,7 +24,7 @@ set(SOURCE_FILES
 
 set(OTHER_FILES GpxModel.pc.in)
 
-option(BUILD_SHARED_LIBS "Build shared library" ON)
+option(BUILD_SHARED_LIBS "Build shared library" OFF)
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES} )
 #set_target_properties(${PROJECT_NAME}
