@@ -31,16 +31,16 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 ENDIF()
 
 IF(MSVC)
-        # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
-        OPTION(WIN32_USE_MP "Set to ON to build OpenSceneGraph with the /MP option (Visual Studio 2005 and above)." ON)
-        MARK_AS_ADVANCED(WIN32_USE_MP)
-        IF(WIN32_USE_MP)
-            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
-        ENDIF(WIN32_USE_MP)
+    # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
+    OPTION(WIN32_USE_MP "Set to ON to build OpenSceneGraph with the /MP option (Visual Studio 2005 and above)." ON)
+    MARK_AS_ADVANCED(WIN32_USE_MP)
+    IF(WIN32_USE_MP)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+    ENDIF(WIN32_USE_MP)
 ENDIF(MSVC)
 
-option(BUILD_SHARED_LIBS "Build shared library" OFF)
-option(BUILD_GPXMODEL  "Set to ON to build GpxModel"  ON)
+option(BUILD_SHARED_LIBS "Build shared library" ON)
+option(BUILD_GPXMODEL "Set to ON to build GpxModel" ON)
 if(BUILD_GPXMODEL)
     add_subdirectory(GpxModel)
     SET(GpxModel_DEFINITIONS -DBUILD_GPXMODEL)
@@ -48,6 +48,7 @@ if(BUILD_GPXMODEL)
     set(GPXMODEL_LIB GpxModel)
 endif()
 
+set(OTHER_FILES appveyor.yml .travis.yml)
 set(HEAD_FILES
     TransformCoordinate.h)
 set(SOURCE_FILES
@@ -63,6 +64,7 @@ if (BUILD_SHARED_LIBS)
       set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
+#set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
 #add_dependencies(${PROJECT_NAME} ${GPXMODEL_LIB})
@@ -83,6 +85,8 @@ if (BUILD_SHARED_LIBS)
       # 同理，你不需要写全libhello_static.a 
       # 只需要填写hello即可，cmake系统会自动为你生成 libhello_static.X
       add_library(${PROJECT_NAME}_static STATIC ${SOURCE_FILES} ${HEAD_FILES})
+      target_link_libraries(${PROJECT_NAME}_static ${GPXMODEL_LIB}_static)
+      
       # 按照一般的习惯，静态库名字跟动态库名字应该是一致的，只是扩展名不同；
       # 即：静态库名为 libhello.a； 动态库名为libhello.so ；
       # 所以，希望 "hello_static" 在输出时，不是"hello_static"，而是以"hello"的名字显示，故设置如下：
@@ -116,9 +120,11 @@ INSTALL(FILES ${HEAD_FILES} DESTINATION "include")
 # Install cmake files
 configure_file(TransformCoordinate.cmake.in ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake DESTINATION .)
-# Install pc files
-configure_file(TransformCoordinate.pc.in ${CMAKE_BINARY_DIR}/TransformCoordinate.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinate.pc DESTINATION lib/pkgconfig)
+if(MINGW)
+    # Install pc files
+    configure_file(TransformCoordinate.pc.in ${CMAKE_BINARY_DIR}/TransformCoordinate.pc @ONLY)
+    install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinate.pc DESTINATION lib/pkgconfig)
+endif()
 
 # Build options
 option(BUILD_APP  "Set to ON to build applaction"  ON)
@@ -137,7 +143,9 @@ if(BUILD_APP)
     FOREACH(_COMPONENT ${QT_COMPONENTS})
         SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5${_COMPONENT}_LIBRARIES})
     ENDFOREACH()
-   
+    
+    SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
+    
     set(HEAD_FILES
         mainwindow.h)
     SET(SOURCES_FILES 
@@ -145,6 +153,22 @@ if(BUILD_APP)
         main.cpp)
     SET(SOURCE_UI_FILES 
         mainwindow.ui)
-    add_executable(${PROJECT_NAME}_app ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES})
-    target_link_libraries(${PROJECT_NAME}_app ${PROJECT_NAME} ${GPXMODEL_LIB} ${QT_LIBRARIES})
+    add_executable(${PROJECT_NAME}App ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES})
+    target_link_libraries(${PROJECT_NAME}App ${PROJECT_NAME} ${GPXMODEL_LIB} ${QT_LIBRARIES})
+    
+    # Install target
+    INSTALL(TARGETS ${PROJECT_NAME}App
+            RUNTIME DESTINATION "bin"
+            LIBRARY DESTINATION "lib"
+            ARCHIVE DESTINATION "lib")
+    #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中  
+    add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
+        COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+        COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                --compiler-runtime
+                --verbose 7
+                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
+        )
+    INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "bin")
 endif()

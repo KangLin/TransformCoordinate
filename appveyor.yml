@@ -15,6 +15,7 @@ environment:
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - GENERATORS: "Visual Studio 14 2015" 
     QT_ROOT: C:\Qt\5.10\msvc2015
+    CMAKE_PARAS: -DBUILD_SHARED_LIBS=OFF
   - GENERATORS: "Visual Studio 12 2013"
   - GENERATORS: "Visual Studio 11 2012"
   - GENERATORS: "Visual Studio 10 2010"
@@ -32,15 +33,15 @@ init:
 install:
 
 before_build:
-  - if "%QT_ROOT%"=="" SET CMAKE_PARAS=-DBUILD_APP=OFF
-  - if NOT "%QT_ROOT%"=="" SET CMAKE_PARAS=-DQt5_DIR=%QT_ROOT%\lib\cmake\Qt5
+  - if "%QT_ROOT%"=="" SET CMAKE_PARAS=-DBUILD_APP=OFF %CMAKE_PARAS%
+  - if NOT "%QT_ROOT%"=="" SET CMAKE_PARAS=-DQt5_DIR=%QT_ROOT%\lib\cmake\Qt5 %CMAKE_PARAS%
   
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir build
   - cd build
   - echo "cmake .. -G%GENERATORS% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\install %CMAKE_PARAS% "
-  - cmake .. -G"%GENERATORS%" -DCMAKE_INSTATLL_PREFIX="%APPVEYOR_BUILD_FOLDER%\install" %CMAKE_PARAS%
+  - cmake .. -G"%GENERATORS%" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\install" %CMAKE_PARAS%
   - cmake --build . --target install --config %CONFIGURATION%
   - if "%GENERATORS%"=="MSYS Makefiles" set GENERATORS=%GENERATORS%_%PLATFORM%
 
