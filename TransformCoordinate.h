@@ -4,6 +4,12 @@
 #include <math.h>
 #include <string>
 
+#ifdef DLL_EXPORT
+#define DLL_API __declspec(dllexport)
+#else
+#define DLL_API __declspec(dllimport)
+#endif
+
 /*
 WGS84：为一种大地坐标系，也是目前广泛使用的GPS全球卫星定位系统使用的坐标系。  
 GCJ02：又称火星坐标系，是由中国国家测绘局制定的地理坐标系统，是由WGS84加密后得到的坐标系。  
@@ -19,11 +25,11 @@ enum _COORDINATE{
 };
 
 static std::string gCoordinateDescription[] = {"WGS84", "GCJ02", "BD09LL", "BD09MC"};   
-int TransformCoordinate(double oldx, double oldy, double &newx, double &newy, _COORDINATE from = WGS84, _COORDINATE to = GCJ02);
+DLL_API int TransformCoordinate(double oldx, double oldy, double &newx, double &newy, _COORDINATE from = WGS84, _COORDINATE to = GCJ02);
 
 #ifdef BUILD_GPXMODEL
 
-int TransformCoordinateFiles(const char *szSrc, const char *szDst,  _COORDINATE from = WGS84, _COORDINATE to = GCJ02);
+DLL_API int TransformCoordinateFiles(const char *szSrc, const char *szDst,  _COORDINATE from = WGS84, _COORDINATE to = GCJ02);
 
 #endif
 

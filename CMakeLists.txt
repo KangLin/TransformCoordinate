@@ -54,16 +54,6 @@ set(HEAD_FILES
 set(SOURCE_FILES
     TransformCoordinate.cpp)
 
-if (BUILD_SHARED_LIBS)
-      if (CMAKE_COMPILER_IS_GNUCXX)
-         # Just setting CMAKE_POSITION_INDEPENDENT_CODE should be enough to set
-         # -fPIC for GCC but sometimes it still doesn't get set, so make sure it
-         # does.
-         add_definitions("-fPIC")
-      endif()
-      set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
-
 #set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
@@ -77,37 +67,40 @@ if (BUILD_SHARED_LIBS)
          add_definitions("-fPIC")
       endif()
       set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-      
-      # 添加静态库，关键词为static，
-      # ADD_LIBRARY (hello STATIC ${LIBHELLO_SRC})
-      # 仍然用hello作为target名时，是不能成功创建所需的静态库的，
-      # 因为hello作为一个target是不能重名的， 故把上面的hello修改为hello_static
-      # 同理，你不需要写全libhello_static.a 
-      # 只需要填写hello即可，cmake系统会自动为你生成 libhello_static.X
-      add_library(${PROJECT_NAME}_static STATIC ${SOURCE_FILES} ${HEAD_FILES})
-      target_link_libraries(${PROJECT_NAME}_static ${GPXMODEL_LIB}_static)
-      
-      # 按照一般的习惯，静态库名字跟动态库名字应该是一致的，只是扩展名不同；
-      # 即：静态库名为 libhello.a； 动态库名为libhello.so ；
-      # 所以，希望 "hello_static" 在输出时，不是"hello_static"，而是以"hello"的名字显示，故设置如下：
-      SET_TARGET_PROPERTIES (${PROJECT_NAME}_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
-    
-      # cmake在构建一个新的target时，会尝试清理掉其他使用这个名字的库，
-      # 因此，在构建libhello.a时，就会清理掉libhello.so. 
-      # 为了回避这个问题，比如再次使用SET_TARGET_PROPERTIES定义 CLEAN_DIRECT_OUTPUT属性。
-      SET_TARGET_PROPERTIES (${PROJECT_NAME} PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-      SET_TARGET_PROPERTIES (${PROJECT_NAME}_static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-      
-      # 按照规则，动态库是应该包含一个版本号的，
-      # VERSION指代动态库版本，SOVERSION指代API版本。
-      #SET_TARGET_PROPERTIES (${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION} SOVERSION 1)
-      SET_TARGET_PROPERTIES (${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION})
-      
-      # Install target
-      INSTALL(TARGETS ${PROJECT_NAME}_static
+      if(WIN32)
+          add_definitions(-DDLL_EXPORT)
+      else(WIN32)
+          # 添加静态库，关键词为static，
+          # ADD_LIBRARY (hello STATIC ${LIBHELLO_SRC})
+          # 仍然用hello作为target名时，是不能成功创建所需的静态库的，
+          # 因为hello作为一个target是不能重名的， 故把上面的hello修改为hello_static
+          # 同理，你不需要写全libhello_static.a 
+          # 只需要填写hello即可，cmake系统会自动为你生成 libhello_static.X
+          add_library(${PROJECT_NAME}_static STATIC ${SOURCE_FILES} ${HEAD_FILES})
+          target_link_libraries(${PROJECT_NAME}_static ${GPXMODEL_LIB}_static)
+          
+          # 按照一般的习惯，静态库名字跟动态库名字应该是一致的，只是扩展名不同；
+          # 即：静态库名为 libhello.a； 动态库名为libhello.so ；
+          # 所以，希望 "hello_static" 在输出时，不是"hello_static"，而是以"hello"的名字显示，故设置如下：
+          SET_TARGET_PROPERTIES (${PROJECT_NAME}_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+          
+          # cmake在构建一个新的target时，会尝试清理掉其他使用这个名字的库，
+          # 因此，在构建libhello.a时，就会清理掉libhello.so. 
+          # 为了回避这个问题，比如再次使用SET_TARGET_PROPERTIES定义 CLEAN_DIRECT_OUTPUT属性。
+          SET_TARGET_PROPERTIES (${PROJECT_NAME} PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+          SET_TARGET_PROPERTIES (${PROJECT_NAME}_static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+          
+          # 按照规则，动态库是应该包含一个版本号的，
+          # VERSION指代动态库版本，SOVERSION指代API版本。
+          #SET_TARGET_PROPERTIES (${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION} SOVERSION 1)
+          SET_TARGET_PROPERTIES (${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION})
+          
+          # Install target
+          INSTALL(TARGETS ${PROJECT_NAME}_static
               RUNTIME DESTINATION "bin"
               LIBRARY DESTINATION "lib"
               ARCHIVE DESTINATION "lib")
+      endif(WIN32)
 endif()
 
 # Install target
@@ -158,17 +151,26 @@ if(BUILD_APP)
     
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}App
-            RUNTIME DESTINATION "bin"
-            LIBRARY DESTINATION "lib"
-            ARCHIVE DESTINATION "lib")
-    #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中  
-    add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
-        COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
-        COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --compiler-runtime
-                --verbose 7
-                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
-        )
-    INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "bin")
+        RUNTIME DESTINATION "bin"
+        LIBRARY DESTINATION "lib"
+        ARCHIVE DESTINATION "lib")
+    
+    IF(WIN32)
+        IF(CMAKE_BUILD_TYPE MATCHES Release AND MINGW)
+        #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
+        add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
+            COMMAND strip "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
+            )
+        ENDIF()
+        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中  
+        add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
+            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+            --compiler-runtime
+            --verbose 7
+            "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
+            )
+        INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "bin")
+    endif()
 endif()

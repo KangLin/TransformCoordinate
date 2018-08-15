@@ -21,6 +21,13 @@
 #include <string>
 #include <vector>
 
+#ifdef DLL_EXPORT
+#define DLL_API __declspec(dllexport)
+#else
+#define DLL_API __declspec(dllimport)
+#endif
+
+
 using namespace std;
 
 /**
@@ -55,9 +62,9 @@ using namespace std;
  * @{
  */
 
-class GPX_trkType;
-class GPX_trksegType;
-class GPX_wptType;
+class DLL_API GPX_trkType;
+class DLL_API GPX_trksegType;
+class DLL_API GPX_wptType;
 
 /**
  * @brief Information about the copyright holder and any license governing use of the GPX file
@@ -184,7 +191,7 @@ struct GPX_statsType
  * @version 1.1
  * @date 10 Jan 2015
  */
-class GPX_model
+class DLL_API GPX_model
 {
 public:
 
@@ -289,7 +296,7 @@ private:
  * @version 1.1
  * @date 10 Jan 2015
  */
-class GPX_trkType
+class DLL_API GPX_trkType
 {
 public:
     friend class GPX_model;
@@ -324,7 +331,7 @@ private:
  * @version 1.1
  * @date 10 Jan 2015
  */
-class GPX_trksegType
+class DLL_API GPX_trksegType
 {
 public:
     friend class GPX_trkType;
@@ -358,7 +365,7 @@ private:
  * @version 1.1
  * @date 10 Jan 2015
  */
-class GPX_wptType
+class DLL_API GPX_wptType
 {
 public:
     friend class GPX_trksegType;
