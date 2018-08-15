@@ -4,11 +4,16 @@
 #include <math.h>
 #include <string>
 
-#ifdef DLL_EXPORT
-#define DLL_API __declspec(dllexport)
+#ifdef WIN32
+    #ifdef DLL_EXPORT
+        #define DLL_API __declspec(dllexport)
+    #else
+        #define DLL_API __declspec(dllimport)
+    #endif
 #else
-#define DLL_API __declspec(dllimport)
+    #define DLL_API
 #endif
+
 
 /*
 WGS84：为一种大地坐标系，也是目前广泛使用的GPS全球卫星定位系统使用的坐标系。  

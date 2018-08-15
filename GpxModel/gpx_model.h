@@ -21,12 +21,15 @@
 #include <string>
 #include <vector>
 
-#ifdef DLL_EXPORT
-#define DLL_API __declspec(dllexport)
+#ifdef WIN32
+    #ifdef DLL_EXPORT
+        #define DLL_API __declspec(dllexport)
+    #else
+        #define DLL_API __declspec(dllimport)
+    #endif
 #else
-#define DLL_API __declspec(dllimport)
+    #define DLL_API
 #endif
-
 
 using namespace std;
 
