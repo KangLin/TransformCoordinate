@@ -72,7 +72,7 @@ class DLL_API GPX_wptType;
 /**
  * @brief Information about the copyright holder and any license governing use of the GPX file
  */
-struct GPX_copyrightType
+struct DLL_API GPX_copyrightType
 {
     string                  author;             /**< Copyright holder */
     string                  year;               /**< Year of copyright */
@@ -82,7 +82,7 @@ struct GPX_copyrightType
 /**
  * @brief Representation of a link to an external resource
  */
-struct GPX_linkType
+struct DLL_API GPX_linkType
 {
     string                  href;               /**< URL of the link */
     string                  text;               /**< Text of the link */
@@ -92,7 +92,7 @@ struct GPX_linkType
 /**
  * @brief Representation of an email address
  */
-struct GPX_emailType
+struct DLL_API GPX_emailType
 {
     string                  id;                 /**< ID half of email address (bourgeoislab) */
     string                  domain;             /**< Domain half of email address (gmail.com) */
@@ -101,7 +101,7 @@ struct GPX_emailType
 /**
  * @brief Representation of a person or organization
  */
-struct GPX_personType
+struct DLL_API GPX_personType
 {
     string                  name;               /**< Name of person or organization */
     GPX_emailType           email;              /**< Email address */
@@ -111,7 +111,7 @@ struct GPX_personType
 /**
  * @brief Bound given by minimal and maximal latitude / longitude
  */
-struct GPX_boundsType
+struct DLL_API GPX_boundsType
 {
     double                  minlat;             /**< Minimum latitude [deg] */
     double                  minlon;             /**< Minimum longitude [deg] */
@@ -122,7 +122,7 @@ struct GPX_boundsType
 /**
  * @brief Any extension to the standard GPX format
  */
-struct GPX_extType
+struct DLL_API GPX_extType
 {
     vector <string>         extension;          /**< Any extension element */
 };
@@ -130,7 +130,7 @@ struct GPX_extType
 /**
 * @brief Garmin's TrackPointExtension GPX extension
 */
-struct GPX_extTPExtType
+struct DLL_API GPX_extTPExtType
 {
     unsigned int            heartrate;          /**< Heart rate [bpm] */
     vector <string>         other;              /**< Any other extension element */
@@ -139,7 +139,7 @@ struct GPX_extTPExtType
 /**
  * @brief Information about the GPX file
  */
-struct GPX_metadataType
+struct DLL_API GPX_metadataType
 {
     string                  name;               /**< Name of the GPX file */
     string                  desc;               /**< Description of the contents of the GPX file */
@@ -156,7 +156,7 @@ struct GPX_metadataType
 /**
  * @brief Information about a track
  */
-struct GPX_trkMetadataType
+struct DLL_API GPX_trkMetadataType
 {
     string                  name;               /**< Name of the track */
     string                  cmt;                /**< Comment for track */
@@ -170,7 +170,7 @@ struct GPX_trkMetadataType
 /**
  * @brief Statistic information about a list of track points
  */
-struct GPX_statsType
+struct DLL_API GPX_statsType
 {
     int                     points;             /**< Number of track points within the list */
     time_t                  startTime;          /**< GMT timestamp of the first point [s] */
