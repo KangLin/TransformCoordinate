@@ -11,21 +11,39 @@ platform:
 
 environment:
   matrix:
+  - BUILD_TARGERT: android
+    GENERATORS: "MSYS Makefiles"
+    CMAKE_PARAS: -DANDROID_NATIVE_API_LEVEL=android-18 -DANDROID_ABI="armeabi-v7a with NEON"
+    QT_VERSION: 5.9.5
+    QT_VERSION_DIR: 5.9
+
   - GENERATORS: "Visual Studio 15 2017"
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    BUILD_TARGERT: windows_msvc
+
   - GENERATORS: "Visual Studio 14 2015" 
     QT_ROOT: C:\Qt\5.10\msvc2015
-    CMAKE_PARAS: -DBUILD_SHARED_LIBS=OFF
+    BUILD_TARGERT: windows_msvc
+
   - GENERATORS: "Visual Studio 12 2013"
+    CMAKE_PARAS: -DBUILD_SHARED_LIBS=OFF
+    BUILD_TARGERT: windows_msvc
+
   - GENERATORS: "Visual Studio 11 2012"
+    BUILD_TARGERT: windows_msvc
+
   - GENERATORS: "Visual Studio 10 2010"
+    BUILD_TARGERT: windows_msvc
+
   #- GENERATORS: "Visual Studio 9 2008"
+
   - GENERATORS: "MSYS Makefiles"
+    BUILD_TARGERT: windows_mingw
 
 init:
-  - if "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x86" SET PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%;C:\MinGW\msys\1.0\bin
-  - if "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x64" SET PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%;C:\MinGW\msys\1.0\bin
-
+  - if "%BUILD_TARGERT%"=="windows_mingw" if "%PLATFORM%"=="x86" SET PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%;C:\MinGW\msys\1.0\bin
+  - if "%BUILD_TARGERT%"=="windows_mingw" if "%PLATFORM%"=="x64" SET PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%;C:\MinGW\msys\1.0\bin
+  
   #- if NOT "%GENERATORS%"=="MSYS Makefiles" if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%)
   - if NOT "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x64" set GENERATORS=%GENERATORS% Win64
   - if NOT "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x64" if NOT "%QT_ROOT%"=="" set QT_ROOT=%QT_ROOT%_64
@@ -35,13 +53,18 @@ install:
 before_build:
   - if "%QT_ROOT%"=="" SET CMAKE_PARAS=-DBUILD_APP=OFF %CMAKE_PARAS%
   - if NOT "%QT_ROOT%"=="" SET CMAKE_PARAS=-DQt5_DIR=%QT_ROOT%\lib\cmake\Qt5 %CMAKE_PARAS%
-  
+  - if "%BUILD_TARGERT%"=="android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%/ci/build-install-tools-windows.sh
+  - if "%BUILD_TARGERT%"=="android" set ANDROID_SDK=%APPVEYOR_BUILD_FOLDER%/tools/android-sdk
+  - if "%BUILD_TARGERT%"=="android" set ANDROID_NDK=%APPVEYOR_BUILD_FOLDER%/tools/android-ndk
+  - if "%BUILD_TARGERT%"=="android" SET CMAKE_PARAS=-DQt5_DIR=C:/projects/TransformCoordinate/Tools/Qt/Qt%QT_VERSION%/%QT_VERSION%/android_armv7/lib/cmake/Qt5 %CMAKE_PARAS%
+
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir build
   - cd build
   - echo "cmake .. -G%GENERATORS% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\install %CMAKE_PARAS% "
-  - cmake .. -G"%GENERATORS%" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\install" %CMAKE_PARAS%
+  - if "%BUILD_TARGERT%"=="android"  cmake .. -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\install" -DCMAKE_MAKE_PROGRAM=C:\msys64\usr\bin\make.exe -DCMAKE_TOOLCHAIN_FILE="%APPVEYOR_BUILD_FOLDER%/android.toolchain.cmake" %CMAKE_PARAS%
+  - if NOT "%BUILD_TARGERT%"=="android" cmake .. -G"%GENERATORS%" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\install" %CMAKE_PARAS%
   - cmake --build . --target install --config %CONFIGURATION%
   - if "%GENERATORS%"=="MSYS Makefiles" set GENERATORS=%GENERATORS%_%PLATFORM%
 
@@ -49,7 +72,7 @@ build_script:
 
 artifacts:
   - path: install
-    name: TransformCoordinate_$(GENERATORS)_$(CONFIGURATION)_v$(appveyor_build_version)
+    name: TransformCoordinate_${BUILD_TARGERT}_$(GENERATORS)_$(CONFIGURATION)_v$(appveyor_build_version)
     type: zip
 
 test: off
