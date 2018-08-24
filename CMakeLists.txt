@@ -131,16 +131,18 @@ if(BUILD_APP)
                 COMMAND strip "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
                 )
         ENDIF()
-            
+        
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中  
+        SET(APP_PATH "${PROJECT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}")
         add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
-            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+            COMMAND ${CMAKE_COMMAND} -E copy "${APP_PATH}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
             --compiler-runtime
             --verbose 7
             "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
             )
         INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "bin")
+        
     ENDIF(WIN32)
 endif(BUILD_APP)
