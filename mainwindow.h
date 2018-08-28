@@ -17,12 +17,18 @@ public:
     
 private slots:
     void on_pbConversion_clicked();
-    
     void on_pbBrowsSrcFile_clicked();
-    
     void on_pbBrowsDstFile_clicked();
+    void on_pbConversionFile_clicked();   
+    void on_leSrcFile_textChanged(const QString &text);
     
-    void on_pbConversionFile_clicked();
+    void on_pbSrcDir_clicked();
+    
+    void on_pbDstDir_clicked();
+    
+    void on_pbConversionDir_clicked();
+    
+    void on_leSrcDir_textChanged(const QString &text);
     
 private:
     Ui::MainWindow *ui;

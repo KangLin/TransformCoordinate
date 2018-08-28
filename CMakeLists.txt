@@ -145,4 +145,21 @@ if(BUILD_APP)
         INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "bin")
         
     ENDIF(WIN32)
+    
+    IF(ANDROID)
+        GENERATED_DEPLOYMENT_SETTINGS()
+        find_program(ANT NAMES ant) # PATHS  "/usr/bin")
+        MESSAGE("ant:${ANT}\n")
+    
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
+            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+            COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
+                --input ${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json
+                --output ${PROJECT_BINARY_DIR}/android-build
+                --verbose
+                #--ant /usr/bin/ant
+                #--jdk $ENV{JAVA_HOME}
+        )
+    ENDIF(ANDROID)
 endif(BUILD_APP)

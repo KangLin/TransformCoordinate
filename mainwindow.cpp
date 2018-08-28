@@ -4,6 +4,10 @@
 #include "TransformCoordinate.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QCursor>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -59,12 +63,86 @@ void MainWindow::on_pbBrowsDstFile_clicked()
 void MainWindow::on_pbConversionFile_clicked()
 {
 #ifdef BUILD_GPXMODEL
+    this->statusBar()->showMessage(tr("Start transform ......"));
+    QCursor cursor = this->cursor();
+    this->setCursor(Qt::WaitCursor);
     TransformCoordinateFiles(ui->leSrcFile->text().toStdString().c_str(),
                     ui->leDstFile->text().toStdString().c_str(),
                     (_COORDINATE)ui->cbSrcCoor->currentIndex(),
                     (_COORDINATE)ui->cbDstCoor->currentIndex());
-    QMessageBox::information(this, tr("End"), tr("Transform coordinate end"));
+    //QMessageBox::information(this, tr("End"), tr("Transform coordinate end"));
+    this->setCursor(cursor);
+    this->statusBar()->showMessage(tr("Ready"));
 #else
     qDebug() << "Please set BUILD_GPXMODEL to ON";
 #endif
+}
+
+void MainWindow::on_leSrcFile_textChanged(const QString &text)
+{
+    if(!ui->leDstFile->text().isEmpty())
+        return;
+    QString szFile;
+    szFile = ui->leSrcFile->text();
+    QFileInfo f(text);
+    szFile = f.path() + QDir::separator() + f.completeBaseName() + "_TC." + f.suffix();
+    ui->leDstFile->setText(szFile);
+}
+
+void MainWindow::on_pbSrcDir_clicked()
+{  
+    QFileDialog df(this, tr("Open source directory"));
+    df.setFileMode(QFileDialog::DirectoryOnly);
+    df.setOptions(QFileDialog::ShowDirsOnly);
+    if(df.exec() == QDialog::Rejected)
+        return;
+    ui->leSrcDir->setText(df.directory().absolutePath());
+}
+
+void MainWindow::on_pbDstDir_clicked()
+{
+    QFileDialog df(this, tr("Open Destory directory"));
+    df.setFileMode(QFileDialog::DirectoryOnly);
+    df.setOptions(QFileDialog::ShowDirsOnly);
+    if(df.exec() == QDialog::Rejected)
+        return;
+    ui->leDstDir->setText(df.directory().absolutePath());
+}
+
+void MainWindow::on_leSrcDir_textChanged(const QString &text)
+{
+    if(!ui->leDstDir->text().isEmpty())
+        return;
+    
+    ui->leDstDir->setText(text + "_TC");
+}
+
+void MainWindow::on_pbConversionDir_clicked()
+{
+    QString szDir = ui->leDstDir->text();
+    QDir dir;
+    if(!dir.exists(szDir))
+        dir.mkpath(szDir);
+    this->statusBar()->showMessage(tr("Start transform ......"));
+    QCursor cursor = this->cursor();
+    this->setCursor(Qt::WaitCursor);
+    QDir d(ui->leSrcDir->text());
+    int num = 1;
+    foreach (QFileInfo f, d.entryInfoList()) {
+        if(f.isFile())
+        {
+#ifdef BUILD_GPXMODEL
+            this->statusBar()->showMessage(tr("Be transforming ") + QString::number(num++) + " ......");
+            TransformCoordinateFiles(f.filePath().toStdString().c_str(),
+                    (ui->leDstDir->text() + QDir::separator() + f.fileName()).toStdString().c_str(),
+                    (_COORDINATE)ui->cbSrcCoor->currentIndex(),
+                    (_COORDINATE)ui->cbDstCoor->currentIndex());
+#else
+            qDebug() << "Please set BUILD_GPXMODEL to ON";
+#endif
+        }
+    }
+    this->setCursor(cursor);
+    this->statusBar()->showMessage(tr("Ready"));
+    //QMessageBox::information(this, tr("End"), tr("Transform coordinate end"));
 }
