@@ -19,7 +19,7 @@ ENDIF()
 SET(BUILD_VERSION "0.0.1")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    FIND_PROGRAM(GIT git)
+    FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
     IF(GIT)
         EXECUTE_PROCESS(
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -34,7 +34,7 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
             )
         endif()
         SET(BUILD_VERSION ${GIT_VERSION})
-    ENDIF(GIT)
+    ENDIF()
 ENDIF()
 message("BUILD_VERSION:${BUILD_VERSION}")
 
@@ -62,10 +62,8 @@ set(HEAD_FILES
 set(SOURCE_FILES
         TransformCoordinate.cpp)
     
-#set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
-#add_dependencies(${PROJECT_NAME} ${GPXMODEL_LIB})
     
 if (BUILD_SHARED_LIBS)
     if (CMAKE_COMPILER_IS_GNUCXX)
@@ -115,9 +113,7 @@ if(BUILD_APP)
     ENDFOREACH()
         
     SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
-    
-    add_definitions(-DBUILD_VERSION=${BUILD_VERSION})
-    
+        
     set(HEAD_FILES
             mainwindow.h
             Widgets/DlgAbout/DlgAbout.h
@@ -135,19 +131,20 @@ if(BUILD_APP)
     SET(RCC_FILES
             Resource/Resource.qrc
             Resource/sink/dark/style.qrc
+            ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc
             )
     
     #翻译
-    #include(cmake/Qt5CorePatches.cmake)    
-    #include(cmake/Translations.cmake)
+    include(cmake/Qt5CorePatches.cmake)    
+    include(cmake/Translations.cmake)
     
     add_executable(${PROJECT_NAME}App ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES} AppIcon.rc ${RCC_FILES})
     target_link_libraries(${PROJECT_NAME}App ${PROJECT_NAME} ${GPXMODEL_LIB} ${QT_LIBRARIES})
     
-    #configure_file(
-    #        "${PROJECT_SOURCE_DIR}/Version.h.in"
-    #        "${PROJECT_BINARY_DIR}/Version.h"
-    #)
+    configure_file(
+            "${PROJECT_SOURCE_DIR}/Version.h.in"
+            "${PROJECT_BINARY_DIR}/Version.h"
+    )
     
     include_directories("${PROJECT_BINARY_DIR}")
     

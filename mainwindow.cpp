@@ -8,13 +8,18 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QCursor>
+#include <QLocale>
 #include "Widgets/DlgAbout/DlgAbout.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
+{   
+    m_Translator.load(":/translations/app_" + QLocale::system().name() + ".qm");
+    qApp->installTranslator(&m_Translator);
+    
+    ui->setupUi(this);    
+    
     QStringList lstCoor;
     lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";
     ui->cbSrcCoor->addItems(lstCoor);
@@ -102,7 +107,7 @@ void MainWindow::on_pbSrcDir_clicked()
 
 void MainWindow::on_pbDstDir_clicked()
 {
-    QFileDialog df(this, tr("Open Destory directory"));
+    QFileDialog df(this, tr("Open destination directory"));
     df.setFileMode(QFileDialog::DirectoryOnly);
     df.setOptions(QFileDialog::ShowDirsOnly);
     if(df.exec() == QDialog::Rejected)
