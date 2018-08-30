@@ -13,23 +13,31 @@ ADD_CUSTOM_TARGET(uninstall
 
 # 设置安装前缀
 IF(NOT CMAKE_INSTALL_PREFIX) 
-SET(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/${PROJECT_NAME} CACHE STRING "Install path prefix.") 
+    SET(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/${PROJECT_NAME} CACHE STRING "Install path prefix.") 
 ENDIF() 
 
 SET(BUILD_VERSION "0.0.1")
 # Find Git Version Patch
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     FIND_PROGRAM(GIT git)
     IF(GIT)
-    EXECUTE_PROCESS(
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        COMMAND ${GIT} rev-parse --short HEAD
-        OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
+        EXECUTE_PROCESS(
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMAND ${GIT} describe --tags
+            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-    MESSAGE("Git Version: ${BUILD_VERSION}\n")
+	    if(NOT GIT_VERSION)
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                COMMAND ${GIT} rev-parse --short HEAD
+                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+        endif()
+        SET(BUILD_VERSION ${GIT_VERSION})
     ENDIF(GIT)
 ENDIF()
-    
+message("BUILD_VERSION:${BUILD_VERSION}")
+
 IF(MSVC)
     # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
     OPTION(WIN32_USE_MP "Set to ON to build OpenSceneGraph with the /MP option (Visual Studio 2005 and above)." ON)
@@ -107,17 +115,42 @@ if(BUILD_APP)
     ENDFOREACH()
         
     SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
-       
+    
+    add_definitions(-DBUILD_VERSION=${BUILD_VERSION})
+    
     set(HEAD_FILES
-            mainwindow.h)
+            mainwindow.h
+            Widgets/DlgAbout/DlgAbout.h
+            )
     SET(SOURCES_FILES 
             mainwindow.cpp
-            main.cpp)
+            main.cpp
+            Widgets/DlgAbout/DlgAbout.cpp
+            )
     SET(SOURCE_UI_FILES 
-            mainwindow.ui)
-    add_executable(${PROJECT_NAME}App ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES})
+            mainwindow.ui
+            Widgets/DlgAbout/DlgAbout.ui 
+            )
+    #设置资源文件
+    SET(RCC_FILES
+            Resource/Resource.qrc
+            Resource/sink/dark/style.qrc
+            )
+    
+    #翻译
+    #include(cmake/Qt5CorePatches.cmake)    
+    #include(cmake/Translations.cmake)
+    
+    add_executable(${PROJECT_NAME}App ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES} AppIcon.rc ${RCC_FILES})
     target_link_libraries(${PROJECT_NAME}App ${PROJECT_NAME} ${GPXMODEL_LIB} ${QT_LIBRARIES})
-        
+    
+    #configure_file(
+    #        "${PROJECT_SOURCE_DIR}/Version.h.in"
+    #        "${PROJECT_BINARY_DIR}/Version.h"
+    #)
+    
+    include_directories("${PROJECT_BINARY_DIR}")
+    
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}App
             RUNTIME DESTINATION "bin"

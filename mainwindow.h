@@ -30,6 +30,8 @@ private slots:
     
     void on_leSrcDir_textChanged(const QString &text);
     
+    void on_actionAbout_A_triggered();
+    
 private:
     Ui::MainWindow *ui;
 };

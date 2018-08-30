@@ -11,12 +11,6 @@ platform:
 
 environment:
   matrix:
-  - BUILD_TARGERT: android
-    GENERATORS: "MSYS Makefiles"
-    CMAKE_PARAS: -DANDROID_NATIVE_API_LEVEL=android-18 -DANDROID_ABI="armeabi-v7a with NEON"
-    QT_VERSION: 5.9.5
-    QT_VERSION_DIR: 5.9
-
   - GENERATORS: "Visual Studio 15 2017"
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     BUILD_TARGERT: windows_msvc
@@ -39,6 +33,12 @@ environment:
 
   - GENERATORS: "MSYS Makefiles"
     BUILD_TARGERT: windows_mingw
+  
+  - BUILD_TARGERT: android
+    GENERATORS: "MSYS Makefiles"
+    CMAKE_PARAS: -DANDROID_NATIVE_API_LEVEL=android-18 -DANDROID_ABI="armeabi-v7a with NEON"
+    QT_VERSION: 5.9.5
+    QT_VERSION_DIR: 5.9
 
 init:
   - if "%BUILD_TARGERT%"=="windows_mingw" if "%PLATFORM%"=="x86" SET PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%;C:\MinGW\msys\1.0\bin

@@ -8,6 +8,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QCursor>
+#include "Widgets/DlgAbout/DlgAbout.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -145,4 +146,10 @@ void MainWindow::on_pbConversionDir_clicked()
     this->setCursor(cursor);
     this->statusBar()->showMessage(tr("Ready"));
     //QMessageBox::information(this, tr("End"), tr("Transform coordinate end"));
+}
+
+void MainWindow::on_actionAbout_A_triggered()
+{
+    CDlgAbout dlgAbout;
+    dlgAbout.exec();
 }
