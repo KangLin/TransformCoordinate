@@ -17,7 +17,7 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09ll表示百度经纬度坐标，b
 - 坐标转换程序：TransformCoordinateApp  
 
 下载：
-https://github.com/KangLin/TransformCoordinate/releases
+https://github.com/KangLin/TransformCoordinate/releases/latest
 
 编译：
 
