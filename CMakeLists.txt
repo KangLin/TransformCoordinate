@@ -133,19 +133,23 @@ if(BUILD_APP)
             Resource/sink/dark/style.qrc
             ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc
             )
-    
+   
     #翻译
     include(cmake/Qt5CorePatches.cmake)    
     include(cmake/Translations.cmake)
-    
+
     add_executable(${PROJECT_NAME}App ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES} AppIcon.rc ${RCC_FILES})
-    target_link_libraries(${PROJECT_NAME}App ${PROJECT_NAME} ${GPXMODEL_LIB} ${QT_LIBRARIES})
+    SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
+    if(BUILD_GPXMODEL)
+        SET(APP_LIBS ${GPXMODEL_LIB})
+    endif()
+    target_link_libraries(${PROJECT_NAME}App ${APP_LIBS})
     
     configure_file(
             "${PROJECT_SOURCE_DIR}/Version.h.in"
             "${PROJECT_BINARY_DIR}/Version.h"
-    )
-    
+            )
+
     include_directories("${PROJECT_BINARY_DIR}")
     
     # Install target
@@ -153,7 +157,7 @@ if(BUILD_APP)
             RUNTIME DESTINATION "bin"
             LIBRARY DESTINATION "lib"
             ARCHIVE DESTINATION "lib")
-        
+ 
     IF(WIN32)
         IF(CMAKE_BUILD_TYPE MATCHES Release AND MINGW)
             #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
@@ -161,7 +165,7 @@ if(BUILD_APP)
                 COMMAND strip "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
                 )
         ENDIF()
-        
+
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中  
         SET(APP_PATH "${PROJECT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}")
         add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
