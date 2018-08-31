@@ -1,5 +1,5 @@
 #TODO: Change version
-version: 'v0.0.1.{build}'
+version: 'v0.0.2.{build}'
 
 configuration:
   - Release
@@ -98,3 +98,5 @@ deploy:
     on:
       appveyor_repo_tag: true        # deploy on tag push only
       GENERATORS: "Visual Studio 14 2015"
+      configuration: Release
+      platform: x86
