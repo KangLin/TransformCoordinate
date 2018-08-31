@@ -99,4 +99,3 @@ deploy:
       appveyor_repo_tag: true        # deploy on tag push only
       GENERATORS: "Visual Studio 14 2015"
       configuration: Release
-      platform: x86
