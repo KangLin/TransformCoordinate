@@ -12,9 +12,12 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09ll表示百度经纬度坐标，b
 本项目还包括一个GPX文件操作模块。
 
 本项目包含：  
-坐标转换库：TransformCoordinate  
-GPX文件操作库：GpxModel  
-坐标转换程序：TransformCoordinateApp  
+- 坐标转换库：TransformCoordinate  
+- GPX文件操作库：GpxModel  
+- 坐标转换程序：TransformCoordinateApp  
+
+下载：
+https://github.com/KangLin/TransformCoordinate/releases
 
 编译：
 
@@ -25,6 +28,7 @@ GPX文件操作库：GpxModel
 
 用微信扫描二维码进行捐赠:  
 [![用微信扫描二维码进行捐赠](Resource/png/weixinpay.png)](Resource/png/weixinpay.png)
+
 
 参见：  
 http://lbsyun.baidu.com/index.php?title=TransformCoordinate  
