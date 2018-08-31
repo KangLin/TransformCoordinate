@@ -141,7 +141,7 @@ if(BUILD_APP)
     add_executable(${PROJECT_NAME}App ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES} AppIcon.rc ${RCC_FILES})
     SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
     if(BUILD_GPXMODEL)
-        SET(APP_LIBS ${GPXMODEL_LIB})
+        SET(APP_LIBS ${APP_LIBS} ${GPXMODEL_LIB})
     endif()
     target_link_libraries(${PROJECT_NAME}App ${APP_LIBS})
     

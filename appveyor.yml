@@ -27,7 +27,7 @@ environment:
   - GENERATORS: "Visual Studio 12 2013"
     CMAKE_PARAS: -DBUILD_SHARED_LIBS=OFF -DBUILD_GPXMODEL=OFF 
     BUILD_TARGERT: windows_msvc
-    QT_ROOT: C:\Qt\5.10\msvc2013
+    QT_ROOT: C:\Qt\5.6\msvc2013
 
   - GENERATORS: "Visual Studio 11 2012"
     CMAKE_PARAS: -DBUILD_SHARED_LIBS=OFF 
