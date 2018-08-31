@@ -18,6 +18,9 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09ll表示百度经纬度坐标，b
     cmake ..
     cmake --build . 
 
+用微信扫描二维码进行捐赠:  
+[![用微信扫描二维码进行捐赠](Resource/png/weixinpay.png)](Resource/png/weixinpay.png)
+
 参见：  
 http://lbsyun.baidu.com/index.php?title=TransformCoordinate  
 http://www.360doc.com/content/16/0721/16/9200790_577327509.shtml
