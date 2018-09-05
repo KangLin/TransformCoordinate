@@ -26,8 +26,9 @@ matrix:
           packages:
             - g++-4.9
       env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+        - QT_VERSION=5.11.1 QT_VERSION_DIR=5.11 "
+         
     # works on Precise and Trusty
     - os: linux
       addons:
@@ -72,12 +73,10 @@ install:
 
 before_script:
   - eval "${MATRIX_EVAL}"
+  - bash ci/build-install-tools.sh
 
 script: 
-  - mkdir build
-  - cd build
-  - cmake .. -DBUILD_APP=OFF 
-  - cmake --build . 
+ - bash ci/build.sh
 
 notifications:
   email: kl222@126.com

@@ -53,9 +53,6 @@ void MainWindow::on_pbConversion_clicked()
 void MainWindow::on_pbBrowsSrcFile_clicked()
 {
     QString szExt = tr("GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)");
-#ifdef BUILD_LIBKML
-    szExt = tr("KML file(*.kml);;") + szExt;
-#endif
     QString szFile = QFileDialog::getOpenFileName(this, tr("Open source file"), 
                                                   QString(),
                                                   szExt);
@@ -64,11 +61,7 @@ void MainWindow::on_pbBrowsSrcFile_clicked()
 
 void MainWindow::on_pbBrowsDstFile_clicked()
 {
-    QString szExt = tr("GPX file(*.gpx);;");
-#ifdef BUILD_LIBKML
-    szExt = tr("KML file(*.kml);;") + szExt;
-#endif
-    
+    QString szExt = tr("GPX file(*.gpx);;");  
     QString szFile = QFileDialog::getSaveFileName(this, tr("Open Destination file"),
                                                   QString(),
                                                   szExt);

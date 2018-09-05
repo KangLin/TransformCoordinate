@@ -175,55 +175,49 @@ Email:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="59"/>
-        <source>Open source file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../mainwindow.cpp" line="55"/>
         <source>GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="72"/>
-        <source>Open Destination file</source>
+        <location filename="../../mainwindow.cpp" line="56"/>
+        <source>Open source file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="67"/>
+        <location filename="../../mainwindow.cpp" line="64"/>
         <source>GPX file(*.gpx);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="57"/>
-        <location filename="../../mainwindow.cpp" line="69"/>
-        <source>KML file(*.kml);;</source>
+        <location filename="../../mainwindow.cpp" line="65"/>
+        <source>Open Destination file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="81"/>
-        <location filename="../../mainwindow.cpp" line="141"/>
+        <location filename="../../mainwindow.cpp" line="74"/>
+        <location filename="../../mainwindow.cpp" line="134"/>
         <source>Start transform ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="90"/>
-        <location filename="../../mainwindow.cpp" line="161"/>
+        <location filename="../../mainwindow.cpp" line="83"/>
+        <location filename="../../mainwindow.cpp" line="154"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="109"/>
+        <location filename="../../mainwindow.cpp" line="102"/>
         <source>Open source directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="119"/>
+        <location filename="../../mainwindow.cpp" line="112"/>
         <source>Open destination directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="150"/>
+        <location filename="../../mainwindow.cpp" line="143"/>
         <source>Be transforming </source>
         <translation type="unfinished"></translation>
     </message>

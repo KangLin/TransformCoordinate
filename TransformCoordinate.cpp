@@ -787,7 +787,6 @@ int TransformCoordinateFiles(const char* szSrc, const char* szDst,  _COORDINATE 
                 itWpt++)
             {
                 double x, y;
-                //path->push_back(itWpt->longitude, itWpt->latitude); //, itWpt->geoidheight);
                 if(!TransformCoordinate(itWpt->longitude, itWpt->latitude, x, y, from, to))
                 {
                     itWpt->longitude = x;
