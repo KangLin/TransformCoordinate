@@ -1,0 +1,56 @@
+# Author: KangLin(kl222@126.com)
+
+#.rst:
+# TransformCoordinate
+# --------
+#
+# Find TransformCoordinate
+#
+# Find the TransformCoordinate libraries (asound)
+#
+# ::
+#
+#   This module defines the following variables:
+#      GpxModel_FOUND          - True if GpxModel libraries are found
+#      GpxModel_LIBRARIES      - Set when GpxModel libraries is found
+#      GpxModel_INCLUDE_DIRS   - where to find GpxModel heard directory.
+#      GpxModel_DEFINITIONS    - Set definitions
+#      GpxModel_VERSION_STRING - the version of TransformCoordinate found (since CMake 2.8.8)
+
+set(GpxModel_VERSION_STRING @BUILD_VERSION@)
+
+find_package(PkgConfig)
+if(PKG_CONFIG_FOUND)
+	pkg_check_modules(GpxModel GpxModel)
+    if(GpxModel_FOUND)
+        return()
+    endif()
+endif()
+
+# Compute and install package configuration and version files
+get_filename_component(_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(_prefix "${_dir}" ABSOLUTE)
+
+find_path(GpxModel_INCLUDE_DIR GpxModel.h
+	HINTS ${_prefix}/include)
+find_library(GpxModel_LIBRARY GpxModel
+	HINTS ${_prefix}/lib)
+
+find_package_handle_standard_args(GpxModel
+    REQUIRED_VARS GpxModel_INCLUDE_DIR
+                  GpxModel_LIBRARY
+    VERSION_VAR   GpxModel_VERSION_STRING)
+
+if(GpxModel_FOUND)
+	SET(GpxModel_INCLUDE_DIRS ${GpxModel_INCLUDE_DIR})
+	SET(GpxModel_LIBRARIES ${GpxModel_LIBRARY})
+endif()
+
+MARK_AS_ADVANCED(GpxModel_INCLUDE_DIR GpxModel_LIBRARY)
+
+#find_package(LibKML)
+#if(LIBKML_FOUND)
+#    set(GpxModel_INCLUDE_DIRS ${GpxModel_INCLUDE_DIRS} ${LIBKML_INCLUDE_DIRS})
+#    SET(GpxModel_LIBRARIES ${GpxModel_LIBRARIES} ${LIBKML_LIBRARIES})
+#    SET(GpxModel_DEFINITIONS -DBUILD_LIBKML)
+#endif()

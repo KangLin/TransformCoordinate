@@ -22,12 +22,26 @@ set(SOURCE_FILES
     utils.c
     uxmlpars.c)
 
+#find_package(LibKML)
+#if(LIBKML_FOUND)
+#    SET(GpxModel_DEFINITION -DBUILD_LIBKML)
+#    add_definitions(${GpxModel_DEFINITION})
+#    SET(GpxModel_DEFINITIONS ${GpxModel_DEFINITION} PARENT_SCOPE)
+#    include_directories("${LIBKML_INCLUDE_DIRS}")
+#    SET(GPX_LIBS ${LIBKML_LIBRARIES})
+#    set(LIBKML_LIBS libkml)
+#    set(SOURCE_FILES ${SOURCE_FILES} LibKML.cpp)
+#endif()
+
 set(OTHER_FILES GpxModel.pc.in)
 
 option(BUILD_SHARED_LIBS "Build shared library" ON)
-
+#更改输出目录到根目录
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES} )
+add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
+if(GPX_LIBS)
+    target_link_libraries(${PROJECT_NAME} ${GPX_LIBS})
+endif()
 #set_target_properties(${PROJECT_NAME}
 #    PROPERTIES
 #    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}"
@@ -90,3 +104,6 @@ if(MINGW)
     configure_file(GpxModel.pc.in ${CMAKE_BINARY_DIR}/GpxModel.pc @ONLY)
     install(FILES ${CMAKE_BINARY_DIR}/GpxModel.pc DESTINATION lib/pkgconfig)
 endif()
+# Install cmake files
+configure_file(GpxModelConfig.cmake.in ${CMAKE_BINARY_DIR}/GpxModelConfig.cmake @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/GpxModelConfig.cmake DESTINATION .)

@@ -220,6 +220,9 @@ public:
         GPXM_FILE_NOT_SUPPORTED,                /**< Not supported */
         GPXM_FILE_GPX,                          /**< GPX file */
         GPXM_FILE_NMEA,                         /**< NMEA file */
+#ifdef BUILD_LIBKML
+        GPXM_FILE_LIBKML,                       /**< KML file*/
+#endif
         GPXM_FILE_ACT                           /**< ACT file */
     };
 

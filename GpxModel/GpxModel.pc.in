@@ -7,4 +7,4 @@ Description: GPX model C++ library
 Version: @BUILD_VERSION@
 Libs: -L${libdir} -lGpxModel
 Cflags: -I${includedir} 
-
+Requires:@LIBKML_LIBS@

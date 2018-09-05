@@ -175,49 +175,55 @@ Email:kl222@126.com</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="55"/>
+        <location filename="../../mainwindow.cpp" line="59"/>
         <source>Open source file</source>
         <translation>打开源文件</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="57"/>
+        <location filename="../../mainwindow.cpp" line="55"/>
         <source>GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)</source>
         <translation>GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;所有文件(*.*)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="63"/>
+        <location filename="../../mainwindow.cpp" line="72"/>
         <source>Open Destination file</source>
         <translation>打开目标文件</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="65"/>
+        <location filename="../../mainwindow.cpp" line="67"/>
         <source>GPX file(*.gpx);;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="72"/>
-        <location filename="../../mainwindow.cpp" line="132"/>
+        <location filename="../../mainwindow.cpp" line="57"/>
+        <location filename="../../mainwindow.cpp" line="69"/>
+        <source>KML file(*.kml);;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="81"/>
+        <location filename="../../mainwindow.cpp" line="141"/>
         <source>Start transform ......</source>
         <translation>开始转换……</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="81"/>
-        <location filename="../../mainwindow.cpp" line="152"/>
+        <location filename="../../mainwindow.cpp" line="90"/>
+        <location filename="../../mainwindow.cpp" line="161"/>
         <source>Ready</source>
         <translation>预备</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="100"/>
+        <location filename="../../mainwindow.cpp" line="109"/>
         <source>Open source directory</source>
         <translation>打开源目录</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="110"/>
+        <location filename="../../mainwindow.cpp" line="119"/>
         <source>Open destination directory</source>
         <translation type="unfinished">打开目标目录</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="141"/>
+        <location filename="../../mainwindow.cpp" line="150"/>
         <source>Be transforming </source>
         <translation>正在转换 </translation>
     </message>

@@ -22,6 +22,9 @@ set(TransformCoordinate_VERSION_STRING @BUILD_VERSION@)
 find_package(PkgConfig)
 if(PKG_CONFIG_FOUND)
 	pkg_check_modules(TransformCoordinate TransformCoordinate)
+    if(TransformCoordinate_FOUND)
+        return()
+    endif()
 endif()
 
 # Compute and install package configuration and version files
@@ -45,18 +48,9 @@ endif()
 
 MARK_AS_ADVANCED(TransformCoordinate_INCLUDE_DIR TransformCoordinate_LIBRARY)
 
-find_path(GpxModel_INCLUDE_DIRS gpx_model.h
-	HINTS ${_prefix}/include)
-find_library(GpxModel_LIBRARIES GpxModel
-	HINTS ${_prefix}/lib)
-
-find_package_handle_standard_args(GpxModel
-    REQUIRED_VARS GpxModel_INCLUDE_DIRS
-                  GpxModel_LIBRARIES)
+find_package(GpxModel)
 if(GpxModel_FOUND)
-	SET(TransformCoordinate_LIBRARIES
-		${TransformCoordinate_LIBRARIES}
-		${GpxModel_LIBRARIES})
-	SET(TransformCoordinate_DEFINITIONS -DBUILD_GPXMODEL)
+    SET(TransformCoordinate_LIBRARIES ${GpxModel_LIBRARIES} ${TransformCoordinate_LIBRARIES})
+    SET(TransformCoordinate_INCLUDE_DIRS ${TransformCoordinate_INCLUDE_DIRS} ${GpxModel_INCLUDE_DIRS})
+    SET(TransformCoordinate_DEFINITIONS ${GpxModel_DEFINITIONS} -DBUILD_GPXMODEL)
 endif()
-MARK_AS_ADVANCED(GpxModel_LIBRARIES GpxModel_INCLUDE_DIRS)

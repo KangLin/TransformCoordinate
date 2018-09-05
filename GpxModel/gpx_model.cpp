@@ -24,6 +24,10 @@
 #include "gpxfile.h"
 #include "actfile.h"
 
+#ifdef BUILD_LIBKML
+#include "LibKML.h"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 GPX_model::fileType_e GPX_model::getFileType(const string& fileName)
@@ -46,6 +50,10 @@ GPX_model::fileType_e GPX_model::getFileType(const string& fileName)
         return GPXM_FILE_NMEA;
     if (ext == "act")
         return GPXM_FILE_ACT;
+#ifdef BUILD_LIBKML
+    if("kml" == ext)
+        return GPXM_FILE_LIBKML;
+#endif
     return GPXM_FILE_NOT_SUPPORTED;
 }
 
@@ -133,6 +141,12 @@ GPX_model::retCode_e GPX_model::load(const string& fileName, fileType_e fileType
     {
         ret = NMEAFile::load(&fp, this, name);
     }
+#ifdef BUILD_LIBKML
+    else if (fileType == GPXM_FILE_LIBKML)
+    {
+        ret = CLibKML::load(&fp, this, overwriteMetadata);
+    }
+#endif
     else if (fileType == GPXM_FILE_ACT)
     {
         ret = ACTFile::load(&fp, this);
