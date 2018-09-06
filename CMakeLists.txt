@@ -66,6 +66,7 @@ add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
     
 if (BUILD_SHARED_LIBS)
+	add_definitions(-DBUILD_SHARED_LIBS)
     if (CMAKE_COMPILER_IS_GNUCXX)
        # Just setting CMAKE_POSITION_INDEPENDENT_CODE should be enough to set
        # -fPIC for GCC but sometimes it still doesn't get set, so make sure it

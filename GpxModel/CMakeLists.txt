@@ -49,6 +49,7 @@ endif()
 #    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 if (BUILD_SHARED_LIBS)
+	add_definitions(-DBUILD_SHARED_LIBS)
     if (CMAKE_COMPILER_IS_GNUCXX)
         # Just setting CMAKE_POSITION_INDEPENDENT_CODE should be enough to set
         # -fPIC for GCC but sometimes it still doesn't get set, so make sure it
