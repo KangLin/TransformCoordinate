@@ -61,7 +61,10 @@ void MainWindow::on_pbBrowsSrcFile_clicked()
 
 void MainWindow::on_pbBrowsDstFile_clicked()
 {
-    QString szExt = tr("GPX file(*.gpx);;");  
+    QString szExt = tr("GPX file(*.gpx);;");
+#ifdef BUILD_LIBKML
+	szExt += tr("KML file(*.kml)");
+#endif
     QString szFile = QFileDialog::getSaveFileName(this, tr("Open Destination file"),
                                                   QString(),
                                                   szExt);

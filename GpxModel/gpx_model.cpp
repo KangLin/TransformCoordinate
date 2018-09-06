@@ -197,8 +197,17 @@ GPX_model::retCode_e GPX_model::save(const string& fileName)
     metadata.timestamp = time(NULL);
     metadata.millisecond = 0;
 
-    // write file
-    ret = GPXFile::save(&fp, this);
+#ifdef BUILD_LIBKML
+	if (fileType == GPXM_FILE_LIBKML)
+	{
+		ret = CLibKML::save(&fp, this);
+	}
+	else
+#endif
+	{
+		// write file
+		ret = GPXFile::save(&fp, this);
+	}
 
     // close file
     fp.close();

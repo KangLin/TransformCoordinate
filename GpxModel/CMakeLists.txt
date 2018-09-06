@@ -22,16 +22,16 @@ set(SOURCE_FILES
     utils.c
     uxmlpars.c)
 
-#find_package(LibKML)
-#if(LIBKML_FOUND)
-#    SET(GpxModel_DEFINITION -DBUILD_LIBKML)
-#    add_definitions(${GpxModel_DEFINITION})
-#    SET(GpxModel_DEFINITIONS ${GpxModel_DEFINITION} PARENT_SCOPE)
-#    include_directories("${LIBKML_INCLUDE_DIRS}")
-#    SET(GPX_LIBS ${LIBKML_LIBRARIES})
-#    set(LIBKML_LIBS libkml)
-#    set(SOURCE_FILES ${SOURCE_FILES} LibKML.cpp)
-#endif()
+find_package(LibKML)
+if(LIBKML_FOUND)
+    SET(GpxModel_DEFINITION -DBUILD_LIBKML ${LIBKML_DEFINITIONS})
+    add_definitions(${GpxModel_DEFINITION})
+    SET(GpxModel_DEFINITIONS ${GpxModel_DEFINITION} PARENT_SCOPE)
+    include_directories("${LIBKML_INCLUDE_DIRS}")
+    SET(GPX_LIBS ${LIBKML_LIBRARIES})
+    set(LIBKML_LIBS libkml)
+    set(SOURCE_FILES ${SOURCE_FILES} LibKML.cpp)
+endif()
 
 set(OTHER_FILES GpxModel.pc.in)
 
