@@ -174,7 +174,11 @@ GPX_model::retCode_e GPX_model::save(const string& fileName)
 
     // get file type
     fileType = getFileType(fileName);
-    if (fileType != GPXM_FILE_GPX)
+    if (fileType != GPXM_FILE_GPX
+        #ifdef BUILD_LIBKML
+            && fileType != GPXM_FILE_LIBKML
+        #endif
+            )
         return GPXM_ERR_INVALID_ARG;
 
     // get name without extension and path

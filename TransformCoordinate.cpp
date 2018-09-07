@@ -762,7 +762,7 @@ int TransformCoordinateFiles(const char* szSrc, const char* szDst,  _COORDINATE 
         return -1;
     
     GPX_model gpx("TransformCoordinate");
-    if(GPX_model::GPXM_OK != gpx.load(szSrc))
+    if(GPX_model::GPXM_OK != gpx.load(szSrc, GPX_model::GPXM_FILE_AUTOMATIC, true))
     {
         std::cout << "Open file " << szSrc << " fail." << std::endl;
         return -1;
