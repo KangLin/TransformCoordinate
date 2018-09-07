@@ -1,4 +1,7 @@
-build*/
+build_windows*/
+build/
+build_unix/
+build_android/
 Makefile.Debug
 Makefile.Release
 *.bak
