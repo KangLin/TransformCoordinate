@@ -47,27 +47,13 @@ install:
   - set RABBIT_BUILD_PREFIX="%APPVEYOR_BUILD_FOLDER%\install"
   
 before_build:
-  - if "%QT_ROOT%"=="" SET CMAKE_PARAS=-DBUILD_APP=OFF %CMAKE_PARAS%
-  - if NOT "%QT_ROOT%"=="" SET CMAKE_PARAS=-DQt5_DIR=%QT_ROOT%\lib\cmake\Qt5 %CMAKE_PARAS%
-  - cd %APPVEYOR_BUILD_FOLDER%\ci\build_script
-  - del C:\msys64\usr\bin\link.exe
-  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build_script\build.sh %BUILD_TARGERT%
-  - cd %APPVEYOR_BUILD_FOLDER%  
   - if "%BUILD_TARGERT%"=="android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%/ci/build-install-tools-windows.sh
-  - if "%BUILD_TARGERT%"=="android" set ANDROID_SDK=%APPVEYOR_BUILD_FOLDER%/tools/android-sdk
-  - if "%BUILD_TARGERT%"=="android" set ANDROID_NDK=%APPVEYOR_BUILD_FOLDER%/tools/android-ndk
-  - if "%BUILD_TARGERT%"=="android" SET CMAKE_PARAS=-DQt5_DIR=C:/projects/TransformCoordinate/Tools/Qt/Qt%QT_VERSION%/%QT_VERSION%/android_armv7/lib/cmake/Qt5 %CMAKE_PARAS%
-
+  
 build_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - mkdir build
-  - cd build
-  - echo "cmake .. -G%GENERATORS% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\install %CMAKE_PARAS% "
-  - if "%BUILD_TARGERT%"=="android"  cmake .. -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX="%RABBIT_BUILD_PREFIX%" -DCMAKE_MAKE_PROGRAM=C:\msys64\usr\bin\make.exe -DCMAKE_TOOLCHAIN_FILE="%APPVEYOR_BUILD_FOLDER%/android.toolchain.cmake" %CMAKE_PARAS%
-  - if NOT "%BUILD_TARGERT%"=="android" cmake .. -G"%GENERATORS%" -DCMAKE_INSTALL_PREFIX="%RABBIT_BUILD_PREFIX%" %CMAKE_PARAS%
-  - cmake --build . --target install --config %CONFIGURATION%
-  - if "%GENERATORS%"=="MSYS Makefiles" set GENERATORS=%GENERATORS%_%PLATFORM%
-
+  - del C:\msys64\usr\bin\link.exe
+  - C:\msys64\usr\bin\bash.exe -c %APPVEYOR_BUILD_FOLDER%\ci\build_script\build.sh
+  - cd %APPVEYOR_BUILD_FOLDER%  
+  
 #after_build:
 
 artifacts:
