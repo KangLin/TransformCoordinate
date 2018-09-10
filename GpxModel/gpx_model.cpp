@@ -480,7 +480,8 @@ void GPX_wptType::update(time_t trackStartTime, const GPX_wptType* prevWpt, cons
         unsigned int deltaT = (unsigned int)(timestamp - prevWpt->timestamp) * 1000;
         deltaT += (millisecond - prevWpt->millisecond);
         setDistance(prevWpt->latitude, prevWpt->longitude);
-        speed = (float)(leglength / deltaT)*3600.0f;
+        if(0.0f == speed)
+            speed = (float)(leglength / deltaT)*3600.0f;
         distanceTot = leglength/1000 + prevWpt->distanceTot;
         elapsedTime = (unsigned int)(timestamp - trackStartTime);
     }
@@ -488,7 +489,7 @@ void GPX_wptType::update(time_t trackStartTime, const GPX_wptType* prevWpt, cons
     {
         leglength = 0.0;
         distanceTot = 0.0;
-        speed = 0.0;
+        speed = 0.0f;
         elapsedTime = 0;
     }
 

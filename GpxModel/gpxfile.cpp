@@ -22,6 +22,7 @@
 #include "gpxfile.h"
 #include "uxmlpars.h"
 #include "utils.h"
+#include <iostream>
 
 // Buffer size used to parse gpx file
 #define BUFFER_SIZE                     4096
@@ -421,6 +422,10 @@ static void tagContent(void* pXml, char* pTag, char* pContent)
         case PARSING_TRKPT:
             if (strcmp(pTag, "ele") == 0)
                 gpxm->trk.back().trkseg.back().trkpt.back().altitude = UTILS_atof(pContent);
+            else if(strcmp(pTag, "speed") == 0)
+            {
+                gpxm->trk.back().trkseg.back().trkpt.back().speed = (float)UTILS_atof(pContent);
+            }
             else if (strcmp(pTag, "time") == 0)
             {
                 gpxm->trk.back().trkseg.back().trkpt.back().timestamp = strToTime(sContent);
@@ -1047,6 +1052,11 @@ GPX_model::retCode_e GPXFile::save(ofstream* fp, const GPX_model* gpxm)
                             writeStr(fp, "\">");
                             sprintf(gBuffer, "%.6f", trkpt->altitude);
                             writeSimpleTag(fp, 4, "ele", gBuffer);
+                            if(trkpt->speed != 0.0f)
+                            {
+                                sprintf(gBuffer, "%.1f", trkpt->speed);
+                                writeSimpleTag(fp, 4, "speed", gBuffer);
+                            }
                             if (trkpt->timestamp > 0)
                                 writeTime(fp, 4, trkpt->timestamp, trkpt->millisecond);
                             if (trkpt->magvar != 0.0f)
