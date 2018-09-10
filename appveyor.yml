@@ -51,7 +51,7 @@ before_build:
   
 build_script:
   - del C:\msys64\usr\bin\link.exe
-  - C:\msys64\usr\bin\bash.exe -c %APPVEYOR_BUILD_FOLDER%\ci\build_script\build.sh
+  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build_script\build.sh
   - cd %APPVEYOR_BUILD_FOLDER%  
   
 #after_build:

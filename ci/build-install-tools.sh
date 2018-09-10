@@ -55,4 +55,6 @@ if [ ! -d "`pwd`/android-sdk" ]; then
     | android-sdk/tools/android update sdk -u -t tool,android-18,android-24,extra,platform-tools,build-tools #platforms
 fi
 
+sudo apt-get install -y libkml-dev
+
 cd ${SOURCE_DIR}

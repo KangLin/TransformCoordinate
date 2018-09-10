@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 if [ "$BUILD_TARGERT" = "windows_mingw" \
     -a -n "$APPVEYOR" ]; then
