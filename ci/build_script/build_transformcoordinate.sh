@@ -29,37 +29,17 @@ RABBIT_BUILD_SOURCE_CODE=$2
 echo ". `pwd`/build_envsetup_${RABBIT_BUILD_TARGERT}.sh"
 . `pwd`/build_envsetup_${RABBIT_BUILD_TARGERT}.sh
 
-if [ -z "$RABBIT_BUILD_SOURCE_CODE" ]; then
-    RABBIT_BUILD_SOURCE_CODE=${RABBIT_BUILD_PREFIX}/../src/zlib
-fi
-
 CUR_DIR=`pwd`
-
-echo ""
-echo "RABBIT_BUILD_TARGERT:${RABBIT_BUILD_TARGERT}"
-echo "RABBIT_BUILD_SOURCE_CODE:$RABBIT_BUILD_SOURCE_CODE"
-echo "CUR_DIR:`pwd`"
-echo "RABBIT_BUILD_PREFIX:$RABBIT_BUILD_PREFIX"
-echo "RABBIT_BUILD_HOST:$RABBIT_BUILD_HOST"
-echo "RABBIT_BUILD_CROSS_HOST:$RABBIT_BUILD_CROSS_HOST"
-echo "RABBIT_BUILD_CROSS_PREFIX:$RABBIT_BUILD_CROSS_PREFIX"
-echo "RABBIT_BUILD_CROSS_SYSROOT:$RABBIT_BUILD_CROSS_SYSROOT"
-echo "RABBIT_BUILD_STATIC:$RABBIT_BUILD_STATIC"
-echo ""
-
 cd ${RABBIT_BUILD_SOURCE_CODE}
+
 mkdir -p build_${RABBIT_BUILD_TARGERT}
 cd build_${RABBIT_BUILD_TARGERT}
 if [ "$RABBIT_CLEAN" = "TRUE" ]; then
     rm -fr *
 fi
 
+#需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
 MAKE_PARA="-- ${RABBIT_MAKE_JOB_PARA}"
-if [ "$RABBIT_BUILD_STATIC" = "static" ]; then
-    CONFIG_PARA="--enable-static --disable-shared"
-else
-    CONFIG_PARA="--disable-static --enable-shared"
-fi
 case ${RABBIT_BUILD_TARGERT} in
     android)
         if [ -n "$RABBIT_CMAKE_MAKE_PROGRAM" ]; then
@@ -67,73 +47,44 @@ case ${RABBIT_BUILD_TARGERT} in
         fi
         CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBIT_BUILD_PREFIX/../build_script/cmake/platforms/toolchain-android.cmake"
         CMAKE_PARA="${CMAKE_PARA} -DANDROID_NATIVE_API_LEVEL=${ANDROID_NATIVE_API_LEVEL}"
-        #CMAKE_PARA="${CMAKE_PARA} -DANDROID_ABI=${ANDROID_ABI}"   
+        #CMAKE_PARA="${CMAKE_PARA} -DANDROID_ABI=${ANDROID_ABI}"  
     ;;
     unix)
-        #CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
-        ;;
+    ;;
     windows_msvc)
-        #cd ${RABBIT_BUILD_SOURCE_CODE}
-        #nmake -f win32/Makefile.msc clean
-        #nmake -f win32/Makefile.msc LOC="-DASMV -DASMINF" \
-        #    OBJA="inffas32.obj match686.obj"  
-        #if [ ! -d "${RABBIT_BUILD_PREFIX}/include" ]; then
-        #    mkdir -p "${RABBIT_BUILD_PREFIX}/include"
-        #fi
-        #if [ ! -d "${RABBIT_BUILD_PREFIX}/lib" ]; then
-        #    mkdir -p "${RABBIT_BUILD_PREFIX}/lib"
-        #fi
-        #if [ ! -d "${RABBIT_BUILD_PREFIX}/bin" ]; then
-        #    mkdir -p "${RABBIT_BUILD_PREFIX}/bin"
-        #fi
-        #cp zlib.h zconf.h ${RABBIT_BUILD_PREFIX}/include
-        #cp *.lib ${RABBIT_BUILD_PREFIX}/lib
-        #cp *.dll ${RABBIT_BUILD_PREFIX}/bin
-        #cd $CUR_DIR
-        #exit 0
-        
         MAKE_PARA=""
-        #CMAKE_PARA="${CMAKE_PARA}"  -DASM686=ON"
         ;;
     windows_mingw)
-        #cd ${RABBIT_BUILD_SOURCE_CODE}
-        #make -f win32/Makefile.gcc clean
-        #cp contrib/asm686/match.S ./match.S
-        #make LOC=-DASMV OBJA=match.o -fwin32/Makefile.gcc
-        #make install -fwin32/Makefile.gcc SHARED_MODE=1 DESTDIR=${RABBIT_BUILD_PREFIX}/ \
-        #     LIBRARY_PATH=lib \
-        #     INCLUDE_PATH=include \
-        #     BINARY_PATH=bin \
-        #     prefix=${RABBIT_BUILD_PREFIX}
-        #cd $CUR_DIR
-        #exit 0
-        
-        #CMAKE_PARA="${CMAKE_PARA} -DASM686=ON"
-
-        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBIT_BUILD_PREFIX/../build_script/cmake/platforms/toolchain-mingw.cmake"
+        case `uname -s` in
+            Linux*|Unix*|CYGWIN*)
+                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBIT_BUILD_PREFIX/../build_script/cmake/platforms/toolchain-mingw.cmake"
+                ;;
+            *)
+            ;;
+        esac
         ;;
     *)
     echo "${HELP_STRING}"
     cd $CUR_DIR
-    exit 3
+    return 2
     ;;
 esac
 
-echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBIT_BUILD_PREFIX -DCMAKE_BUILD_TYPE=${RABBIT_CONFIG} -G\"${RABBITIM_GENERATORS}\" ${CMAKE_PARA}"
-if [ "${RABBIT_BUILD_TARGERT}" = "android" ]; then
-    cmake .. \
-        -DCMAKE_INSTALL_PREFIX="$RABBIT_BUILD_PREFIX" \
-        -DCMAKE_BUILD_TYPE=${RABBIT_CONFIG} \
-        -G"${RABBITIM_GENERATORS}" ${CMAKE_PARA} -DANDROID_ABI="${ANDROID_ABI}" 
-else
-    cmake .. \
-        -DCMAKE_INSTALL_PREFIX="$RABBIT_BUILD_PREFIX" \
-        -DCMAKE_BUILD_TYPE=${RABBIT_CONFIG} \
-        -G"${RABBITIM_GENERATORS}" ${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=TRUE 
-fi
-cmake --build . --target install --config ${RABBIT_CONFIG} ${MAKE_PARA}
+CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=ON"
 
-mkdir -p $RABBIT_BUILD_PREFIX/lib/pkgconfig
-cp $RABBIT_BUILD_PREFIX/share/pkgconfig/* $RABBIT_BUILD_PREFIX/lib/pkgconfig/.
+if [ "$RABBIT_BUILD_STATIC" = "static" ]; then
+    CMAKE_PARA="-DBUILD_SHARED_LIBS=OFF"
+else
+    CMAKE_PARA="-DBUILD_SHARED_LIBS=ON"
+fi
+
+if [ -n "${QT_VERSION}" ]; then
+    CMAKE_PARA="$CMAKE_PARA -DQt5_DIR=${RABBIT_BUILD_SOURCE_CODE}/Tools/Qt/Qt${QT_VERSION}/lib/cmake/Qt5" 
+else
+    CMAKE_PARA="$CMAKE_PARA -DBUILD_APP=OFF"
+fi
+
+cmake .. ${CMAKE_PARA} -DLibKML_DIR=$RABBIT_BUILD_PREFIX/CMake
+cmake --build . --target install --config ${RABBIT_CONFIG} ${MAKE_PARA}
 
 cd $CUR_DIR

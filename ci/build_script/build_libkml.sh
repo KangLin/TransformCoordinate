@@ -29,10 +29,38 @@ echo ". `pwd`/build_envsetup_${RABBIT_BUILD_TARGERT}.sh"
 . `pwd`/build_envsetup_${RABBIT_BUILD_TARGERT}.sh
 
 RABBIT_BUILD_SOURCE_CODE=$2
+if [ -z "$RABBIT_BUILD_SOURCE_CODE" ]; then
+    RABBIT_BUILD_SOURCE_CODE=${RABBIT_BUILD_PREFIX}/../src/libkml
+fi
+
 if [ "$RABBIT_BUILD_STATIC" = "static" ]; then
     CMAKE_PARA="-DBUILD_SHARED_LIBS=OFF"
 else
     CMAKE_PARA="-DBUILD_SHARED_LIBS=ON"
+fi
+
+#下载源码:
+if [ ! -d ${RABBIT_BUILD_SOURCE_CODE} ]; then
+    VERSION=master #1.3.0
+    if [ "TRUE" = "${RABBIT_USE_REPOSITORIES}" ]; then
+        #echo "git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
+        #git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
+        echo "git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
+        git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
+    else
+        mkdir -p ${RABBIT_BUILD_SOURCE_CODE}
+        cd ${RABBIT_BUILD_SOURCE_CODE}
+        #echo "wget -q https://github.com/libkml/libkml/archive/${VERSION}.zip"
+        #wget -c -q https://github.com/libkml/libkml/archive/${VERSION}.zip
+        echo "wget -c -q https://github.com/KangLin/libkml/archive/master.zip"
+        wget -c -q https://github.com/KangLin/libkml/archive/master.zip
+        unzip -q ${VERSION}.zip
+        mv libkml-${VERSION} ..
+        rm -fr *
+        cd ..
+        rm -fr ${RABBIT_BUILD_SOURCE_CODE}
+        mv -f libkml-${VERSION} ${RABBIT_BUILD_SOURCE_CODE}
+    fi
 fi
 
 CUR_DIR=`pwd`
@@ -64,7 +92,7 @@ case ${RABBIT_BUILD_TARGERT} in
         if [ -n "$RABBIT_CMAKE_MAKE_PROGRAM" ]; then
             CMAKE_PARA="${CMAKE_PARA} -DCMAKE_MAKE_PROGRAM=$RABBIT_CMAKE_MAKE_PROGRAM" 
         fi
-        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$CUR_DIR/cmake/platforms/toolchain-android.cmake"
+        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBIT_BUILD_PREFIX/../build_script/cmake/platforms/toolchain-android.cmake"
         CMAKE_PARA="${CMAKE_PARA} -DANDROID_NATIVE_API_LEVEL=${ANDROID_NATIVE_API_LEVEL}"
         #CMAKE_PARA="${CMAKE_PARA} -DANDROID_ABI=${ANDROID_ABI}"  
     ;;
@@ -76,7 +104,7 @@ case ${RABBIT_BUILD_TARGERT} in
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
-                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$CUR_DIR/cmake/platforms/toolchain-mingw.cmake"
+                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBIT_BUILD_PREFIX/../build_script/cmake/platforms/toolchain-mingw.cmake"
                 ;;
             *)
             ;;

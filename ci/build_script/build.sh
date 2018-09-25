@@ -1,26 +1,6 @@
 #!/bin/bash
 set -ev
 
-if [ "$BUILD_TARGERT" = "windows_mingw" \
-    -a -n "$APPVEYOR" ]; then
-    export RABBIT_TOOLCHAIN_ROOT=/C/Qt/Tools/mingw${RABBIT_TOOLCHAIN_VERSION}_32
-    export PATH="${RABBIT_TOOLCHAIN_ROOT}/bin:/usr/bin:/c/Tools/curl/bin:/c/Program Files (x86)/CMake/bin"
-fi
-TARGET_OS=`uname -s`
-case $TARGET_OS in
-    MINGW* | CYGWIN* | MSYS*)
-        export PKG_CONFIG=/c/msys64/mingw32/bin/pkg-config.exe
-        ;;
-    Linux* | Unix*)
-    ;;
-    *)
-    ;;
-esac
-if [ "$BUILD_TARGERT" = "windows_msvc" ]; then
-    export PATH=/C/Perl/bin:$PATH
-    rm -fr /usr/include
-fi
-
 PROJECT_DIR=`pwd`
 if [ -n "$1" ]; then
     PROJECT_DIR=$1
@@ -31,6 +11,30 @@ SCRIPT_DIR=${PROJECT_DIR}/ci/build_script
 cd ${SCRIPT_DIR}
 SOURCE_DIR=${PROJECT_DIR}/ci/src
 TOOLS_DIR=${PROJECT_DIR}/Tools
+
+export PATH=/usr/bin:$PATH
+
+if [ "$BUILD_TARGERT" = "windows_mingw" \
+    -a -n "$APPVEYOR" ]; then
+    export RABBIT_TOOLCHAIN_ROOT=/C/Qt/Tools/mingw${RABBIT_TOOLCHAIN_VERSION}_32
+    export PATH="${RABBIT_TOOLCHAIN_ROOT}/bin:/usr/bin:/c/Tools/curl/bin:/c/Program Files (x86)/CMake/bin"
+fi
+
+if [ "$BUILD_TARGERT" = "windows_msvc" ]; then
+    export PATH=/C/Perl/bin:$PATH
+    rm -fr /usr/include
+fi
+
+TARGET_OS=`uname -s`
+case $TARGET_OS in
+    MINGW* | CYGWIN* | MSYS*)
+        export PKG_CONFIG=/c/msys64/mingw32/bin/pkg-config.exe
+        ;;
+    Linux* | Unix*)
+    ;;
+    *)
+    ;;
+esac
 
 export RABBIT_BUILD_PREFIX=${PROJECT_DIR}/install #${BUILD_TARGERT}${RABBIT_TOOLCHAIN_VERSION}_${RABBIT_ARCH}_qt${QT_VERSION}_${RABBIT_CONFIG}
 if [ ! -d ${RABBIT_BUILD_PREFIX} ]; then
@@ -68,10 +72,12 @@ if [ "$BUILD_TARGERT" != "windows_msvc" ]; then
     export RABBIT_MAKE_JOB_PARA
 fi
 
-echo "PATH:$PATH"
-./build_zlib.sh ${RABBIT_BUILD_TARGERT} ${SOURCE_DIR}/zlib
-./build_minizip.sh ${RABBIT_BUILD_TARGERT} ${SOURCE_DIR}/minizip
-./build_expat.sh ${RABBIT_BUILD_TARGERT} ${SOURCE_DIR}/expat
-./build_boost.sh ${RABBIT_BUILD_TARGERT} ${SOURCE_DIR}/boost
-./build_libcurl.sh ${RABBIT_BUILD_TARGERT} ${SOURCE_DIR}/libcurl
-./build_libkml.sh ${RABBIT_BUILD_TARGERT} ${PROJECT_DIR}
+pacman -S --noconfirm unzip
+
+./build_zlib.sh ${BUILD_TARGERT} ${SOURCE_DIR}/zlib
+./build_minizip.sh ${BUILD_TARGERT} ${SOURCE_DIR}/minizip
+./build_expat.sh ${BUILD_TARGERT} ${SOURCE_DIR}/expat
+./build_boost.sh ${BUILD_TARGERT} ${SOURCE_DIR}/boost
+./build_libcurl.sh ${BUILD_TARGERT} ${SOURCE_DIR}/libcurl
+./build_libkml.sh ${BUILD_TARGERT} ${SOURCE_DIR}/libkml
+./build_transformcoordinate.sh ${BUILD_TARGERT} ${PROJECT_DIR}

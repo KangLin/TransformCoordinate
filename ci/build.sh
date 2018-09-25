@@ -2,8 +2,7 @@
 set -ev
 
 SOURCE_DIR=`pwd`
-export PATH=/usr/bin:$PATH
-echo "PATH:$PATH"
+
 if [ "$BUILD_TARGERT" = "windows_mingw" \
     -a -n "$APPVEYOR" ]; then
     export RABBIT_TOOLCHAIN_ROOT=/C/Qt/Tools/mingw${RABBIT_TOOLCHAIN_VERSION}_32
@@ -25,6 +24,7 @@ case $TARGET_OS in
     *)
     ;;
 esac
+
 if [ -n "${QT_VERSION}" ]; then
     CMAKE_PARA="-DQt5_DIR=${SOURCE_DIR}/Tools/Qt/Qt${QT_VERSION}/lib/cmake/Qt5" 
 else
