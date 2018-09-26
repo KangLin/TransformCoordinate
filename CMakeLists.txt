@@ -96,8 +96,15 @@ if(MINGW)
 endif()
     
 # Build options
-option(BUILD_APP  "Set to ON to build applaction"  ON)
-    
+option(BUILD_APP "Set to ON to build applaction" OFF)
+
+#需要的QT组件
+SET(QT_COMPONENTS Core Gui Widgets)
+find_package(Qt5 COMPONENTS ${QT_COMPONENTS})
+if(Qt5_FOUND)
+    SET(BUILD_APP ON)
+endif()
+
 if(BUILD_APP)
     #打开 qt 编译工具
     SET(CMAKE_AUTOUIC ON)
@@ -106,9 +113,7 @@ if(BUILD_APP)
     SET(CMAKE_INCLUDE_CURRENT_DIR ON)
     SET(CMAKE_VERBOSE_MAKEFILE ON)
         
-    #需要的QT组件
-    SET(QT_COMPONENTS Core Gui Widgets)
-    find_package(Qt5 COMPONENTS ${QT_COMPONENTS} REQUIRED)
+    
     FOREACH(_COMPONENT ${QT_COMPONENTS})
         SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5${_COMPONENT}_LIBRARIES})
     ENDFOREACH()
@@ -199,3 +204,7 @@ if(BUILD_APP)
         )
     ENDIF(ANDROID)
 endif(BUILD_APP)
+
+message("Build app:${BUILD_APP}")
+message("Build shared library:${BUILD_SHARED_LIBS}")
+message("Build GPXMODEL:${BUILD_GPXMODEL}")
