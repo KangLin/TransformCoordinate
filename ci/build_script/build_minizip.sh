@@ -129,4 +129,19 @@ else
 fi
 cmake --build . --target install --config ${RABBIT_CONFIG} ${MAKE_PARA}
 
+case ${RABBIT_BUILD_TARGERT} in
+    android)
+    ;;
+    unix)
+        ;;
+    windows_msvc)
+        cd $RABBIT_BUILD_PREFIX/lib
+        cp libminizip.lib minizip.lib
+        ;;
+    windows_mingw)
+        ;;
+    *)
+    ;;
+esac
+
 cd $CUR_DIR
