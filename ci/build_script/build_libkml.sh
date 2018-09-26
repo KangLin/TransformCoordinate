@@ -43,17 +43,17 @@ fi
 if [ ! -d ${RABBIT_BUILD_SOURCE_CODE} ]; then
     VERSION=master #1.3.0
     if [ "TRUE" = "${RABBIT_USE_REPOSITORIES}" ]; then
-        echo "git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
-        git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
-        #echo "git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
-        #git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
+        #echo "git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
+        #git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
+        echo "git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
+        git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBIT_BUILD_SOURCE_CODE}
         cd ${RABBIT_BUILD_SOURCE_CODE}
-        echo "wget -q https://github.com/libkml/libkml/archive/${VERSION}.zip"
-        wget -c -q https://github.com/libkml/libkml/archive/${VERSION}.zip
-        #echo "wget -c -q https://github.com/KangLin/libkml/archive/master.zip"
-        #wget -c -q https://github.com/KangLin/libkml/archive/master.zip
+        #echo "wget -q https://github.com/libkml/libkml/archive/${VERSION}.zip"
+        #wget -c -q https://github.com/libkml/libkml/archive/${VERSION}.zip
+        echo "wget -c -q https://github.com/KangLin/libkml/archive/${VERSION}.zip"
+        wget -c -q https://github.com/KangLin/libkml/archive/${VERSION}.zip
         unzip -q ${VERSION}.zip
         mv libkml-${VERSION} ..
         rm -fr *
@@ -116,6 +116,8 @@ case ${RABBIT_BUILD_TARGERT} in
     return 2
     ;;
 esac
+
+cp -fr ${RABBIT_BUILD_SOURCE_CODE}/src/kml/base/contrib/minizip $RABBIT_BUILD_PREFIX/include/minizip
 
 CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=ON"
 #CMAKE_PARA="${CMAKE_PARA} -DMINIZIP_DIR=$RABBIT_BUILD_PREFIX/lib/cmake/minizip"
