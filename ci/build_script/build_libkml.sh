@@ -100,10 +100,8 @@ case ${RABBIT_BUILD_TARGERT} in
     ;;
     windows_msvc)
         MAKE_PARA=""
-        cp $RABBIT_BUILD_PREFIX/lib/libminizip.lib $RABBIT_BUILD_PREFIX/lib/minizip.lib
         ;;
     windows_mingw)
-        cp $RABBIT_BUILD_PREFIX/lib/libminizip.a $RABBIT_BUILD_PREFIX/lib/minizip.a
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
                 CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBIT_BUILD_PREFIX/../build_script/cmake/platforms/toolchain-mingw.cmake"
@@ -120,6 +118,7 @@ case ${RABBIT_BUILD_TARGERT} in
 esac
 
 CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=ON"
+CMAKE_PARA="${CMAKE_PARA} -DMINIZIP_DIR=$RABBIT_BUILD_PREFIX/lib/cmake/minizip"
 echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBIT_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${RABBITIM_GENERATORS}\" ${CMAKE_PARA}"
 if [ "${RABBIT_BUILD_TARGERT}" = "android" ]; then
     cmake .. \
