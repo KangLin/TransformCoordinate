@@ -133,5 +133,21 @@ else
         -G"${RABBITIM_GENERATORS}" ${CMAKE_PARA} 
 fi
 cmake --build . --target install --config ${RABBIT_CONFIG} ${MAKE_PARA}
-
+case ${RABBIT_BUILD_TARGERT} in
+    android)
+    ;;
+    unix)
+        ;;
+    windows_msvc)
+        MAKE_PARA=""
+        cd $RABBIT_BUILD_PREFIX/lib
+        if [ -f libminizip.lib ]; then
+            cp libminizip.lib minizip.lib
+        fi
+        ;;
+    windows_mingw)
+        ;;
+    *)
+    ;;
+esac
 cd $CUR_DIR
