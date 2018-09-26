@@ -12,7 +12,7 @@
 #   RABBIT_BUILD_CROSS_PREFIX   #交叉编译前缀
 #   RABBIT_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-set -e
+set -ev
 HELP_STRING="Usage $0 PLATFORM(android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
