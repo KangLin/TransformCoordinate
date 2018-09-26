@@ -79,5 +79,6 @@ pacman -S --noconfirm unzip
 ./build_expat.sh ${BUILD_TARGERT} ${SOURCE_DIR}/expat
 ./build_boost.sh ${BUILD_TARGERT} ${SOURCE_DIR}/boost
 ./build_libcurl.sh ${BUILD_TARGERT} ${SOURCE_DIR}/libcurl
+./build_uriparser.sh ${BUILD_TARGERT} ${SOURCE_DIR}/uriparser
 ./build_libkml.sh ${BUILD_TARGERT} ${SOURCE_DIR}/libkml
 ./build_transformcoordinate.sh ${BUILD_TARGERT} ${PROJECT_DIR}
