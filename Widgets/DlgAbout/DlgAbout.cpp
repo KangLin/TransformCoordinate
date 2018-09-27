@@ -21,7 +21,6 @@ Abstract:
  * Author: KangLin(Email:kl222@126.com)
  */
 #include <QDateTime>
-#include "Version.h"
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),

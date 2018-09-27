@@ -19,7 +19,12 @@ ENDIF()
 SET(BUILD_VERSION "v0.0.3")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
+    if(NOT GIT)
+        SET(GIT $ENV{GIT})
+    endif()
+    if(NOT GIT)
+        FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
+    endif()
     IF(GIT)
         EXECUTE_PROCESS(
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -112,8 +117,7 @@ if(BUILD_APP)
     SET(CMAKE_AUTORCC ON)
     SET(CMAKE_INCLUDE_CURRENT_DIR ON)
     SET(CMAKE_VERBOSE_MAKEFILE ON)
-        
-    
+
     FOREACH(_COMPONENT ${QT_COMPONENTS})
         SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5${_COMPONENT}_LIBRARIES})
     ENDFOREACH()
@@ -143,7 +147,9 @@ if(BUILD_APP)
     #翻译
     include(cmake/Qt5CorePatches.cmake)    
     include(cmake/Translations.cmake)
-
+    
+    add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
+    
     add_executable(${PROJECT_NAME}App ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES} AppIcon.rc ${RCC_FILES})
     SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
     if(BUILD_GPXMODEL)
@@ -152,11 +158,6 @@ if(BUILD_APP)
     endif()
     target_link_libraries(${PROJECT_NAME}App ${APP_LIBS})
     
-    configure_file(
-            "${PROJECT_SOURCE_DIR}/Version.h.in"
-            "${PROJECT_BINARY_DIR}/Version.h"
-            )
-
     include_directories("${PROJECT_BINARY_DIR}")
     
     # Install target
