@@ -84,7 +84,7 @@ else
     CMAKE_PARA="$CMAKE_PARA -DBUILD_APP=OFF"
 fi
 
-cmake .. ${CMAKE_PARA} -DLibKML_DIR=$RABBIT_BUILD_PREFIX/CMake
+cmake .. ${CMAKE_PARA} -DLibKML_DIR=$RABBIT_BUILD_PREFIX/cmake
 cmake --build . --target install --config ${RABBIT_CONFIG} ${MAKE_PARA}
 
 cd $CUR_DIR
