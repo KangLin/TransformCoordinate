@@ -41,19 +41,19 @@ fi
 
 #下载源码:
 if [ ! -d ${RABBIT_BUILD_SOURCE_CODE} ]; then
-    VERSION=master #1.3.0
+    VERSION=1.3.0
     if [ "TRUE" = "${RABBIT_USE_REPOSITORIES}" ]; then
-        #echo "git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
-        #git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
-        echo "git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
-        git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
+        #echo "git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
+        #git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBIT_BUILD_SOURCE_CODE}
         cd ${RABBIT_BUILD_SOURCE_CODE}
-        #echo "wget -q https://github.com/libkml/libkml/archive/${VERSION}.zip"
-        #wget -c -q https://github.com/libkml/libkml/archive/${VERSION}.zip
-        echo "wget -c -q https://github.com/KangLin/libkml/archive/${VERSION}.zip"
-        wget -c -q https://github.com/KangLin/libkml/archive/${VERSION}.zip
+        echo "wget -q https://github.com/libkml/libkml/archive/${VERSION}.zip"
+        wget -c -q https://github.com/libkml/libkml/archive/${VERSION}.zip
+        #echo "wget -c -q https://github.com/KangLin/libkml/archive/${VERSION}.zip"
+        #wget -c -q https://github.com/KangLin/libkml/archive/${VERSION}.zip
         unzip -q ${VERSION}.zip
         mv libkml-${VERSION} ..
         rm -fr *
