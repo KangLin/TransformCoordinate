@@ -45,8 +45,8 @@ if [ ! -d ${RABBIT_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "${RABBIT_USE_REPOSITORIES}" ]; then
         #echo "git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
         #git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
-        echo "git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
-        git clone -q https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=$VERSION https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$VERSION https://github.com/KangLin/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBIT_BUILD_SOURCE_CODE}
         cd ${RABBIT_BUILD_SOURCE_CODE}

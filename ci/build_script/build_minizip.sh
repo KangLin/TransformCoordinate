@@ -39,10 +39,10 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBIT_BUILD_SOURCE_CODE} ]; then
     VERSION=master #2.5.3
     if [ "TRUE" = "${RABBIT_USE_REPOSITORIES}" ]; then
-        #echo "git clone -q --branch=${VERSION} https://github.com/nmoinvaz/minizip.git ${RABBIT_BUILD_SOURCE_CODE}"
-        #git clone -q https://github.com/nmoinvaz/minizip.git ${RABBIT_BUILD_SOURCE_CODE}
-        echo "git clone -q https://github.com/KangLin/minizip.git ${RABBIT_BUILD_SOURCE_CODE}"
-        git clone -q https://github.com/KangLin/minizip.git ${RABBIT_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${VERSION} https://github.com/nmoinvaz/minizip.git ${RABBIT_BUILD_SOURCE_CODE}"
+        git clone -q https://github.com/nmoinvaz/minizip.git ${RABBIT_BUILD_SOURCE_CODE}
+        #echo "git clone -q https://github.com/KangLin/minizip.git ${RABBIT_BUILD_SOURCE_CODE}"
+        #git clone -q https://github.com/KangLin/minizip.git ${RABBIT_BUILD_SOURCE_CODE}
         cd ${RABBIT_BUILD_SOURCE_CODE}
         if [ "$VERSION" != "master" ]; then
             git checkout -b $VERSION $VERSION
@@ -50,10 +50,10 @@ if [ ! -d ${RABBIT_BUILD_SOURCE_CODE} ]; then
     else
         mkdir -p ${RABBIT_BUILD_SOURCE_CODE}
         cd ${RABBIT_BUILD_SOURCE_CODE}
-        #echo "wget -nv -c https://github.com/nmoinvaz/minizip/archive/${VERSION}.zip"
-        #wget -nv -c -O minizip.zip https://github.com/nmoinvaz/minizip/archive/${VERSION}.zip
-        echo "wget -nv -c -O minizip.zip https://github.com/KangLin/minizip/archive/${VERSION}.zip"
-        wget -nv -c -O minizip.zip https://github.com/KangLin/minizip/archive/${VERSION}.zip
+        echo "wget -nv -c https://github.com/nmoinvaz/minizip/archive/${VERSION}.zip"
+        wget -nv -c -O minizip.zip https://github.com/nmoinvaz/minizip/archive/${VERSION}.zip
+        #echo "wget -nv -c -O minizip.zip https://github.com/KangLin/minizip/archive/${VERSION}.zip"
+        #wget -nv -c -O minizip.zip https://github.com/KangLin/minizip/archive/${VERSION}.zip
         
         unzip -q minizip.zip
         mv minizip-${VERSION} ..
