@@ -12,7 +12,7 @@
 #   RABBIT_BUILD_CROSS_PREFIX   #交叉编译前缀
 #   RABBIT_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-set -ev
+set -e
 HELP_STRING="Usage $0 PLATFORM(android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
@@ -116,8 +116,6 @@ case ${RABBIT_BUILD_TARGERT} in
     return 2
     ;;
 esac
-
-cp -fr ${RABBIT_BUILD_SOURCE_CODE}/src/kml/base/contrib/minizip $RABBIT_BUILD_PREFIX/include/minizip
 
 CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=ON"
 #CMAKE_PARA="${CMAKE_PARA} -DMINIZIP_DIR=$RABBIT_BUILD_PREFIX/lib/cmake/minizip"

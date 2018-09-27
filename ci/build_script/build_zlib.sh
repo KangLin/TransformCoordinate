@@ -158,5 +158,7 @@ cmake --build . --target install --config ${RABBIT_CONFIG} ${MAKE_PARA}
 
 mkdir -p $RABBIT_BUILD_PREFIX/lib/pkgconfig
 cp $RABBIT_BUILD_PREFIX/share/pkgconfig/* $RABBIT_BUILD_PREFIX/lib/pkgconfig/.
+mkdir -p $RABBIT_BUILD_PREFIX/include/minizip
+cp ${RABBIT_BUILD_SOURCE_CODE}/contrib/minizip/*.h $RABBIT_BUILD_PREFIX/include/minizip/.
 
 cd $CUR_DIR
