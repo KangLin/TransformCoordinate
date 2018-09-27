@@ -50,7 +50,7 @@ endif()
 
 if (BUILD_SHARED_LIBS)
 	add_definitions(-DBUILD_SHARED_LIBS)
-    if (CMAKE_COMPILER_IS_GNUCXX)
+    if (CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
         # Just setting CMAKE_POSITION_INDEPENDENT_CODE should be enough to set
         # -fPIC for GCC but sometimes it still doesn't get set, so make sure it
         # does.

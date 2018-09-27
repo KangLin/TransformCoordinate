@@ -72,7 +72,7 @@ target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
     
 if (BUILD_SHARED_LIBS)
 	add_definitions(-DBUILD_SHARED_LIBS)
-    if (CMAKE_COMPILER_IS_GNUCXX)
+    if (CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
        # Just setting CMAKE_POSITION_INDEPENDENT_CODE should be enough to set
        # -fPIC for GCC but sometimes it still doesn't get set, so make sure it
        # does.
@@ -101,7 +101,7 @@ if(MINGW)
 endif()
     
 # Build options
-option(BUILD_APP "Set to ON to build applaction" OFF)
+option(BUILD_APP "Set to ON to build applaction" ON)
 
 #需要的QT组件
 SET(QT_COMPONENTS Core Gui Widgets)
