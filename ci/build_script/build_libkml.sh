@@ -41,7 +41,7 @@ fi
 
 #下载源码:
 if [ ! -d ${RABBIT_BUILD_SOURCE_CODE} ]; then
-    VERSION=1.3.0
+    VERSION=1.3.1
     if [ "TRUE" = "${RABBIT_USE_REPOSITORIES}" ]; then
         #echo "git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}"
         #git clone -q --branch=$VERSION https://github.com/libkml/libkml.git ${RABBIT_BUILD_SOURCE_CODE}
