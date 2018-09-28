@@ -58,7 +58,7 @@ build_script:
 
 artifacts:
   - path: install
-    name: TransformCoordinate_${BUILD_TARGERT}_$(GENERATORS)_$(CONFIGURATION)_v$(appveyor_build_version)
+    name: TransformCoordinate_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(CONFIGURATION)_v$(appveyor_build_version)
     type: zip
 
 test: off
