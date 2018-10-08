@@ -11,6 +11,12 @@ platform:
 
 environment:
   matrix:
+  - BUILD_TARGERT: android
+    CMAKE_PARAS: -DANDROID_NATIVE_API_LEVEL=android-18 -DANDROID_ABI="armeabi-v7a with NEON"
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_VERSION: 5.9.5
+    QT_VERSION_DIR: 5.9
+
   - BUILD_TARGERT: windows_msvc
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     RABBIT_TOOLCHAIN_VERSION: 15
@@ -31,30 +37,22 @@ environment:
 
   - BUILD_TARGERT: windows_mingw
     RABBIT_TOOLCHAIN_VERSION: 530
-    
-  - BUILD_TARGERT: android
-    CMAKE_PARAS: -DANDROID_NATIVE_API_LEVEL=android-18 -DANDROID_ABI="armeabi-v7a with NEON"
-    QT_VERSION: 5.9.5
-    QT_VERSION_DIR: 5.9
 
 init:
-  - if NOT "%GENERATORS%"=="MSYS Makefiles" if "%PLATFORM%"=="x64" if NOT "%QT_ROOT%"=="" set QT_ROOT=%QT_ROOT%_64
   - set RABBIT_CONFIG=%configuration%
   - set RABBIT_ARCH=%platform%
-  
+
 install:
-  - if "%BUILD_TARGERT%"=="windows_msvc" if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%)
+  - if "%BUILD_TARGERT%"=="windows_msvc" (if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%))
   - set RABBIT_BUILD_PREFIX="%APPVEYOR_BUILD_FOLDER%\install"
-  
+
 before_build:
   - if "%BUILD_TARGERT%"=="android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%/ci/build-install-tools-windows.sh
-  
+
 build_script:
   - del C:\msys64\usr\bin\link.exe
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build_script\build.sh
   - cd %APPVEYOR_BUILD_FOLDER%  
-  
-#after_build:
 
 artifacts:
   - path: install
@@ -70,10 +68,9 @@ deploy:
     #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
     auth_token:
       secure: xgIFN2iAfgj1gsWabdHrmFXvj0rce/ZWtKUwm3aDUNfLGu+kO/q94MYD8a46AbDL
-    #artifact: TransformCoordinate_$(GENERATORS)_$(CONFIGURATION)_$(appveyor_build_version)
-    #draft: true
-    #prerelease: true
     on:
       appveyor_repo_tag: true        # deploy on tag push only
-      GENERATORS: "Visual Studio 14 2015"
+      BUILD_TARGERT: windows_msvc
+      RABBIT_TOOLCHAIN_VERSION: 14
       configuration: Release
+      platform: x86
