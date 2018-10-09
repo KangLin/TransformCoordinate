@@ -1,15 +1,17 @@
 #TODO: Change version
-version: 'v0.0.4'
+version: 'v0.0.4.{build}'
 
 configuration:
   - Release
   - Debug
 
 platform:
-  - x86
   - x64
+  - x86
 
 environment:
+  APP_VERSION: "v0.0.3"
+    
   matrix:
   #- BUILD_TARGERT: android
   #  RABBIT_TOOLCHAIN_VERSION: 530
@@ -17,17 +19,17 @@ environment:
   #  QT_VERSION_DIR: 5.9
 
   - BUILD_TARGERT: windows_msvc
+    RABBIT_TOOLCHAIN_VERSION: 14
+    QT_ROOT: C:\Qt\5.10\msvc2015
+    
+  - BUILD_TARGERT: windows_msvc
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     RABBIT_TOOLCHAIN_VERSION: 15
     CMAKE_PARAS: -DBUILD_GPXMODEL=OFF
 
   - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:\Qt\5.10\msvc2015
-    
-  - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 12
-    CMAKE_PARAS: -DBUILD_SHARED_LIBS=OFF -DBUILD_APP=OFF
+    CMAKE_PARAS: -DBUILD_SHARED_LIBS=OFF 
   
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 12
@@ -44,7 +46,7 @@ init:
 install:
   - if "%BUILD_TARGERT%"=="windows_msvc" (if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%))
   - set RABBIT_BUILD_PREFIX="%APPVEYOR_BUILD_FOLDER%\install"
-  - if NOT "%QT_ROOT%"=="" if "%platform%"=="x64" set QT_ROOT=%QT_ROOT%_64
+  - if NOT "%QT_ROOT%"=="" if "%platform%"=="X64" (set QT_ROOT=%QT_ROOT%_64) else if "%platform%"=="x64" ( set QT_ROOT=%QT_ROOT%_64)
 
 before_build:
   - if "%BUILD_TARGERT%"=="android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%/ci/build-install-tools-windows.sh
@@ -52,11 +54,11 @@ before_build:
 build_script:
   - del C:\msys64\usr\bin\link.exe
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build_script\build.sh
-  - cd %APPVEYOR_BUILD_FOLDER%  
+  - cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
   - path: install
-    name: TransformCoordinate_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(platform)_$(CONFIGURATION)_$(appveyor_build_version)
+    name: TransformCoordinate_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(platform)_$(CONFIGURATION)_$(APP_VERSION)
     type: zip
 
 test: off
