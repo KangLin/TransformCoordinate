@@ -78,8 +78,8 @@ else
     CMAKE_PARA="-DBUILD_SHARED_LIBS=ON"
 fi
 
-if [ -n "${QT_VERSION}" ]; then
-    CMAKE_PARA="$CMAKE_PARA -DQt5_DIR=${RABBIT_BUILD_SOURCE_CODE}/Tools/Qt/Qt${QT_VERSION}/lib/cmake/Qt5" 
+if [ -n "${QT_ROOT}" ]; then
+    CMAKE_PARA="$CMAKE_PARA -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5" 
 else
     CMAKE_PARA="$CMAKE_PARA -DBUILD_APP=OFF"
 fi

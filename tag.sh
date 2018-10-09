@@ -24,8 +24,8 @@ fi
 
 sed -i "s/^\SET(BUILD_VERSION.*/\SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
 
-APPVERYOR_VERSION="version: '${VERSION}.{build}'"
-sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
+APPVERYOR_VERSION="version: '${VERSION}'"
+sed -i "s/^version: '.*'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
 
 #git tag -a v${VERSION} -m "Release v${VERSION}"
 #git push origin :refs/tags/v${VERSION}

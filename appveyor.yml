@@ -1,5 +1,5 @@
 #TODO: Change version
-version: 'v0.0.3.{build}'
+version: 'v0.0.4'
 
 configuration:
   - Release
@@ -11,11 +11,10 @@ platform:
 
 environment:
   matrix:
-  - BUILD_TARGERT: android
-    CMAKE_PARAS: -DANDROID_NATIVE_API_LEVEL=android-18 -DANDROID_ABI="armeabi-v7a with NEON"
-    RABBIT_TOOLCHAIN_VERSION: 530
-    QT_VERSION: 5.9.5
-    QT_VERSION_DIR: 5.9
+  #- BUILD_TARGERT: android
+  #  RABBIT_TOOLCHAIN_VERSION: 530
+  #  QT_VERSION: 5.9.5
+  #  QT_VERSION_DIR: 5.9
 
   - BUILD_TARGERT: windows_msvc
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -45,6 +44,7 @@ init:
 install:
   - if "%BUILD_TARGERT%"=="windows_msvc" (if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%))
   - set RABBIT_BUILD_PREFIX="%APPVEYOR_BUILD_FOLDER%\install"
+  - if NOT "%QT_ROOT%"=="" if "%platform%"=="x64" set QT_ROOT=%QT_ROOT%_64
 
 before_build:
   - if "%BUILD_TARGERT%"=="android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%/ci/build-install-tools-windows.sh
@@ -56,7 +56,7 @@ build_script:
 
 artifacts:
   - path: install
-    name: TransformCoordinate_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(CONFIGURATION)_$(appveyor_build_version)
+    name: TransformCoordinate_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(platform)_$(CONFIGURATION)_$(appveyor_build_version)
     type: zip
 
 test: off
@@ -71,6 +71,6 @@ deploy:
     on:
       appveyor_repo_tag: true        # deploy on tag push only
       BUILD_TARGERT: windows_msvc
-      RABBIT_TOOLCHAIN_VERSION: 14
-      configuration: Release
-      platform: x86
+      #RABBIT_TOOLCHAIN_VERSION: 14
+      #configuration: Release
+      #platform: x86

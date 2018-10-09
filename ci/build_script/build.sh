@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ev
+set -e
 
 PROJECT_DIR=`pwd`
 if [ -n "$1" ]; then
