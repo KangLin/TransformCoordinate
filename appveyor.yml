@@ -73,6 +73,6 @@ deploy:
     on:
       appveyor_repo_tag: true        # deploy on tag push only
       BUILD_TARGERT: windows_msvc
-      #RABBIT_TOOLCHAIN_VERSION: 14
-      #configuration: Release
-      #platform: x86
+      RABBIT_TOOLCHAIN_VERSION: 14
+      configuration: Release
+      platform: x86
