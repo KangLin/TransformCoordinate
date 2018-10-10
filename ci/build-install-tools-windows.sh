@@ -13,6 +13,14 @@ if [ "$BUILD_TARGERT" = "android" ]; then
     export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-ndk
     export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
     export PATH=/usr/bin:${TOOLS_DIR}/apache-ant/bin:$JAVA_HOME:$PATH
+    case $RABBIT_ARCH in
+        arm*|x86*)
+            ;;
+           *)
+           echo "Don't arch $RABBIT_ARCH"
+           exit 0
+           ;;
+    esac
 else
     exit 0
 fi

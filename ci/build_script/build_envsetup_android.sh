@@ -20,7 +20,7 @@ export ANDROID_NDK=$ANDROID_NDK_ROOT            #指定 android ndk 根目录
 export ANDROID_SDK=$ANDROID_SDK_ROOT
 
 #设置ndk。32位的是windows；64位的是windows-x86_64
-export ANDROID_NDK_HOST=windows-x86_64
+#export ANDROID_NDK_HOST=windows-x86_64
 
 #ANT=/usr/bin/ant         #ant 程序  
 
@@ -29,7 +29,7 @@ if [ -z "$RABBIT_CLEAN" ]; then
 fi
 RABBIT_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
 #RABBIT_USE_REPOSITORIES="TRUE" #下载指定的压缩包。省略，则下载开发库。  
-#RABBIT_BUILD_TOOLCHAIN_VERSION=4.8   #工具链版本号,默认 4.9  
+#RABBIT_TOOLCHAIN_VERSION=4.8   #工具链版本号,默认 4.9  
 #ANDROID_NATIVE_API_LEVEL=24   #android ndk api (平台)版本号,默认 18
 if [ -z "${RABBIT_MAKE_JOB_PARA}" ]; then
     RABBIT_MAKE_JOB_PARA="-j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`"  #make 同时工作进程参数
@@ -61,8 +61,8 @@ if [ -z "$RABBIT_CONFIG" ]; then
     RABBIT_CONFIG=Release
 fi
 
-if [ -z "${RABBIT_BUILD_TOOLCHAIN_VERSION}" ]; then
-    RABBIT_BUILD_TOOLCHAIN_VERSION=4.9  #工具链版本号
+if [ -z "${RABBIT_TOOLCHAIN_VERSION}" ]; then
+    RABBIT_TOOLCHAIN_VERSION=4.9  #工具链版本号
 fi
 if [ -z "${ANDROID_NATIVE_API_LEVEL}" ]; then
     ANDROID_NATIVE_API_LEVEL=18    #android ndk api (平台)版本号, Qt5.9 支持最小平台版本
@@ -119,19 +119,19 @@ if [ -z "$RABBIT_TOOL_CHAIN_ROOT" ]; then
     RABBIT_TOOL_CHAIN_ROOT=${RABBIT_BUILD_PREFIX}/../android-toolchains-${RABBIT_ARCH}-api${ANDROID_NATIVE_API_LEVEL}
 fi
 #安装工具链
-#if [ ! -d $RABBIT_TOOL_CHAIN_ROOT ]; then
-#    python ${ANDROID_NDK_ROOT}/build/tools/make_standalone_toolchain.py \
-#        --arch ${RABBIT_ARCH} \
-#        --api ${ANDROID_NATIVE_API_LEVEL} \
-#        --install-dir ${RABBIT_TOOL_CHAIN_ROOT}
-#    if [ ! $? = 0 ]; then
-#        echo "Set windows's python to PATH in windows"
-#        exit $?
-#    fi
-#fi
+if [ ! -d $RABBIT_TOOL_CHAIN_ROOT ]; then
+    python ${ANDROID_NDK_ROOT}/build/tools/make_standalone_toolchain.py \
+        --arch ${RABBIT_ARCH} \
+        --api ${ANDROID_NATIVE_API_LEVEL} \
+        --install-dir ${RABBIT_TOOL_CHAIN_ROOT}
+    if [ ! $? = 0 ]; then
+        echo "Set windows's python to PATH in windows"
+        exit $?
+    fi
+fi
 
 if [ "${RABBIT_ARCH}" = "x86" -o "${RABBIT_ARCH}" = "x86_64" ]; then
-    export ANDROID_TOOLCHAIN_NAME=${RABBIT_ARCH}-${RABBIT_BUILD_TOOLCHAIN_VERSION}
+    export ANDROID_TOOLCHAIN_NAME=${RABBIT_ARCH}-${RABBIT_TOOLCHAIN_VERSION}
     if [ -z "${RABBIT_BUILD_CROSS_HOST}" ]; then
         if [ "${RABBIT_ARCH}" = "x86_64" ]; then
             RABBIT_BUILD_CROSS_HOST=x86_64-linux-android
@@ -154,7 +154,7 @@ elif [ "${RABBIT_ARCH}" = "arm" ]; then
     if [ -z "${RABBIT_BUILD_CROSS_HOST}" ]; then
         RABBIT_BUILD_CROSS_HOST=arm-linux-androideabi
     fi
-    export ANDROID_TOOLCHAIN_NAME=${RABBIT_BUILD_CROSS_HOST}-${RABBIT_BUILD_TOOLCHAIN_VERSION}
+    export ANDROID_TOOLCHAIN_NAME=${RABBIT_BUILD_CROSS_HOST}-${RABBIT_TOOLCHAIN_VERSION}
 fi
 
 #交叉编译前缀
@@ -168,7 +168,7 @@ RABBIT_BUILD_CROSS_SYSROOT_LIB=$RABBIT_BUILD_CROSS_SYSROOT
 #RABBIT_BUILD_CROSS_SYSROOT=$ANDROID_NDK/sysroot
 #RABBIT_BUILD_CROSS_SYSROOT_LIB=$ANDROID_NDK/platforms/android-$ANDROID_NATIVE_API_LEVEL/arch-${RABBIT_ARCH}
 
-RABBIT_BUILD_CROSS_STL=${ANDROID_NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/${RABBIT_BUILD_TOOLCHAIN_VERSION}
+RABBIT_BUILD_CROSS_STL=${ANDROID_NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/${RABBIT_TOOLCHAIN_VERSION}
 RABBIT_BUILD_CROSS_STL_INCLUDE=${RABBIT_BUILD_CROSS_STL}/include
 RABBIT_BUILD_CROSS_STL_LIBS=${RABBIT_BUILD_CROSS_STL}/libs/${ANDROID_NDK_ABI_NAME}
 RABBIT_BUILD_CROSS_STL_INCLUDE_FLAGS="-I${RABBIT_BUILD_CROSS_STL_INCLUDE} -I${RABBIT_BUILD_CROSS_STL_LIBS}/include"
@@ -206,7 +206,7 @@ echo "ANDROID_NATIVE_API_LEVEL:$ANDROID_NATIVE_API_LEVEL"
 echo "ANDROID_STL:$ANDROID_STL"
 echo "RABBIT_BUILD_PREFIX:$RABBIT_BUILD_PREFIX"
 echo "RABBIT_BUILD_CROSS_HOST：$RABBIT_BUILD_CROSS_HOST"
-echo "RABBIT_BUILD_TOOLCHAIN_VERSION:$RABBIT_BUILD_TOOLCHAIN_VERSION"
+echo "RABBIT_TOOLCHAIN_VERSION:$RABBIT_TOOLCHAIN_VERSION"
 echo "RABBIT_BUILD_CROSS_ROOT:$RABBIT_BUILD_CROSS_ROOT"
 echo "RABBIT_BUILD_CROSS_STL:$RABBIT_BUILD_CROSS_STL"
 echo "RABBIT_BUILD_CROSS_SYSROOT:$RABBIT_BUILD_CROSS_SYSROOT"

@@ -60,6 +60,7 @@ if [ "$BUILD_TARGERT" = "android" ]; then
             ;;
            *)
            echo "Don't arch $RABBIT_ARCH"
+           exit 0
            ;;
     esac
     export PATH=${TOOLS_DIR}/apache-ant/bin:$JAVA_HOME:$PATH

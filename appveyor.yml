@@ -13,10 +13,11 @@ environment:
   APP_VERSION: "v0.0.4"
 
   matrix:
-  #- BUILD_TARGERT: android
-  #  RABBIT_TOOLCHAIN_VERSION: 530
-  #  QT_VERSION: 5.9.5
-  #  QT_VERSION_DIR: 5.9
+  - BUILD_TARGERT: android
+    RABBIT_TOOLCHAIN_VERSION: 4.9
+    QT_VERSION: 5.9.5
+    QT_VERSION_DIR: 5.9
+    RABBIT_ARCH: arm
 
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 14
@@ -41,12 +42,12 @@ environment:
 
 init:
   - set RABBIT_CONFIG=%configuration%
-  - set RABBIT_ARCH=%platform%
+  - if "%RABBIT_ARCH%"=="" set RABBIT_ARCH=%platform%
 
 install:
   - if "%BUILD_TARGERT%"=="windows_msvc" (if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%))
   - set RABBIT_BUILD_PREFIX="%APPVEYOR_BUILD_FOLDER%\install"
-  - if NOT "%QT_ROOT%"=="" if "%platform%"=="X64" (set QT_ROOT=%QT_ROOT%_64) else if "%platform%"=="x64" ( set QT_ROOT=%QT_ROOT%_64)
+  - if NOT "%QT_ROOT%"=="" if "%BUILD_TARGERT%"=="windows_msvc" if "%platform%"=="X64" (set QT_ROOT=%QT_ROOT%_64) else if "%platform%"=="x64" ( set QT_ROOT=%QT_ROOT%_64)
 
 before_build:
   - if "%BUILD_TARGERT%"=="android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%/ci/build-install-tools-windows.sh
