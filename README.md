@@ -1,35 +1,40 @@
-×ø±êÏµÍ³×ª
+## åæ ‡ç³»ç»Ÿè½¬
+ä½œè€…ï¼šåº·æ—(kl222@126.com)
+é¡¹ç›®åœ°å€ï¼šhttps://github.com/KangLin/TransformCoordinate
 
 [![Windows build status](https://ci.appveyor.com/api/projects/status/yxkcu6b6o2av6wmk?svg=true)](https://ci.appveyor.com/project/KangLin/transformcoordinate)  
 [![Linux build Status](https://travis-ci.org/KangLin/TransformCoordinate.svg?branch=master)](https://travis-ci.org/KangLin/TransformCoordinate)
 
-±¾ÏîÄ¿¶ÔWGS84¡¢GCJ02¡¢°Ù¶È×ø±êÏµÖ®¼ä½øĞĞ×ª»»¡£
+æœ¬é¡¹ç›®å¯¹WGS84ã€GCJ02ã€ç™¾åº¦åæ ‡ç³»ä¹‹é—´è¿›è¡Œè½¬æ¢ã€‚
 
-WGS84£ºÎªÒ»ÖÖ´óµØ×ø±êÏµ£¬Ò²ÊÇÄ¿Ç°¹ã·ºÊ¹ÓÃµÄGPSÈ«ÇòÎÀĞÇ¶¨Î»ÏµÍ³Ê¹ÓÃµÄ×ø±êÏµ¡£  
-GCJ02£ºÓÖ³Æ»ğĞÇ×ø±êÏµ£¬ÊÇÓÉÖĞ¹ú¹ú¼Ò²â»æ¾ÖÖÆ¶¨µÄµØÀí×ø±êÏµÍ³£¬ÊÇÓÉWGS84¼ÓÃÜºóµÃµ½µÄ×ø±êÏµ¡£  
-BD09£ºÎª°Ù¶È×ø±êÏµ£¬ÔÚGCJ02×ø±êÏµ»ù´¡ÉÏÔÙ´Î¼ÓÃÜ¡£ÆäÖĞbd09ll±íÊ¾°Ù¶È¾­Î³¶È×ø±ê£¬bd09mc±íÊ¾°Ù¶ÈÄ«¿¨ÍĞÃ×ÖÆ×ø±ê¡£  
+WGS84ï¼šä¸ºä¸€ç§å¤§åœ°åæ ‡ç³»ï¼Œä¹Ÿæ˜¯ç›®å‰å¹¿æ³›ä½¿ç”¨çš„GPSå…¨çƒå«æ˜Ÿå®šä½ç³»ç»Ÿä½¿ç”¨çš„åæ ‡ç³»ã€‚  
+GCJ02ï¼šåˆç§°ç«æ˜Ÿåæ ‡ç³»ï¼Œæ˜¯ç”±ä¸­å›½å›½å®¶æµ‹ç»˜å±€åˆ¶å®šçš„åœ°ç†åæ ‡ç³»ç»Ÿï¼Œæ˜¯ç”±WGS84åŠ å¯†åå¾—åˆ°çš„åæ ‡ç³»ã€‚  
+BD09ï¼šä¸ºç™¾åº¦åæ ‡ç³»ï¼Œåœ¨GCJ02åæ ‡ç³»åŸºç¡€ä¸Šå†æ¬¡åŠ å¯†ã€‚å…¶ä¸­bd09llè¡¨ç¤ºç™¾åº¦ç»çº¬åº¦åæ ‡ï¼Œbd09mcè¡¨ç¤ºç™¾åº¦å¢¨å¡æ‰˜ç±³åˆ¶åæ ‡ã€‚  
 
-±¾ÏîÄ¿»¹°üÀ¨Ò»¸öGPXÎÄ¼ş²Ù×÷Ä£¿é¡£
+æœ¬é¡¹ç›®è¿˜åŒ…æ‹¬ä¸€ä¸ªGPXæ–‡ä»¶æ“ä½œæ¨¡å—ã€‚
 
-±¾ÏîÄ¿°üº¬£º  
-- ×ø±ê×ª»»¿â£ºTransformCoordinate  
-- GPXÎÄ¼ş²Ù×÷¿â£ºGpxModel  
-- ×ø±ê×ª»»³ÌĞò£ºTransformCoordinateApp  
+æœ¬é¡¹ç›®åŒ…å«ï¼š  
+- åæ ‡è½¬æ¢åº“ï¼šTransformCoordinate  
+- GPXæ–‡ä»¶æ“ä½œåº“ï¼šGpxModel  
+- åæ ‡è½¬æ¢ç¨‹åºï¼šTransformCoordinateApp  
 
-ÏÂÔØ£º
+ä¸‹è½½ï¼š
 https://github.com/KangLin/TransformCoordinate/releases/latest
 
-±àÒë£º
+ç¼–è¯‘ï¼š
 
     mkdir build
     cd build
     cmake ..
     cmake --build . 
 
-ÓÃÎ¢ĞÅÉ¨Ãè¶şÎ¬Âë½øĞĞ¾èÔù:  
-[![ÓÃÎ¢ĞÅÉ¨Ãè¶şÎ¬Âë½øĞĞ¾èÔù](Resource/png/weixinpay.png)](Resource/png/weixinpay.png)
+ç”Ÿæˆç‰ˆæœ¬æ ‡ç­¾ï¼š
+./tag.sh vX.X.X
+
+ç”¨å¾®ä¿¡æ‰«æäºŒç»´ç è¿›è¡Œæèµ :  
+[![ç”¨å¾®ä¿¡æ‰«æäºŒç»´ç è¿›è¡Œæèµ ](Resource/png/weixinpay.png)](Resource/png/weixinpay.png)
 
 
-²Î¼û£º  
+å‚è§ï¼š  
 http://lbsyun.baidu.com/index.php?title=TransformCoordinate  
 http://www.360doc.com/content/16/0721/16/9200790_577327509.shtml
