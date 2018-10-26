@@ -119,16 +119,16 @@ if [ -z "$RABBIT_TOOL_CHAIN_ROOT" ]; then
     RABBIT_TOOL_CHAIN_ROOT=${RABBIT_BUILD_PREFIX}/../android-toolchains-${RABBIT_ARCH}-api${ANDROID_NATIVE_API_LEVEL}
 fi
 #安装工具链
-if [ ! -d $RABBIT_TOOL_CHAIN_ROOT ]; then
-    python ${ANDROID_NDK_ROOT}/build/tools/make_standalone_toolchain.py \
-        --arch ${RABBIT_ARCH} \
-        --api ${ANDROID_NATIVE_API_LEVEL} \
-        --install-dir ${RABBIT_TOOL_CHAIN_ROOT}
-    if [ ! $? = 0 ]; then
-        echo "Set windows's python to PATH in windows"
-        exit $?
-    fi
-fi
+#if [ ! -d $RABBIT_TOOL_CHAIN_ROOT ]; then
+#    python ${ANDROID_NDK_ROOT}/build/tools/make_standalone_toolchain.py \
+#        --arch ${RABBIT_ARCH} \
+#        --api ${ANDROID_NATIVE_API_LEVEL} \
+#        --install-dir ${RABBIT_TOOL_CHAIN_ROOT}
+#    if [ ! $? = 0 ]; then
+#        echo "Set windows's python to PATH in windows"
+#        exit $?
+#    fi
+#fi
 
 if [ "${RABBIT_ARCH}" = "x86" -o "${RABBIT_ARCH}" = "x86_64" ]; then
     export ANDROID_TOOLCHAIN_NAME=${RABBIT_ARCH}-${RABBIT_TOOLCHAIN_VERSION}

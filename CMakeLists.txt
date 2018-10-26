@@ -51,7 +51,7 @@ IF(MSVC)
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
     ENDIF(WIN32_USE_MP)
 ENDIF(MSVC)
-    
+
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 option(BUILD_GPXMODEL "Set to ON to build GpxModel" ON)
 if(BUILD_GPXMODEL)
@@ -157,14 +157,15 @@ if(BUILD_APP)
         SET(APP_LIBS ${APP_LIBS} ${GPXMODEL_LIB})
     endif()
     target_link_libraries(${PROJECT_NAME}App ${APP_LIBS})
-    
-    include_directories("${PROJECT_BINARY_DIR}")
-    
+    target_include_directories(${PROJECT_NAME}App PUBLIC "${PROJECT_BINARY_DIR}")
+        
+    include(GNUInstallDirs OPTIONAL)
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}App
-            RUNTIME DESTINATION "bin"
-            LIBRARY DESTINATION "lib"
-            ARCHIVE DESTINATION "lib")
+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+            LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+            )
  
     IF(WIN32)
         IF(CMAKE_BUILD_TYPE MATCHES Release AND MINGW)
