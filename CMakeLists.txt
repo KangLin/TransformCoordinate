@@ -83,12 +83,15 @@ if (BUILD_SHARED_LIBS)
         add_definitions(-DDLL_EXPORT)
     endif(WIN32)
 endif()
-    
+
+include(GNUInstallDirs OPTIONAL)
+
 # Install target
 INSTALL(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION "lib"
-        ARCHIVE DESTINATION "lib")
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        )
 # Install head files
 INSTALL(FILES ${HEAD_FILES} DESTINATION "include")
 # Install cmake files
@@ -159,7 +162,7 @@ if(BUILD_APP)
     target_link_libraries(${PROJECT_NAME}App ${APP_LIBS})
     target_include_directories(${PROJECT_NAME}App PUBLIC "${PROJECT_BINARY_DIR}")
         
-    include(GNUInstallDirs OPTIONAL)
+    
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}App
             RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
