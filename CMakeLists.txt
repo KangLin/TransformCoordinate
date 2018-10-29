@@ -52,6 +52,12 @@ IF(MSVC)
     ENDIF(WIN32_USE_MP)
 ENDIF(MSVC)
 
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+include(GenerateExportHeader)
+include(CheckIncludeFile)
+include(CheckFunctionExists)
+
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 option(BUILD_GPXMODEL "Set to ON to build GpxModel" ON)
 if(BUILD_GPXMODEL)
@@ -60,16 +66,16 @@ if(BUILD_GPXMODEL)
     add_definitions(${GpxModel_DEFINITIONS})
     set(GPXMODEL_LIB GpxModel)
 endif()
-    
+
 set(OTHER_FILES appveyor.yml .travis.yml)
 set(HEAD_FILES
         TransformCoordinate.h)
 set(SOURCE_FILES
         TransformCoordinate.cpp)
-    
+
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
-    
+
 if (BUILD_SHARED_LIBS)
 	add_definitions(-DBUILD_SHARED_LIBS)
     if (CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
@@ -83,8 +89,6 @@ if (BUILD_SHARED_LIBS)
         add_definitions(-DDLL_EXPORT)
     endif(WIN32)
 endif()
-
-include(GNUInstallDirs OPTIONAL)
 
 # Install target
 INSTALL(TARGETS ${PROJECT_NAME}
@@ -102,7 +106,11 @@ if(MINGW)
     configure_file(TransformCoordinate.pc.in ${CMAKE_BINARY_DIR}/TransformCoordinate.pc @ONLY)
     install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinate.pc DESTINATION lib/pkgconfig)
 endif()
-    
+write_basic_package_version_file(
+    "${CMAKE_BINARY_DIR}/TransformCoordinateConfigVersion.cmake"
+    VERSION ${BUILD_VERSION}
+    COMPATIBILITY AnyNewerVersion)
+
 # Build options
 option(BUILD_APP "Set to ON to build applaction" ON)
 
