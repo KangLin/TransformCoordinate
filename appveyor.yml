@@ -13,12 +13,6 @@ environment:
   APP_VERSION: "v0.0.4"
 
   matrix:
-  - BUILD_TARGERT: android
-    RABBIT_TOOLCHAIN_VERSION: 4.9
-    QT_VERSION: 5.9.5
-    QT_VERSION_DIR: 5.9
-    RABBIT_ARCH: arm
-
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 14
     QT_ROOT: C:\Qt\5.10\msvc2015
@@ -39,6 +33,12 @@ environment:
 
   - BUILD_TARGERT: windows_mingw
     RABBIT_TOOLCHAIN_VERSION: 530
+  
+  - BUILD_TARGERT: android
+    RABBIT_TOOLCHAIN_VERSION: 5.3
+    QT_VERSION: 5.11.1
+    QT_VERSION_DIR: 5.11
+    RABBIT_ARCH: arm
 
 init:
   - set RABBIT_CONFIG=%configuration%
