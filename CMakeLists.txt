@@ -75,6 +75,10 @@ set(SOURCE_FILES
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 target_link_libraries(${PROJECT_NAME} ${GPXMODEL_LIB})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+GENERATE_EXPORT_HEADER(${PROJECT_NAME})
+string(TOLOWER ${PROJECT_NAME} LOWER_PROJECT_NAME)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h DESTINATION "include")
 
 if (BUILD_SHARED_LIBS)
 	add_definitions(-DBUILD_SHARED_LIBS)
@@ -85,9 +89,6 @@ if (BUILD_SHARED_LIBS)
        add_definitions("-fPIC")
     endif()
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-    if(WIN32)
-        add_definitions(-DDLL_EXPORT)
-    endif(WIN32)
 endif()
 
 # Install target
@@ -101,15 +102,16 @@ INSTALL(FILES ${HEAD_FILES} DESTINATION "include")
 # Install cmake files
 configure_file(TransformCoordinateConfig.cmake.in ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinateConfig.cmake DESTINATION .)
-if(MINGW)
-    # Install pc files
-    configure_file(TransformCoordinate.pc.in ${CMAKE_BINARY_DIR}/TransformCoordinate.pc @ONLY)
-    install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinate.pc DESTINATION lib/pkgconfig)
-endif()
 write_basic_package_version_file(
     "${CMAKE_BINARY_DIR}/TransformCoordinateConfigVersion.cmake"
     VERSION ${BUILD_VERSION}
     COMPATIBILITY AnyNewerVersion)
+install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinateConfigVersion.cmake DESTINATION .)
+if(NOT MSVC)
+    # Install pc files
+    configure_file(TransformCoordinate.pc.in ${CMAKE_BINARY_DIR}/TransformCoordinate.pc @ONLY)
+    install(FILES ${CMAKE_BINARY_DIR}/TransformCoordinate.pc DESTINATION lib/pkgconfig)
+endif()
 
 # Build options
 option(BUILD_APP "Set to ON to build applaction" ON)

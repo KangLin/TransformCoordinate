@@ -3,16 +3,7 @@
 
 #include <math.h>
 #include <string>
-
-#if WIN32 && BUILD_SHARED_LIBS
-	#ifdef DLL_EXPORT
-		#define DLL_API __declspec(dllexport)
-	#else
-		#define DLL_API __declspec(dllimport)
-	#endif
-#else
-    #define DLL_API
-#endif
+#include "transformcoordinate_export.h"
 
 /*
 WGS84：为一种大地坐标系，也是目前广泛使用的GPS全球卫星定位系统使用的坐标系。  
@@ -29,7 +20,7 @@ enum _COORDINATE{
 };
 
 static std::string gCoordinateDescription[] = {"WGS84", "GCJ02", "BD09LL", "BD09MC"};   
-DLL_API int TransformCoordinate(double oldx,
+TRANSFORMCOORDINATE_EXPORT int TransformCoordinate(double oldx,
                                 double oldy,
                                 double &newx,
                                 double &newy,
@@ -37,7 +28,7 @@ DLL_API int TransformCoordinate(double oldx,
                                 _COORDINATE to = GCJ02);
 
 #ifdef BUILD_GPXMODEL
-DLL_API int TransformCoordinateFiles(const char *szSrc,
+TRANSFORMCOORDINATE_EXPORT int TransformCoordinateFiles(const char *szSrc,
                                      const char *szDst,
                                      _COORDINATE from = WGS84,
                                      _COORDINATE to = GCJ02);

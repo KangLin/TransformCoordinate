@@ -43,6 +43,11 @@ add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES})
 if(GPX_LIBS)
     target_link_libraries(${PROJECT_NAME} ${GPX_LIBS})
 endif()
+GENERATE_EXPORT_HEADER(${PROJECT_NAME})
+string(TOLOWER ${PROJECT_NAME} LOWER_PROJECT_NAME)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h DESTINATION "include")
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
 #set_target_properties(${PROJECT_NAME}
 #    PROPERTIES
 #    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}"
@@ -59,9 +64,7 @@ if (BUILD_SHARED_LIBS)
     endif()
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
     
-    if(WIN32)
-        add_definitions(-DDLL_EXPORT)
-    #else(WIN32)    
+  
         # 添加静态库，关键词为static，
         # ADD_LIBRARY (hello STATIC ${LIBHELLO_SRC})
         # 仍然用hello作为target名时，是不能成功创建所需的静态库的，
@@ -90,18 +93,18 @@ if (BUILD_SHARED_LIBS)
     #        RUNTIME DESTINATION "bin"
     #        LIBRARY DESTINATION "lib"
     #        ARCHIVE DESTINATION "lib")
-    endif(WIN32)
+   
 endif()
 
 # Install target
 INSTALL(TARGETS ${PROJECT_NAME}
-	RUNTIME DESTINATION "bin"
-        LIBRARY DESTINATION "lib"
-        ARCHIVE DESTINATION "lib")
-    
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        )
 # Install head files
 INSTALL(FILES ${HEAD_FILES} DESTINATION "include")
-if(MINGW)
+if(NOT MSVC)
     # Install pc files
     configure_file(GpxModel.pc.in ${CMAKE_BINARY_DIR}/GpxModel.pc @ONLY)
     install(FILES ${CMAKE_BINARY_DIR}/GpxModel.pc DESTINATION lib/pkgconfig)
@@ -109,3 +112,8 @@ endif()
 # Install cmake files
 configure_file(GpxModelConfig.cmake.in ${CMAKE_BINARY_DIR}/GpxModelConfig.cmake @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/GpxModelConfig.cmake DESTINATION .)
+write_basic_package_version_file(
+    "${CMAKE_BINARY_DIR}/GpxModelConfigVersion.cmake"
+    VERSION ${BUILD_VERSION}
+    COMPATIBILITY AnyNewerVersion)
+install(FILES ${CMAKE_BINARY_DIR}/GpxModelConfigVersion.cmake DESTINATION .)

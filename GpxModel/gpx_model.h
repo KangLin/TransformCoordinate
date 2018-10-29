@@ -20,16 +20,7 @@
 
 #include <string>
 #include <vector>
-
-#if WIN32 && BUILD_SHARED_LIBS
-	#ifdef DLL_EXPORT
-		#define DLL_API __declspec(dllexport)
-	#else
-		#define DLL_API __declspec(dllimport)
-	#endif
-#else
-	#define DLL_API
-#endif
+#include "gpxmodel_export.h"
 
 using namespace std;
 
@@ -65,14 +56,14 @@ using namespace std;
  * @{
  */
 
-class DLL_API GPX_trkType;
-class DLL_API GPX_trksegType;
-class DLL_API GPX_wptType;
+class GPXMODEL_EXPORT GPX_trkType;
+class GPXMODEL_EXPORT GPX_trksegType;
+class GPXMODEL_EXPORT GPX_wptType;
 
 /**
  * @brief Information about the copyright holder and any license governing use of the GPX file
  */
-struct DLL_API GPX_copyrightType
+struct GPXMODEL_EXPORT GPX_copyrightType
 {
     string                  author;             /**< Copyright holder */
     string                  year;               /**< Year of copyright */
@@ -82,7 +73,7 @@ struct DLL_API GPX_copyrightType
 /**
  * @brief Representation of a link to an external resource
  */
-struct DLL_API GPX_linkType
+struct GPXMODEL_EXPORT GPX_linkType
 {
     string                  href;               /**< URL of the link */
     string                  text;               /**< Text of the link */
@@ -92,7 +83,7 @@ struct DLL_API GPX_linkType
 /**
  * @brief Representation of an email address
  */
-struct DLL_API GPX_emailType
+struct GPXMODEL_EXPORT GPX_emailType
 {
     string                  id;                 /**< ID half of email address (bourgeoislab) */
     string                  domain;             /**< Domain half of email address (gmail.com) */
@@ -101,7 +92,7 @@ struct DLL_API GPX_emailType
 /**
  * @brief Representation of a person or organization
  */
-struct DLL_API GPX_personType
+struct GPXMODEL_EXPORT GPX_personType
 {
     string                  name;               /**< Name of person or organization */
     GPX_emailType           email;              /**< Email address */
@@ -111,7 +102,7 @@ struct DLL_API GPX_personType
 /**
  * @brief Bound given by minimal and maximal latitude / longitude
  */
-struct DLL_API GPX_boundsType
+struct GPXMODEL_EXPORT GPX_boundsType
 {
     double                  minlat;             /**< Minimum latitude [deg] */
     double                  minlon;             /**< Minimum longitude [deg] */
@@ -122,7 +113,7 @@ struct DLL_API GPX_boundsType
 /**
  * @brief Any extension to the standard GPX format
  */
-struct DLL_API GPX_extType
+struct GPXMODEL_EXPORT GPX_extType
 {
     vector <string>         extension;          /**< Any extension element */
 };
@@ -130,7 +121,7 @@ struct DLL_API GPX_extType
 /**
 * @brief Garmin's TrackPointExtension GPX extension
 */
-struct DLL_API GPX_extTPExtType
+struct GPXMODEL_EXPORT GPX_extTPExtType
 {
     unsigned int            heartrate;          /**< Heart rate [bpm] */
     vector <string>         other;              /**< Any other extension element */
@@ -139,7 +130,7 @@ struct DLL_API GPX_extTPExtType
 /**
  * @brief Information about the GPX file
  */
-struct DLL_API GPX_metadataType
+struct GPXMODEL_EXPORT GPX_metadataType
 {
     string                  name;               /**< Name of the GPX file */
     string                  desc;               /**< Description of the contents of the GPX file */
@@ -156,7 +147,7 @@ struct DLL_API GPX_metadataType
 /**
  * @brief Information about a track
  */
-struct DLL_API GPX_trkMetadataType
+struct GPXMODEL_EXPORT GPX_trkMetadataType
 {
     string                  name;               /**< Name of the track */
     string                  cmt;                /**< Comment for track */
@@ -170,7 +161,7 @@ struct DLL_API GPX_trkMetadataType
 /**
  * @brief Statistic information about a list of track points
  */
-struct DLL_API GPX_statsType
+struct GPXMODEL_EXPORT GPX_statsType
 {
     int                     points;             /**< Number of track points within the list */
     time_t                  startTime;          /**< GMT timestamp of the first point [s] */
@@ -194,7 +185,7 @@ struct DLL_API GPX_statsType
  * @version 1.1
  * @date 10 Jan 2015
  */
-class DLL_API GPX_model
+class GPXMODEL_EXPORT GPX_model
 {
 public:
 
@@ -302,7 +293,7 @@ private:
  * @version 1.1
  * @date 10 Jan 2015
  */
-class DLL_API GPX_trkType
+class GPXMODEL_EXPORT GPX_trkType
 {
 public:
     friend class GPX_model;
@@ -337,7 +328,7 @@ private:
  * @version 1.1
  * @date 10 Jan 2015
  */
-class DLL_API GPX_trksegType
+class GPXMODEL_EXPORT GPX_trksegType
 {
 public:
     friend class GPX_trkType;
@@ -371,7 +362,7 @@ private:
  * @version 1.1
  * @date 10 Jan 2015
  */
-class DLL_API GPX_wptType
+class GPXMODEL_EXPORT GPX_wptType
 {
 public:
     friend class GPX_trksegType;
