@@ -1,9 +1,8 @@
 #ifndef _COORDTRANS
 #define _COORDTRANS
 
-#include <math.h>
-#include <string>
 #include "transformcoordinate_export.h"
+#include <string>
 
 /*
 WGS84：为一种大地坐标系，也是目前广泛使用的GPS全球卫星定位系统使用的坐标系。  

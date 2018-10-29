@@ -56,7 +56,15 @@ include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 include(GenerateExportHeader)
 include(CheckIncludeFile)
+include(CheckIncludeFileCXX)
 include(CheckFunctionExists)
+
+CHECK_INCLUDE_FILE_CXX("string" HAVE_STRING_H)
+check_include_file("math.h" HAVE_MATH_H)
+
+check_function_exists("fabs" HAVE_FABS)
+check_function_exists("sin" HAVE_SIN)
+check_function_exists("cos" HAVE_COS)
 
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 option(BUILD_GPXMODEL "Set to ON to build GpxModel" ON)
