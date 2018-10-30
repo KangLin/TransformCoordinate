@@ -101,7 +101,7 @@ case $TARGET_OS in
         if [ ! -d $ANDROID_NDK/prebuilt/${ANDROID_NDK_HOST} ]; then
             ANDROID_NDK_HOST=windows
         fi
-        #RABBIT_CMAKE_MAKE_PROGRAM=$ANDROID_NDK/prebuilt/${ANDROID_NDK_HOST}/bin/make #这个用不着，只有在windows命令行下才有用 
+        RABBIT_CMAKE_MAKE_PROGRAM=$ANDROID_NDK/prebuilt/${ANDROID_NDK_HOST}/bin/make #这个用不着，只有在windows命令行下才有用 
         RABBITIM_GENERATORS="Unix Makefiles"
         ;;
     Linux* | Unix*)
