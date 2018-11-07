@@ -10,8 +10,6 @@ platform:
   - x86
 
 environment:
-  APP_VERSION: "v0.0.4"
-
   matrix:
   - BUILD_TARGERT: android
     RABBIT_TOOLCHAIN_VERSION: 5.3
@@ -45,6 +43,9 @@ init:
   - if "%RABBIT_ARCH%"=="" set RABBIT_ARCH=%platform%
 
 install:
+  - for /f "delims=" %%i in ('git describe --tags') do (set BUILD_VERSION=%%i)
+  - if "%BUILD_VERSION%" == "" for /f "delims=" %%i in ('git rev-parse HEAD') do (set BUILD_VERSION=%%i) 
+  - echo BUILD_VERSION=%BUILD_VERSION%
   - if "%BUILD_TARGERT%"=="windows_msvc" (if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %PLATFORM%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%))
   - set RABBIT_BUILD_PREFIX="%APPVEYOR_BUILD_FOLDER%\install"
   - if NOT "%QT_ROOT%"=="" if "%BUILD_TARGERT%"=="windows_msvc" if "%platform%"=="X64" (set QT_ROOT=%QT_ROOT%_64) else if "%platform%"=="x64" ( set QT_ROOT=%QT_ROOT%_64)
@@ -59,7 +60,7 @@ build_script:
 
 artifacts:
   - path: install
-    name: TransformCoordinate_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(platform)_$(CONFIGURATION)_$(APP_VERSION)
+    name: TransformCoordinate_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(platform)_$(CONFIGURATION)_$(BUILD_VERSION)
     type: zip
 
 test: off

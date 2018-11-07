@@ -26,7 +26,6 @@ sed -i "s/^\SET(BUILD_VERSION.*/\SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_D
 
 APPVERYOR_VERSION="version: '${VERSION}.{build}'"
 sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
-sed -i "s/^  APP_VERSION:.*/  APP_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
 
 #git tag -a v${VERSION} -m "Release v${VERSION}"
 #git push origin :refs/tags/v${VERSION}
