@@ -19,7 +19,7 @@ fi
 
 VERSION=`git describe --tags`
 if [ -z "$VERSION" ]; then
-    VERSION=` git rev-parse HEAD`
+    VERSION=`git rev-parse --short HEAD`
 fi
 
 sed -i "s/^\SET(BUILD_VERSION.*/\SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
