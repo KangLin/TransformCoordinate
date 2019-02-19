@@ -11,8 +11,8 @@
         <file alias="Open">png/Open.png</file>
         <file alias="OpenFile">png/open-file.png</file>
         <file alias="Save">png/Save.png</file>
-        <file alias="WeiXinPay">png/weixinpay.png</file>
-        <file alias="ZhiFuBao">png/zhifubao.png</file>
+        <file alias="Contribute">png/Contribute.png</file>
+        <file alias="Contribute20">png/Contribute20.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

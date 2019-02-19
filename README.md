@@ -46,8 +46,7 @@ https://github.com/KangLin/TransformCoordinate/releases/latest
 ------------
 
 ### 捐赠:  
-[![用微信扫描二维码进行捐赠](Resource/png/weixinpay.png)](Resource/png/weixinpay.png)
-[![用支付宝扫描二维码进行捐赠](Resource/png/zhifubao.png)](Resource/png/zhifubao.png)
+[![扫描二维码进行捐赠](Resource/png/weixinpay.png)](Resource/png/Contribute.png)
 
 ------------
 
