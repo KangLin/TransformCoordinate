@@ -50,6 +50,7 @@ IF(MSVC)
     IF(WIN32_USE_MP)
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
     ENDIF(WIN32_USE_MP)
+    add_compile_options(/utf-8)
 ENDIF(MSVC)
 
 include(CMakePackageConfigHelpers)
