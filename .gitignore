@@ -1,3 +1,9 @@
+.debhelper/
+*.substvars
+debian/debhelper-build-stamp
+obj*/
+*.log
+debian/transformcoordinate/
 build_windows*/
 build/
 build_unix/

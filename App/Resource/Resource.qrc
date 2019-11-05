@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file alias="App">png/TransformCoordinate.png</file>
+    </qresource>
+</RCC>

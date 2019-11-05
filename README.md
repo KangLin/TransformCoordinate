@@ -26,8 +26,37 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
 
 ------------
 
-### 下载：
-https://github.com/KangLin/TransformCoordinate/releases/latest
+### [下载安装包](https://github.com/KangLin/TransformCoordinate /releases/latest)
+
+- linux
+    - [TransformCoordinate_v0.2.6.tar.gz](https://github.com/KangLin/TransformCoordinate/releases/download/v0.2.6/TransformCoordinate_v0.2.6.tar.gz)  
+      AppImage格式的执行程序，可直接运行在linux系统，详见：https://appimage.org/  
+      使用:    
+      1. 解压。复制TransformCoordinate_v0.2.6.tar.gz到安装目录，然后解压：
+
+                mkdir TransformCoordinate
+                cd TransformCoordinate
+                cp $DOWNLOAD/TransformCoordinate_v0.2.6.tar.gz .
+                tar xvfz TransformCoordinate_v0.2.6.tar.gz
+
+      2. 安装
+        
+                ./install.sh install
+        
+      3. 如果需要，卸载
+        
+                ./install.sh remove
+
+- ubuntu
+    - [TransformCoordinate_0.2.6_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v0.2.6/TransformCoordinate_0.2.6_amd64.deb)  
+  deb 安装包,可用于　Ubuntu
+  
+- windows
+    - [TransformCoordinate-Setup-v0.2.6.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.2.6/TransformCoordinate-Setup-v0.2.6.exe)  
+  Windows安装包，支持 Windows xp 以上系统 
+
+- android
+    + [android-build-debug.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.2.6/android-build-debug.apk)
 
 ------------
 
@@ -46,7 +75,9 @@ https://github.com/KangLin/TransformCoordinate/releases/latest
 ------------
 
 ### 捐赠:  
-[![扫描二维码进行捐赠](Resource/png/weixinpay.png)](Resource/png/Contribute.png)
+本软件如果对你有用，或者你喜欢它，请你捐赠，支持作者。谢谢！
+
+![捐赠](https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png "捐赠")
 
 ------------
 

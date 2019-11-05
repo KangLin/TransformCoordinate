@@ -1,95 +1,63 @@
 sudo: required
-dist: trusty
-
+dist: xenial
 language: cpp
+
+cache:
+  - apt
+  - directories:
 
 compiler:
   - g++
-  - clang
 
 os:
   - unix
-  - osx
 
 addons:
   ssh_known_hosts:
     - github.com
+    - frs.sourceforge.net
 
-matrix:
-  include:
-    # works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env:
-        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-        - QT_VERSION=5.11.1 QT_VERSION_DIR=5.11 "
-         
-    # works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+env:
+  global:
+    - SOURCE_DIR=$TRAVIS_BUILD_DIR
+    - RABBITIM_USE_REPOSITORIES="TRUE"
+    - QMAKE=qmake
 
-    # works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+  matrix:
+    - BUILD_TARGERT="unix" QT_VERSION_DIR=512 QT_VERSION=5.12.3 BUILD_DOWNLOAD=FALSE GENERATORS="Unix Makefiles"
+    - BUILD_TARGERT="unix" QT_VERSION_DIR=511 QT_VERSION=5.11.3 BUILD_DOWNLOAD=FALSE STATIC=ON GENERATORS="Unix Makefiles"
 
-    # works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - BUILD_TARGERT="unix" BUILD_ARCH="unix" QT_VERSION_DIR=5.12 QT_VERSION=5.12.5 BUILD_DOWNLOAD=TRUE GENERATORS="Unix Makefiles"
 
-    - os: osx
-      osx_image: xcode8
-      env:
-        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+    - BUILD_TARGERT="android" BUILD_ARCH="armeabi-v7a" ANDROID_ARM_NEON=ON QT_VERSION_DIR=5.13 QT_VERSION=5.13.2 ANDROID_API=android-24 BUILD_DOWNLOAD=TRUE GENERATORS="Unix Makefiles"
+    - BUILD_TARGERT="android" BUILD_ARCH="armeabi-v7a" ANDROID_ARM_NEON=ON QT_VERSION_DIR=5.12 QT_VERSION=5.12.5 ANDROID_API=android-24 BUILD_DOWNLOAD=TRUE GENERATORS="Unix Makefiles"
+    - BUILD_TARGERT="android" BUILD_ARCH="x86" QT_VERSION_DIR=5.12 QT_VERSION=5.12.5 ANDROID_API=android-24 BUILD_DOWNLOAD=TRUE GENERATORS="Unix Makefiles"
 
 before_install:
-
+  - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
+  - sudo apt-get install -y -qq xvfb xpra
+  - sudo Xvfb :99 -ac &
+  - export DISPLAY=:99.0
+  - mkdir ${SOURCE_DIR}/Tools
+  - export VERSION="v0.2.6"
+  
 install:
+  - cd ${SOURCE_DIR}
+  - git clone https://github.com/KangLin/RabbitCommon.git
+  - export RabbitCommon_DIR="`pwd`/RabbitCommon"
+  - bash ci/build-install-tools.sh > /dev/null
+#  - |
+#    if [ "$BUILD_TARGERT"="unix" -a -z "$RABBIT_ARCH" ]; then
+#        source /opt/qt511/bin/qt511-env.sh
+#    fi
 
 before_script:
-  - eval "${MATRIX_EVAL}"
-  - bash ci/build-install-tools.sh
+  - cd ${SOURCE_DIR}
 
-script: 
- - bash ci/build.sh
+script:
+  - bash ${SOURCE_DIR}/ci/build.sh ${SOURCE_DIR}
 
 notifications:
   email: kl222@126.com
   on_success: never  # [always|never|change]
   on_failure: always
-
-deploy:
-  provider: releases
-  api_key: 177ce637a8ec54e66ea8693092caf35059cf95d7
-  file: 
-    - ./build_android/android-build/bin/QtApp-debug.apk
-  skip_cleanup: true
-  on:
-    condition: $TRAVIS_OS_NAME = android
-    repo: KangLin/TransformCoordinate
-    tags: true
