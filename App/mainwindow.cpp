@@ -19,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    ui->setupUi(this);    
+
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
-
-    ui->setupUi(this);    
     
     QStringList lstCoor;
     lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";

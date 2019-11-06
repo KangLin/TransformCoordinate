@@ -3,7 +3,7 @@
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "TransformCoordinate"
 !define PRODUCT_APP_NAME "TransformCoordinateApp"
-!define PRODUCT_VERSION "v0.2.6"
+!define PRODUCT_VERSION "v0.0.6"
 !define PRODUCT_PUBLISHER "KangLin studio"
 !define PRODUCT_WEB_SITE "https://github.com/KangLin/${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\${PRODUCT_NAME}.exe"
@@ -22,8 +22,8 @@ SetCompressor lzma
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "install\TransformCoordinate.png"
-!define MUI_UNICON "install\TransformCoordinate.png"
+!define MUI_ICON "install\TransformCoordinate.ico"
+!define MUI_UNICON "install\TransformCoordinate.ico"
 
 ; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"

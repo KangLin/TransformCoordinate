@@ -1,5 +1,5 @@
 #TODO: Change version
-version: 'v0.0.2.{build}'
+version: 'v0.0..{build}'
 
 environment:
   matrix: 
@@ -123,11 +123,11 @@ build_script:
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build.sh
 
 artifacts:
-  - path: TransformCoordinate-Setup-*.exe
+  - path: build_$(BUILD_TARGERT)\TransformCoordinate-Setup-*.exe
     name: TransformCoordinate_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     type: zip
     
-  - path: update_windows.xml
+  - path: build_$(BUILD_TARGERT)\update_windows.xml
 
 test: off
 
@@ -138,10 +138,10 @@ deploy:
     description: 'Release TransformCoordinate $(APPVEYOR_REPO_TAG_NAME) on windows'
     #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
     auth_token:
-      secure: xgIFN2iAfgj1gsWabdHrmFXvj0rce/ZWtKUwm3aDUNfLGu+kO/q94MYD8a46AbDL
+      secure: g7JyppMs3R6LHgau/3Ud1X0Mmj4sXkeo75Jy5saIwp75E+f5vFbJPUTAm0VXULKh
     on:
       BUILD_TARGERT: windows_msvc
-      TOOLCHAIN_VERSION: 14
+      TOOLCHAIN_VERSION: 12
       QT_VERSION: 5.6.3
       BUILD_ARCH: x86
       appveyor_repo_tag: true        # deploy on tag push only

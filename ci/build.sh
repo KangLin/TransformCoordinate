@@ -91,7 +91,7 @@ case ${BUILD_TARGERT} in
         ;;
 esac
 
-export VERSION="v0.2.6"
+export VERSION="v0.0.6"
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
     if [ "${BUILD_DOWNLOAD}" != "TRUE" ]; then
@@ -136,7 +136,6 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
         -f "`pwd`/update_linux.xml" \
         -m "v0.0.6" \
         --md5 ${MD5}
-    #cat update_linux.xml
     
     MD5=`md5sum TransformCoordinate_${VERSION}.tar.gz|awk '{print $1}'`
     echo "TransformCoordinate_${VERSION}.tar.gz MD5: ${MD5}"
@@ -146,11 +145,9 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
         --md5 ${MD5} \
         --url "https://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/TransformCoordinate_${VERSION}.tar.gz"
 
-    #cat update_linux_appimage.xml
-    
-    if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION_DIR}" = "512" ]; then
+    if [ "${QT_VERSION}" = "5.12.3" -a -n "$TRAVIS_TAG" ]; then
         export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}"
-        #export UPLOADTOOL_PR_BODY=
+         #export UPLOADTOOL_PR_BODY=
         wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
         chmod u+x upload.sh
         ./upload.sh $SOURCE_DIR/../transformcoordinate_*_amd64.deb 
@@ -197,50 +194,25 @@ if [ -n "$GENERATORS" ]; then
     if [ "${BUILD_TARGERT}" = "android" ]; then
         cmake --build . --target APK  
     fi
-else
-    if [ "ON" = "${STATIC}" ]; then
-        CONFIG_PARA="CONFIG*=static"
-    fi
-    if [ "${BUILD_TARGERT}" = "android" ]; then
-        ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
-            "CONFIG+=release" ${CONFIG_PARA}
 
-        $MAKE
-        $MAKE install INSTALL_ROOT=`pwd`/android-build
-        ${QT_ROOT}/bin/androiddeployqt \
-                       --input `pwd`/App/android-libTransformCoordinateApp.so-deployment-settings.json \
-                       --output `pwd`/android-build \
-                       --android-platform ${ANDROID_API} \
-                       --gradle --verbose
-                       # --jdk ${JAVA_HOME}
-        if [ "$TRAVIS_TAG" != "" -a "$BUILD_ARCH"="armeabi-v7a" -a "$QT_VERSION_DIR"="5.12" ]; then
-        
-            cp $SOURCE_DIR/Update/update_android.xml .
-	        APK_FILE=`find . -name "android-build-debug.apk"`
-            MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
-            echo "MD5:${MD5}"
-            sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" update_android.xml
-            sed -i "s/<INFO>.*</<INFO>Release TransformCoordinate-${VERSION}</g" update_android.xml
-            sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
-            sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
-            sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
-            sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/android-build-debug.apk<:g" update_android.xml
+    if [ "$TRAVIS_TAG" != "" -a "$BUILD_ARCH"="armeabi-v7a" -a "$QT_VERSION"="5.12.5" ]; then
+        cp $SOURCE_DIR/Update/update_android.xml .
+	APK_FILE=`find . -name "android-build-debug.apk"`
+        MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
+        echo "MD5:${MD5}"
+        sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" update_android.xml
+        sed -i "s/<INFO>.*</<INFO>Release TransformCoordinate-${VERSION}</g" update_android.xml
+        sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
+        sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
+        sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
+        sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/android-build-debug.apk<:g" update_android.xml
 
-            export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}"
-            #export UPLOADTOOL_PR_BODY=
-            wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-            chmod u+x upload.sh
-            ./upload.sh ${APK_FILE} 
-            ./upload.sh update_android.xml
-        fi
-    else
-        ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
-                "CONFIG+=release" ${CONFIG_PARA}\
-                PREFIX=`pwd`/install
-                
-        $MAKE
-        echo "$MAKE install ...."
-        $MAKE install
+        export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}"
+        #export UPLOADTOOL_PR_BODY=
+        wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+        chmod u+x upload.sh
+        ./upload.sh ${APK_FILE} 
+        ./upload.sh update_android.xml
     fi
 fi
 

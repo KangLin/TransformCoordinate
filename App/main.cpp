@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QApplication a(argc, argv);
-    a.setApplicationName("TransformCoordinateApp");
+    a.setApplicationName("TransformCoordinate");
     
     QTranslator translator;
     translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
@@ -29,7 +29,11 @@ int main(int argc, char *argv[])
         return 0; 
 #endif
     MainWindow w;
+#if defined(Q_OS_ANDROID)
+    w.showMaximized();
+#else    
     w.show();
+#endif
 
     return a.exec();
 }

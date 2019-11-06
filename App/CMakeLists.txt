@@ -96,7 +96,8 @@ if(UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.png DESTINATION "share/pixmaps")
 endif()
 IF(WIN32)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.png DESTINATION .)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico DESTINATION .)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi DESTINATION "${CMAKE_BINARY_DIR}")
 ENDIF()
 
 # Install other files
