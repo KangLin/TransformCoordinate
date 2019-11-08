@@ -171,6 +171,7 @@ void MainWindow::on_actionAbout_A_triggered()
     if(about.isHidden())
 #if defined (Q_OS_ANDROID)
         about.showMaximized();
+        about.exec();
 #endif
         about.exec();
 #endif

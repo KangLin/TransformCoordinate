@@ -9,7 +9,7 @@
 #
 #      例子：
 #      set(TRANSLATIONS_NAME ${PROJECT_NAME})
-#      include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake) 
+#      include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
 #      include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
 #      add_executable(${PROJECT_NAME} ${TRANSLATIONS_RESOURCE_FILES})
 #      add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
@@ -28,7 +28,7 @@
 #           |- bin
 #           |   |- App.exe
 #           |- lib
-#           |      
+#           |
 #           |- translations
 #               |- ${TRANSLATIONS_NAME}_zh_CN.qm
 #               |- ${TRANSLATIONS_NAME}_zh_TW.qm

@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     
     QTranslator translator;
     translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                    + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
+                    + "/" + "TransformCoordinateApp_" + QLocale::system().name() + ".qm");
     qApp->installTranslator(&translator);
 
     a.setApplicationDisplayName(QObject::tr("Transform coordinate"));
