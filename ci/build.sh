@@ -91,7 +91,7 @@ case ${BUILD_TARGERT} in
         ;;
 esac
 
-export VERSION="v0.0.6"
+export VERSION="v0.0.7"
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
     if [ "${BUILD_DOWNLOAD}" != "TRUE" ]; then
@@ -174,9 +174,7 @@ if [ -n "$GENERATORS" ]; then
             -DQt5Gui_DIR=${QT_ROOT}/lib/cmake/Qt5Gui \
             -DQt5Widgets_DIR=${QT_ROOT}/lib/cmake/Qt5Widgets \
             -DQt5Xml_DIR=${QT_ROOT}/lib/cmake/Qt5Xml \
-            -DQt5Sql_DIR=${QT_ROOT}/lib/cmake/Qt5Sql \
             -DQt5Network_DIR=${QT_ROOT}/lib/cmake/Qt5Network \
-            -DQt5Multimedia_DIR=${QT_ROOT}/lib/cmake/Qt5Multimedia \
             -DQt5LinguistTools_DIR=${QT_ROOT}/lib/cmake/Qt5LinguistTools \
             -DQt5AndroidExtras_DIR=${QT_ROOT}/lib/cmake/Qt5AndroidExtras \
             -DANDROID_PLATFORM=${ANDROID_API} \
@@ -192,7 +190,7 @@ if [ -n "$GENERATORS" ]; then
     fi
     cmake --build . --target install --config Release -- ${RABBIT_MAKE_JOB_PARA}
     if [ "${BUILD_TARGERT}" = "android" ]; then
-        cmake --build . --target APK  
+        cmake --build . --config Release --target APK  
     fi
 
     if [ "$TRAVIS_TAG" != "" -a "$BUILD_ARCH"="armeabi-v7a" -a "$QT_VERSION"="5.12.5" ]; then
