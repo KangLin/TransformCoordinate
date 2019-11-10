@@ -9,10 +9,12 @@
 #include <QDir>
 #include <QCursor>
 #include <QLocale>
+#include <QStatusBar>
 
 #ifdef RABBITCOMMON
     #include "DlgAbout/DlgAbout.h"
     #include "FrmUpdater/FrmUpdater.h"
+    #include "RabbitCommonDir.h"
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -44,11 +46,14 @@ void MainWindow::on_pbConversion_clicked()
     y0 = ui->leSrcLat->text().toDouble();
     
     int nRet = TransformCoordinate(x0, y0,
-                          x1, y1, 
-                          (_COORDINATE)ui->cbSrcCoor->currentIndex(),
-                          (_COORDINATE)ui->cbDstCoor->currentIndex());
+                      x1, y1, 
+                      static_cast<_COORDINATE>(ui->cbSrcCoor->currentIndex()),
+                      static_cast<_COORDINATE>(ui->cbDstCoor->currentIndex()));
     if(nRet)
+    {
+        SetStatusInfo(tr("Conver fail"), Qt::red);
         return;
+    }
     
     ui->leDstLong->setText(QString::number(x1));
     ui->leDstLat->setText(QString::number(y1));
@@ -57,9 +62,10 @@ void MainWindow::on_pbConversion_clicked()
 void MainWindow::on_pbBrowsSrcFile_clicked()
 {
     QString szExt = tr("GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)");
-    QString szFile = QFileDialog::getOpenFileName(this, tr("Open source file"), 
-                                                  QString(),
-                                                  szExt);
+    QString szFile = RabbitCommon::CDir::GetOpenFileName(this, 
+                                        tr("Open source file"),
+                                        QString(), szExt);
+    if(szFile.isEmpty()) return;
     ui->leSrcFile->setText(szFile);
 }
 
@@ -69,9 +75,10 @@ void MainWindow::on_pbBrowsDstFile_clicked()
 #ifdef BUILD_LIBKML
 	szExt += tr("KML file(*.kml)");
 #endif
-    QString szFile = QFileDialog::getSaveFileName(this, tr("Open Destination file"),
-                                                  QString(),
-                                                  szExt);
+    QString szFile = RabbitCommon::CDir::GetOpenFileName(this, 
+                                  tr("Open destination file"),
+                                  QString(), szExt);
+    if(szFile.isEmpty()) return;
     ui->leDstFile->setText(szFile);
 }
 
@@ -106,22 +113,19 @@ void MainWindow::on_leSrcFile_textChanged(const QString &text)
 
 void MainWindow::on_pbSrcDir_clicked()
 {  
-    QFileDialog df(this, tr("Open source directory"));
-    df.setFileMode(QFileDialog::DirectoryOnly);
-    df.setOptions(QFileDialog::ShowDirsOnly);
-    if(df.exec() == QDialog::Rejected)
-        return;
-    ui->leSrcDir->setText(df.directory().absolutePath());
+    QString szDir = RabbitCommon::CDir::GetOpenDirectory(this,
+                                 tr("Open source directory"));
+    if(szDir.isEmpty()) return;
+    ui->leSrcDir->setText(szDir);
 }
 
 void MainWindow::on_pbDstDir_clicked()
 {
     QFileDialog df(this, tr("Open destination directory"));
-    df.setFileMode(QFileDialog::DirectoryOnly);
-    df.setOptions(QFileDialog::ShowDirsOnly);
-    if(df.exec() == QDialog::Rejected)
-        return;
-    ui->leDstDir->setText(df.directory().absolutePath());
+    QString szDir = RabbitCommon::CDir::GetOpenDirectory(this,
+                            tr("Open destination directory"));
+    if(szDir.isEmpty()) return;
+    ui->leDstDir->setText(szDir);
 }
 
 void MainWindow::on_leSrcDir_textChanged(const QString &text)
@@ -138,7 +142,7 @@ void MainWindow::on_pbConversionDir_clicked()
     QDir dir;
     if(!dir.exists(szDir))
         dir.mkpath(szDir);
-    this->statusBar()->showMessage(tr("Start transform ......"));
+    SetStatusInfo(tr("Start transform ......"));
     QCursor cursor = this->cursor();
     this->setCursor(Qt::WaitCursor);
     QDir d(ui->leSrcDir->text());
@@ -158,7 +162,7 @@ void MainWindow::on_pbConversionDir_clicked()
         }
     }
     this->setCursor(cursor);
-    this->statusBar()->showMessage(tr("Ready"));
+    SetStatusInfo(tr("Ready"));
     //QMessageBox::information(this, tr("End"), tr("Transform coordinate end"));
 }
 
@@ -188,4 +192,23 @@ void MainWindow::on_actionUpdate_U_triggered()
         m_pfrmUpdater->show();
     #endif
 #endif
+}
+
+int MainWindow::InitStatusBar()
+{
+    this->statusBar()->setVisible(true);
+    SetStatusInfo(tr("Ready"));
+    m_statusInfo.setSizePolicy(QSizePolicy::Policy::Preferred,
+                               QSizePolicy::Policy::Preferred);
+    this->statusBar()->addWidget(&m_statusInfo);
+    return 0;
+}
+
+int MainWindow::SetStatusInfo(QString szText, QColor color)
+{
+    QPalette pe;
+    pe.setColor(QPalette::WindowText, color);
+    m_statusInfo.setPalette(pe);
+    m_statusInfo.setText(szText);
+    return 0;
 }

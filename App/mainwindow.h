@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTranslator>
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,10 @@ private:
     Ui::MainWindow *ui;
     
     QTranslator m_Translator;
+    
+    QLabel m_statusInfo;
+    int InitStatusBar();
+    int SetStatusInfo(QString szText, QColor color = Qt::black);    
 };
 
 #endif // MAINWINDOW_H

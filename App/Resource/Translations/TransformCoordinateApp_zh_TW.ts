@@ -77,68 +77,98 @@
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="287"/>
+        <location filename="../../mainwindow.ui" line="290"/>
+        <location filename="../../mainwindow.ui" line="293"/>
+        <location filename="../../mainwindow.ui" line="296"/>
         <source>Help</source>
         <translation>幫助</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="301"/>
+        <location filename="../../mainwindow.ui" line="310"/>
         <source>About(&amp;A)</source>
         <translation>關於(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="306"/>
+        <location filename="../../mainwindow.ui" line="313"/>
+        <location filename="../../mainwindow.ui" line="316"/>
+        <location filename="../../mainwindow.ui" line="319"/>
+        <location filename="../../mainwindow.ui" line="322"/>
+        <source>About</source>
+        <translation>關於</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.ui" line="327"/>
         <source>Update(&amp;U)</source>
         <translation>更新(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="60"/>
+        <location filename="../../mainwindow.ui" line="330"/>
+        <location filename="../../mainwindow.ui" line="333"/>
+        <location filename="../../mainwindow.ui" line="336"/>
+        <location filename="../../mainwindow.ui" line="339"/>
+        <source>Update</source>
+        <translation>更新</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="66"/>
         <source>Open source file</source>
         <translation>打開源文件</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="59"/>
+        <location filename="../../mainwindow.cpp" line="64"/>
         <source>GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)</source>
         <translation>GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;所有文件(*.*)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="72"/>
         <source>Open Destination file</source>
         <translation>打開目標文件</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="68"/>
+        <location filename="../../mainwindow.cpp" line="54"/>
+        <source>Conver fail</source>
+        <translation>轉換失敗</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="74"/>
         <source>GPX file(*.gpx);;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="70"/>
+        <location filename="../../mainwindow.cpp" line="76"/>
         <source>KML file(*.kml)</source>
         <translation>KML 文件(*.kml)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="81"/>
-        <location filename="../../mainwindow.cpp" line="141"/>
+        <location filename="../../mainwindow.cpp" line="79"/>
+        <source>Open destination file</source>
+        <translation>打開目標文件</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="88"/>
+        <location filename="../../mainwindow.cpp" line="145"/>
         <source>Start transform ......</source>
         <translation>開始轉換……</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="90"/>
-        <location filename="../../mainwindow.cpp" line="161"/>
+        <location filename="../../mainwindow.cpp" line="97"/>
+        <location filename="../../mainwindow.cpp" line="165"/>
+        <location filename="../../mainwindow.cpp" line="200"/>
         <source>Ready</source>
         <translation>預備</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="109"/>
+        <location filename="../../mainwindow.cpp" line="117"/>
         <source>Open source directory</source>
         <translation>打開源目錄</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="119"/>
+        <location filename="../../mainwindow.cpp" line="124"/>
+        <location filename="../../mainwindow.cpp" line="126"/>
         <source>Open destination directory</source>
         <translation>打開目標目錄</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="150"/>
+        <location filename="../../mainwindow.cpp" line="154"/>
         <source>Be transforming </source>
         <translation>正在轉換 </translation>
     </message>
@@ -146,7 +176,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="22"/>
+        <location filename="../../main.cpp" line="29"/>
         <source>Transform coordinate</source>
         <translation>坐標轉換</translation>
     </message>

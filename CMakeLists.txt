@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 project(TransformCoordinate)
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install CACHE PATH FORCE)
-endif()
-
 # 建立要删除的文件
 CONFIGURE_FILE(
     "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
