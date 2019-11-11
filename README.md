@@ -29,15 +29,15 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
 ### [下载安装包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
 - linux
-    - [TransformCoordinate_v0.0.7.tar.gz](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.7/TransformCoordinate_v0.0.7.tar.gz)  
+    - [TransformCoordinate_v0.0.8.tar.gz](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.8/TransformCoordinate_v0.0.8.tar.gz)  
       AppImage格式的执行程序，可直接运行在linux系统，详见：https://appimage.org/  
       使用:    
-      1. 解压。复制TransformCoordinate_v0.0.7.tar.gz到安装目录，然后解压：
+      1. 解压。复制TransformCoordinate_v0.0.8.tar.gz到安装目录，然后解压：
 
                 mkdir TransformCoordinate
                 cd TransformCoordinate
-                cp $DOWNLOAD/TransformCoordinate_v0.0.7.tar.gz .
-                tar xvfz TransformCoordinate_v0.0.7.tar.gz
+                cp $DOWNLOAD/TransformCoordinate_v0.0.8.tar.gz .
+                tar xvfz TransformCoordinate_v0.0.8.tar.gz
 
       2. 安装
         
@@ -48,15 +48,15 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
                 ./install.sh remove
 
 - ubuntu
-    - [transformcoordinate_0.0.7_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.7/transformcoordinate_0.0.7_amd64.deb)  
+    - [transformcoordinate_0.0.8_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.8/transformcoordinate_0.0.8_amd64.deb)  
   deb 安装包,可用于　Ubuntu
   
 - windows
-    - [TransformCoordinate-Setup-v0.0.7.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.7/TransformCoordinate-Setup-v0.0.7.exe)  
+    - [TransformCoordinate-Setup-v0.0.8.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.8/TransformCoordinate-Setup-v0.0.8.exe)  
   Windows安装包，支持 Windows xp 以上系统 
 
 - android
-    + [android-build-debug.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.7/android-build-debug.apk)
+    + [android-build-debug.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.8/android-build-debug.apk)
 
 ------------
 
@@ -158,7 +158,7 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
         cd TransformCoordinate
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+        cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
                  -DCMAKE_BUILD_TYPE=Release \
                  -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
                  -DANDROID_ABI="armeabi-v7a with NEON" \
@@ -174,7 +174,7 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
         cd TransformCoordinate
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+        cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
                  -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release \
                  -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
                  -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe \

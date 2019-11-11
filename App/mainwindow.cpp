@@ -10,6 +10,7 @@
 #include <QCursor>
 #include <QLocale>
 #include <QStatusBar>
+#include <QStandardPaths>
 
 #ifdef RABBITCOMMON
     #include "DlgAbout/DlgAbout.h"
@@ -66,7 +67,9 @@ void MainWindow::on_pbBrowsSrcFile_clicked()
     QString szExt = tr("GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)");
     QString szFile = RabbitCommon::CDir::GetOpenFileName(this, 
                                         tr("Open source file"),
-                                        QString(), szExt);
+                                        QStandardPaths::writableLocation(
+                                            QStandardPaths::DocumentsLocation),
+                                                         szExt);
     if(szFile.isEmpty()) return;
     ui->leSrcFile->setText(szFile);
 }
@@ -79,7 +82,9 @@ void MainWindow::on_pbBrowsDstFile_clicked()
 #endif
     QString szFile = RabbitCommon::CDir::GetOpenFileName(this, 
                                   tr("Open destination file"),
-                                  QString(), szExt);
+                                  QStandardPaths::writableLocation(
+                                       QStandardPaths::DocumentsLocation),
+                                  szExt);
     if(szFile.isEmpty()) return;
     ui->leDstFile->setText(szFile);
 }
@@ -116,7 +121,9 @@ void MainWindow::on_leSrcFile_textChanged(const QString &text)
 void MainWindow::on_pbSrcDir_clicked()
 {  
     QString szDir = RabbitCommon::CDir::GetOpenDirectory(this,
-                                 tr("Open source directory"));
+                                 tr("Open source directory"),
+                                 QStandardPaths::writableLocation(
+                                            QStandardPaths::DocumentsLocation));
     if(szDir.isEmpty()) return;
     ui->leSrcDir->setText(szDir);
 }
@@ -125,7 +132,9 @@ void MainWindow::on_pbDstDir_clicked()
 {
     QFileDialog df(this, tr("Open destination directory"));
     QString szDir = RabbitCommon::CDir::GetOpenDirectory(this,
-                            tr("Open destination directory"));
+                            tr("Open destination directory"),
+                            QStandardPaths::writableLocation(
+                                            QStandardPaths::DocumentsLocation));
     if(szDir.isEmpty()) return;
     ui->leDstDir->setText(szDir);
 }
