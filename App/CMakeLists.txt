@@ -37,9 +37,6 @@ SET(RCC_FILES
     ${TRANSLATIONS_RESOURCE_FILES}
     Resource/Resource.qrc
     )
-if(ANDROID)
-    SET(RCC_FILES ${RCC_FILES} ${CMAKE_CURRENT_BINARY_DIR}/translations_${PROJECT_NAME}.qrc)
-endif()
 if(WIN32)
     SET(RCC_FILES
         ${RCC_FILES}

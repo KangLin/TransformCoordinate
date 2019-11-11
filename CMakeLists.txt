@@ -16,7 +16,7 @@ if(ANDROID)
     set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/android-build CACHE STRING "Install path prefix" FORCE)
 endif()
 
-SET(BUILD_VERSION "v0.0.8")
+SET(BUILD_VERSION "v0.0.7")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
