@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);    
 
+    InitStatusBar();
+    
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
     
@@ -198,7 +200,7 @@ int MainWindow::InitStatusBar()
 {
     this->statusBar()->setVisible(true);
     SetStatusInfo(tr("Ready"));
-    m_statusInfo.setSizePolicy(QSizePolicy::Policy::Preferred,
+    m_statusInfo.setSizePolicy(QSizePolicy::Policy::Expanding,
                                QSizePolicy::Policy::Preferred);
     this->statusBar()->addWidget(&m_statusInfo);
     return 0;
