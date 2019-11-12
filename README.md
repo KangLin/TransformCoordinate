@@ -167,7 +167,7 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
                  -DRabbitCommon_DIR= \
                  [其它可选 CMake 配置参数]
         cmake --build . --config Release --target install
-	    cmake --build . --config Release --target APK
+        cmake --build . --config Release --target APK
 
   - 主机是 windows
 
@@ -184,7 +184,7 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
                  -DRabbitCommon_DIR= \
                  [其它可选 CMake 配置参数]
         cmake --build . --config Release --target install
-	    cmake --build . --config Release --target APK
+        cmake --build . --config Release --target APK
 
   - CMake for android 参数说明：https://developer.android.google.cn/ndk/guides/cmake
     + ANDROID_ABI: 可取下列值：
