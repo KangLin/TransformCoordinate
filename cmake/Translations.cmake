@@ -61,8 +61,11 @@ if(NOT TRANSLATIONS_NAME)
 endif()
 message("TRANSLATIONS_NAME:${TRANSLATIONS_NAME}")
 SET(TS_FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations/${TRANSLATIONS_NAME}_zh.ts
     ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations/${TRANSLATIONS_NAME}_zh_CN.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations/${TRANSLATIONS_NAME}_zh_rCN.ts
     ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations/${TRANSLATIONS_NAME}_zh_TW.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations/${TRANSLATIONS_NAME}_zh_rTW.ts
     )
 
 OPTION(OPTION_TRANSLATIONS "Refresh translations on compile" ON)
@@ -72,7 +75,7 @@ IF(OPTION_TRANSLATIONS)
     IF(NOT Qt5_LRELEASE_EXECUTABLE)
         MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
-        #qt5_create_translation(QM_FILES ${SOURCES_FILES} ${SOURCE_UI_FILES} ${TS_FILES}) #生成 .ts 文件与 .qm 文件，仅当没有TS文件的时候用。
+	    #qt5_create_translation(QM_FILES ${SOURCES_FILES} ${SOURCE_UI_FILES} ${TS_FILES}) #生成 .ts 文件与 .qm 文件，仅当没有TS文件的时候用。
         qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源 .qm 文件
         
         ADD_CUSTOM_TARGET(translations_${TRANSLATIONS_NAME} ALL DEPENDS ${QM_FILES})
