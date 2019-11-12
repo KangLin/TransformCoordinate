@@ -1,3 +1,7 @@
+- v0.0.8
+  + Modify translation
+  + Modify ci
+
 - v0.0.7
   + Modify translation
   + Modify open file
