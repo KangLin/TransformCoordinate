@@ -33,7 +33,7 @@ if [ "$BUILD_TARGERT" = "android" ]; then
 fi
 
 if [ "${BUILD_TARGERT}" = "unix" ]; then
-    if [ "$BUILD_DOWNLOAD" = "TRUE" ]; then
+    if [ "$DOWNLOAD_QT" = "TRUE" ]; then
         QT_DIR=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}
         export QT_ROOT=${QT_DIR}/${QT_VERSION}/gcc_64
     else
@@ -101,7 +101,7 @@ esac
 export VERSION="v0.0.7"
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
-    if [ "${BUILD_DOWNLOAD}" != "TRUE" ]; then
+    if [ "${DOWNLOAD_QT}" != "TRUE" ]; then
         sed -i "s/export QT_VERSION_DIR=.*/export QT_VERSION_DIR=${QT_VERSION_DIR}/g" ${SOURCE_DIR}/debian/postinst
         sed -i "s/export QT_VERSION=.*/export QT_VERSION=${QT_VERSION}/g" ${SOURCE_DIR}/debian/preinst
         cat ${SOURCE_DIR}/debian/postinst
@@ -198,27 +198,27 @@ if [ -n "$GENERATORS" ]; then
     cmake --build . --target install --config Release -- ${RABBIT_MAKE_JOB_PARA}
     if [ "${BUILD_TARGERT}" = "android" ]; then
         cmake --build . --config Release --target APK  
-    fi
+        APK_FILE=`find . -name "android-build-debug.apk"`
+        cp ${APK_FILE} $SOURCE_DIR        
 
-    APK_FILE=`find . -name "android-build-debug.apk"`
-    cp ${APK_FILE} $SOURCE_DIR
-    if [ "$TRAVIS_TAG" != "" -a "$BUILD_ARCH"="armeabi-v7a" -a "$QT_VERSION"="5.12.5" ]; then
-        cp $SOURCE_DIR/Update/update_android.xml .
-        MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
-        echo "MD5:${MD5}"
-        sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" update_android.xml
-        sed -i "s/<INFO>.*</<INFO>Release TransformCoordinate-${VERSION}</g" update_android.xml
-        sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
-        sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
-        sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
-        sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/android-build-debug.apk<:g" update_android.xml
-
-        export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}"
-        #export UPLOADTOOL_PR_BODY=
-        wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-        chmod u+x upload.sh
-        ./upload.sh ${APK_FILE} 
-        ./upload.sh update_android.xml
+        if [ "$TRAVIS_TAG" != "" -a "$BUILD_ARCH"="armeabi-v7a" -a "$QT_VERSION"="5.12.5" ]; then
+            cp $SOURCE_DIR/Update/update_android.xml .
+            MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
+            echo "MD5:${MD5}"
+            sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" update_android.xml
+            sed -i "s/<INFO>.*</<INFO>Release TransformCoordinate-${VERSION}</g" update_android.xml
+            sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
+            sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
+            sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
+            sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/android-build-debug.apk<:g" update_android.xml
+    
+            export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}"
+            #export UPLOADTOOL_PR_BODY=
+            wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+            chmod u+x upload.sh
+            ./upload.sh ${APK_FILE} 
+            ./upload.sh update_android.xml
+        fi
     fi
 fi
 
