@@ -112,6 +112,12 @@ if(BUILD_APP)
         message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
     endif()
     add_subdirectory(App)
+    
+    add_custom_target(install-runtime
+      COMMAND
+         "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
+         -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
+    )
 endif(BUILD_APP)
 
 message("Build app:${BUILD_APP}")

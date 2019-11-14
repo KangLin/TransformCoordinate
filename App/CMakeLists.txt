@@ -82,25 +82,37 @@ if(ANDROID)
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}
             RUNTIME DESTINATION "libs/${ANDROID_ABI}"
-            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                COMPONENT Runtime
             LIBRARY DESTINATION "libs/${ANDROID_ABI}"
+                COMPONENT Runtime
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
             )
 else()
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}
             RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                COMPONENT Runtime
             LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                COMPONENT Runtime
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
             )
 endif()
 
 if(UNIX)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/debian/TransformCoordinate.desktop DESTINATION "share/applications")
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.png DESTINATION "share/pixmaps")
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/debian/TransformCoordinate.desktop
+        DESTINATION "share/applications"
+        COMPONENT Runtime)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.png
+        DESTINATION "share/pixmaps"
+        COMPONENT Runtime)
 endif()
 IF(WIN32)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico DESTINATION .)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi DESTINATION "${CMAKE_BINARY_DIR}")
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico
+        DESTINATION .
+        COMPONENT Runtime)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi
+        DESTINATION "${CMAKE_BINARY_DIR}"
+        COMPONENT Runtime)
 ENDIF()
 
 # Install other files
@@ -110,9 +122,9 @@ set(OTHER_FILES ${CMAKE_SOURCE_DIR}/License.md
     ${CMAKE_SOURCE_DIR}/Authors_zh_CN.md
     ${CMAKE_SOURCE_DIR}/ChangeLog_zh_CN.md)
 if(ANDROID)
-    INSTALL(FILES ${OTHER_FILES} DESTINATION "assets")
+    INSTALL(FILES ${OTHER_FILES} DESTINATION "assets" COMPONENT Runtime)
 else()
-    INSTALL(FILES ${OTHER_FILES} DESTINATION ".")
+    INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
 endif()
 
 IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32)
@@ -131,7 +143,9 @@ IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32)
         --verbose 7
         "$<TARGET_FILE:${PROJECT_NAME}>"
         )
-    INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PROJECT_NAME}>/" DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PROJECT_NAME}>/"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        COMPONENT Runtime)
 ENDIF()
 
 IF(ANDROID)
