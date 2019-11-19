@@ -1,6 +1,7 @@
 - v0.0.8
   + Modify translation
   + Modify ci
+  + Add install runtime
 
 - v0.0.7
   + Modify translation
