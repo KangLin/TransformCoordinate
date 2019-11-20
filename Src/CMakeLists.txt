@@ -43,8 +43,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${INSTALLHEADER_FILES}"  # Install head files
     VERSION ${BUILD_VERSION})
 
+# Install target
 if(ANDROID)
-    # Install target
     INSTALL(TARGETS ${PROJECT_NAME}
             EXPORT ${PROJECT_NAME}Config
             RUNTIME DESTINATION "libs/${ANDROID_ABI}"
@@ -55,13 +55,23 @@ if(ANDROID)
             PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/TransformCoordinate
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
             )
-else()
-    # Install target
+elseif(WIN32)
     INSTALL(TARGETS ${PROJECT_NAME}
             EXPORT ${PROJECT_NAME}Config
             RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
                 COMPONENT Runtime
             LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                COMPONENT Runtime
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/TransformCoordinate
+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+else()
+    INSTALL(TARGETS ${PROJECT_NAME}
+            EXPORT ${PROJECT_NAME}Config
+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                COMPONENT Runtime
+            LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
                 COMPONENT Runtime
             ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
             PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/TransformCoordinate
