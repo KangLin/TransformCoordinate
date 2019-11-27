@@ -129,26 +129,28 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     # Create appimage install package
     #cp ../TransformCoordinate-${VERSION}-x86_64.AppImage .
     cp $SOURCE_DIR/Install/install.sh .
+    cp $RabbitCommon_DIR/Install/install1.sh .
     ln -s TransformCoordinate-${VERSION}-x86_64.AppImage TransformCoordinate-x86_64.AppImage
     tar -czf TransformCoordinate_${VERSION}.tar.gz \
         TransformCoordinate-${VERSION}-x86_64.AppImage \
         TransformCoordinate-x86_64.AppImage \
         share \
-        install.sh
+        install.sh \
+        install1.sh
 
     # Create update.xml
     MD5=`md5sum $SOURCE_DIR/../transformcoordinate_*_amd64.deb|awk '{print $1}'`
     echo "deb MD5:${MD5}"
     ./bin/TransformCoordinateApp \
         -f "`pwd`/update_linux.xml" \
-        -m "v0.0.6" \
+        -m "v0.0.9" \
         --md5 ${MD5}
     
     MD5=`md5sum TransformCoordinate_${VERSION}.tar.gz|awk '{print $1}'`
     echo "TransformCoordinate_${VERSION}.tar.gz MD5: ${MD5}"
     ./TransformCoordinate-x86_64.AppImage \
         -f "`pwd`/update_linux_appimage.xml" \
-        -m "v0.0.6" \
+        -m "v0.0.9" \
         --md5 ${MD5} \
         --url "https://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/TransformCoordinate_${VERSION}.tar.gz"
 
@@ -235,8 +237,6 @@ if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
         "/C/Program Files (x86)/NSIS/makensis.exe" "Install.nsi"
         MD5=`md5sum TransformCoordinate-Setup-*.exe|awk '{print $1}'`
         echo "MD5:${MD5}"
-        install/bin/TransformCoordinateApp.exe -f "`pwd`/update_windows.xml" --md5 ${MD5} -m "v0.2.6"
-        
-        cat update_windows.xml
+        install/bin/TransformCoordinateApp.exe -f "`pwd`/update_windows.xml" --md5 ${MD5} -m "v0.0.9"
     fi
 fi
