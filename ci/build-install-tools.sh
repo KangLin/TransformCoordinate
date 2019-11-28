@@ -9,8 +9,8 @@ TOOLS_DIR=${SOURCE_DIR}/Tools
 function function_install_yasm()
 {
     #安装 yasm
-    mkdir -p ${SOURCE_DIR}/Tools/src
-    cd ${SOURCE_DIR}/Tools/src
+    mkdir -p ${TOOLS_DIR}/src
+    cd ${TOOLS_DIR}/src
     wget -c -nv http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
     tar xzf yasm-1.3.0.tar.gz
     cd yasm-1.3.0/
@@ -20,7 +20,7 @@ function function_install_yasm()
 
 function function_common()
 {
-    cd ${SOURCE_DIR}/Tools
+    cd ${TOOLS_DIR}
     #下载最新cmake程序
     if [ "cmake" = "${QMAKE}" ]; then
         if [ ! -d "`pwd`/cmake" ]; then
@@ -49,7 +49,7 @@ function function_common()
 
 function install_android()
 {
-    cd ${SOURCE_DIR}/Tools
+    cd ${TOOLS_DIR}
     if [ ! -d "`pwd`/android-sdk" ]; then
         ANDROID_STUDIO_VERSION=191.5900203
         wget -c -nv https://dl.google.com/dl/android/studio/ide-zips/3.5.1.0/android-studio-ide-${ANDROID_STUDIO_VERSION}-linux.tar.gz
@@ -63,10 +63,18 @@ function install_android()
         unzip -q sdk-tools-linux-4333796.zip
         echo "Install sdk and ndk ......"
         cd tools
+        if [ -n "${ANDROID_API}" ]; then
+            PLATFORMS="platforms;${ANDROID_API}"
+        else
+            PLATFORMS="platforms"
+        fi
+        if [ -z "${BUILD_TOOS_VERSION}" ]; then
+            BUILD_TOOS_VERSION="28.0.3"
+        fi
         (sleep 5 ; num=0 ; while [ $num -le 5 ] ; do sleep 1 ; num=$(($num+1)) ; printf 'y\r\n' ; done ) \
-        | ./bin/sdkmanager "platform-tools" "build-tools;28.0.3" "build-tools;28.0.2" "platforms;${ANDROID_API}" "ndk-bundle"
-        if [ ! -d ${SOURCE_DIR}/Tools/android-ndk ]; then
-            ln -s ${SOURCE_DIR}/Tools/android-sdk/ndk-bundle ${SOURCE_DIR}/Tools/android-ndk
+        | ./bin/sdkmanager "platform-tools" "build-tools;${BUILD_TOOS_VERSION}" "${PLATFORMS}" "ndk-bundle"
+        if [ ! -d ${TOOLS_DIR}/android-ndk ]; then
+            ln -s ${TOOLS_DIR}/android-sdk/ndk-bundle ${TOOLS_DIR}/android-ndk
         fi
     fi
 }
@@ -108,7 +116,7 @@ function install_android_sdk_and_ndk()
 
 function function_android()
 {
-    cd ${SOURCE_DIR}/Tools
+    cd ${TOOLS_DIR}
     
     sudo apt-get update -y -qq
     #sudo apt-get install -qq -y openjdk-11-jdk

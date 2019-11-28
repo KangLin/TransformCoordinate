@@ -62,8 +62,16 @@ if [ ! -d "${TOOLS_DIR}/android-sdk" ]; then
     rm sdk-tools-windows-${ANDROID_SDK_VERSION}.zip
 
     echo "Install sdk and ndk ......"
+    if [ -n "${ANDROID_API}" ]; then
+        PLATFORMS="platforms;${ANDROID_API}"
+    else
+        PLATFORMS="platforms"
+    fi
+    if [ -z "${BUILD_TOOS_VERSION}" ]; then
+        BUILD_TOOS_VERSION="28.0.3"
+    fi
     (sleep 5 ; num=0 ; while [ $num -le 5 ] ; do sleep 1 ; num=$(($num+1)) ; printf 'y\r\n' ; done ) \
-    | ./tools/bin/sdkmanager.bat "platform-tools" "build-tools;28.0.3" "platforms;${ANDROID_API}" "ndk-bundle"
+    | ./bin/sdkmanager.bat "platform-tools" "build-tools;${BUILD_TOOS_VERSION}" "${PLATFORMS}" "ndk-bundle"
     cd ${TOOLS_DIR}
 fi
 
