@@ -82,9 +82,7 @@ export PATH=${QT_ROOT}/bin:$PATH
 echo "PATH:$PATH"
 echo "PKG_CONFIG:$PKG_CONFIG"
 cd ${SOURCE_DIR}
-if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
-    ./tag.sh
-fi
+
 mkdir -p build_${BUILD_TARGERT}
 cd build_${BUILD_TARGERT}
 
