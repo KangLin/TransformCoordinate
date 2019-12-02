@@ -1,8 +1,8 @@
 #TODO: Change version
-version: 'v0.0.8.{build}'
+version: 'v0.0.9.{build}'
 
 environment:
-  BUILD_VERSION: "v0.0.8"
+  BUILD_VERSION: "v0.0.9"
   matrix: 
   ##### msvc 2013 ########
   - BUILD_TARGERT: windows_msvc
