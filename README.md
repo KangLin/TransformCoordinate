@@ -41,11 +41,11 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
 
       2. 安装
         
-                ./install.sh install
+                ./install1.sh install TransformCoordinate
         
       3. 如果需要，卸载
         
-                ./install.sh remove
+                ./install1.sh remove TransformCoordinate
 
 - ubuntu
     - [transformcoordinate_0.0.9_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.9/transformcoordinate_0.0.9_amd64.deb)  
