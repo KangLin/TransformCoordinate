@@ -153,7 +153,7 @@ deploy:
       secure: g7JyppMs3R6LHgau/3Ud1X0Mmj4sXkeo75Jy5saIwp75E+f5vFbJPUTAm0VXULKh
     on:
       BUILD_TARGERT: windows_msvc
-      TOOLCHAIN_VERSION: 12
+      TOOLCHAIN_VERSION: 14
       QT_VERSION: 5.6.3
       BUILD_ARCH: x86
       appveyor_repo_tag: true        # deploy on tag push only
