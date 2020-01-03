@@ -1,3 +1,6 @@
+- v0.1.0
+  + Modify ci
+
 - v0.0.9
   + Add android sign
   + Modify update
