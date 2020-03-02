@@ -118,6 +118,8 @@ fi
 if [ -z "$VERSION" ]; then
     export VERSION="v0.0.9"
 fi
+export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}.<br> The change see [ChangeLog.md](ChangeLog.md) or [ChangeLog_zh_CN.md](ChangeLog_zh_CN.md)"
+ #export UPLOADTOOL_PR_BODY=
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
     if [ "${DOWNLOAD_QT}" != "TRUE" -a "${DOWNLOAD_QT}" != "APT" ]; then
@@ -174,8 +176,6 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
         --url "https://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/TransformCoordinate_${VERSION}.tar.gz"
 
     if [ "${QT_VERSION}" = "5.12.3" -a -n "$TRAVIS_TAG" ]; then
-        export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}"
-         #export UPLOADTOOL_PR_BODY=
         wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
         chmod u+x upload.sh
         ./upload.sh $SOURCE_DIR/../transformcoordinate_*_amd64.deb 
@@ -241,8 +241,6 @@ if [ "${BUILD_TARGERT}" = "android" ]; then
         sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
         sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/TransformCoordinate/releases/download/${VERSION}/TransformCoordinate_${VERSION}.apk<:g" update_android.xml
         
-        export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}"
-        #export UPLOADTOOL_PR_BODY=
         wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
         chmod u+x upload.sh
         ./upload.sh ${APK_FILE} 
