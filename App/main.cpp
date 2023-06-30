@@ -1,5 +1,5 @@
 #include <QApplication>
-#if defined(Q_OS_ANDROID)
+#if defined(Q_OS_ANDROID) && QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)  && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     #include <QtAndroidExtras/QtAndroid>
 #endif
 
@@ -22,9 +22,10 @@ int main(int argc, char *argv[])
     a.setApplicationName("TransformCoordinate");
     
     QTranslator translator;
-    translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
+    bool bRet = translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
                     + "/" + "TransformCoordinateApp_" + QLocale::system().name() + ".qm");
-    qApp->installTranslator(&translator);
+    if(bRet)
+        qApp->installTranslator(&translator);
     qDebug() << "language:" << QLocale::system().name();
  
     a.setApplicationDisplayName(QObject::tr("Transform coordinate"));
@@ -43,5 +44,10 @@ int main(int argc, char *argv[])
     w.show();
 #endif
 
-    return a.exec();
+    int nRet = a.exec();
+
+    if(bRet)
+        qApp->removeTranslator(&translator);
+
+    return nRet;
 }

@@ -2,14 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 project(TransformCoordinate)
 
-if(POLICY CMP0083)
-    cmake_policy(SET CMP0083 NEW)
-endif()
-
-if(POLICY CMP0020)
-    cmake_policy(SET CMP0020 NEW)
-endif()
-
 SET(BUILD_VERSION "v0.0.9")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
@@ -55,7 +47,8 @@ ENDIF(MSVC)
 IF(MINGW)
     add_compile_options("-std=c++0x")
 ENDIF()
-SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
+
+option(BUILD_SHARED_LIBS "Build shared library" ON)
 if (BUILD_SHARED_LIBS)
 	add_definitions(-DBUILD_SHARED_LIBS)
     if (CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
@@ -81,55 +74,13 @@ check_function_exists("fabs" HAVE_FABS)
 check_function_exists("sin" HAVE_SIN)
 check_function_exists("cos" HAVE_COS)
 
-option(BUILD_SHARED_LIBS "Build shared library" ON)
-
 add_subdirectory(Src)
 
 # Build options
 option(BUILD_APP "Set to ON to build applaction" ON)
 if(BUILD_APP)
-    if( "${RabbitCommon_DIR}" STREQUAL "" )
-        set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
-        if( "${RabbitCommon_DIR}" STREQUAL "" )
-            set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
-        endif()
-    endif()
-    
-    if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
-        add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
-    else()
-        message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
-        message("   ag:")
-        message("       git clone https://github.com/KangLin/RabbitCommon.git")
-        message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
-        message("   ag:")
-        message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
-    endif()
-    
     add_subdirectory(App)
 endif(BUILD_APP)
-
-# Create install runtime target
-add_custom_target(install-runtime
-  COMMAND
-     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
-     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
-)
-# Create uninstall runtime target
-add_custom_target(uninstall-runtime
-  COMMAND
-     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
-     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-)
-# Create will be delete files
-CONFIGURE_FILE(
-    "${RabbitCommon_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    IMMEDIATE @ONLY)
-# Create unistall target
-ADD_CUSTOM_TARGET(uninstall
-    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    DEPENDS uninstall-runtime)
 
 message("Build app:${BUILD_APP}")
 message("Build shared library:${BUILD_SHARED_LIBS}")

@@ -1,5 +1,7 @@
-- v0.1.0
+- v0.0.10
   + Modify ci
+  + Use RabbitCommon V2
+  + CI: Add github actions
 
 - v0.0.9
   + Add android sign
