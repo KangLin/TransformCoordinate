@@ -52,7 +52,7 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
   deb 安装包,可用于　Ubuntu
   
 - windows
-    - [TransformCoordinate-Setup-v0.0.9.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.9/TransformCoordinate-Setup-v0.0.9.exe)  
+    - [TransformCoordinate_Setup_v0.0.9.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.9/TransformCoordinate_Setup_v0.0.9.exe)  
   Windows安装包，支持 Windows xp 以上系统 
 
 - android

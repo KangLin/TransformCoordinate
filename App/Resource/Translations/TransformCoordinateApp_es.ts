@@ -84,87 +84,97 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="314"/>
+        <location filename="../../mainwindow.ui" line="303"/>
+        <source>Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.ui" line="321"/>
         <source>About(&amp;A)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="317"/>
-        <location filename="../../mainwindow.ui" line="320"/>
-        <location filename="../../mainwindow.ui" line="323"/>
-        <location filename="../../mainwindow.ui" line="326"/>
+        <location filename="../../mainwindow.ui" line="324"/>
+        <location filename="../../mainwindow.ui" line="327"/>
+        <location filename="../../mainwindow.ui" line="330"/>
+        <location filename="../../mainwindow.ui" line="333"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="331"/>
+        <location filename="../../mainwindow.ui" line="338"/>
         <source>Update(&amp;U)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="334"/>
-        <location filename="../../mainwindow.ui" line="337"/>
-        <location filename="../../mainwindow.ui" line="340"/>
-        <location filename="../../mainwindow.ui" line="343"/>
+        <location filename="../../mainwindow.ui" line="341"/>
+        <location filename="../../mainwindow.ui" line="344"/>
+        <location filename="../../mainwindow.ui" line="347"/>
+        <location filename="../../mainwindow.ui" line="350"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="57"/>
-        <source>Conver fail</source>
+        <location filename="../../mainwindow.ui" line="359"/>
+        <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="67"/>
+        <location filename="../../mainwindow.cpp" line="60"/>
+        <source>Convert fail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="70"/>
         <source>GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="69"/>
+        <location filename="../../mainwindow.cpp" line="72"/>
         <source>Open source file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="79"/>
+        <location filename="../../mainwindow.cpp" line="82"/>
         <source>GPX file(*.gpx);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="81"/>
+        <location filename="../../mainwindow.cpp" line="84"/>
         <source>KML file(*.kml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="84"/>
+        <location filename="../../mainwindow.cpp" line="87"/>
         <source>Open destination file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="95"/>
-        <location filename="../../mainwindow.cpp" line="156"/>
+        <location filename="../../mainwindow.cpp" line="98"/>
+        <location filename="../../mainwindow.cpp" line="159"/>
         <source>Start transform ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="104"/>
-        <location filename="../../mainwindow.cpp" line="176"/>
-        <location filename="../../mainwindow.cpp" line="211"/>
+        <location filename="../../mainwindow.cpp" line="107"/>
+        <location filename="../../mainwindow.cpp" line="179"/>
+        <location filename="../../mainwindow.cpp" line="214"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="124"/>
+        <location filename="../../mainwindow.cpp" line="127"/>
         <source>Open source directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="133"/>
-        <location filename="../../mainwindow.cpp" line="135"/>
+        <location filename="../../mainwindow.cpp" line="136"/>
+        <location filename="../../mainwindow.cpp" line="138"/>
         <source>Open destination directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="165"/>
+        <location filename="../../mainwindow.cpp" line="168"/>
         <source>Be transforming </source>
         <translation type="unfinished"></translation>
     </message>
@@ -172,7 +182,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="30"/>
+        <location filename="../../main.cpp" line="29"/>
         <source>Transform coordinate</source>
         <translation type="unfinished"></translation>
     </message>

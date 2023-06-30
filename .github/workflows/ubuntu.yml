@@ -50,26 +50,46 @@ jobs:
           sudo apt install -y -q cmake build-essential xvfb xpra \
               libglu1-mesa-dev libpulse-mainloop-glib0 \
               debhelper fakeroot \
-              qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools \
-              qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev \
-              qtpositioning5-dev qtwebengine5-dev \
-              libcmark-gfm-dev libcmark-gfm-extensions-dev
+              qt6-tools-dev qt6-tools-dev-tools \
+              qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
+              libqt6svg6-dev qt6-l10n-tools qt6-translations-l10n \
+              qt6-scxml-dev qt6-multimedia-dev libqt6serialport6-dev \
+              qt6-webengine-dev qt6-webengine-dev-tools
 
-      - name: Build TransformCoordinate
-        working-directory: ${{github.workspace}}/build
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
         run: |
-          cmake ${{github.workspace}} \
-                -DCMARK_SHARED=OFF \
-                -DCMARK_TESTS=OFF \
-                -DCMARK_STATIC=ON \
-                -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
-                -DCMAKE_INSTALL_PREFIX=`pwd`/install \
-                -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
-                -DINSTALL_QT=OFF \
-                -DBUILD_APP=OFF
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
-          7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip ./install/*
+          git clone https://github.com/KangLin/RabbitCommon.git
+      
+      - name: build_debpackage.sh
+        working-directory: ${{github.workspace}}
+        env:
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+          SeetaFace_DIR: ${{env.INSTALL_DIR}}/lib/cmake
+          SeetaNet_DIR: ${{env.INSTALL_DIR}}/lib/cmake
+          SeetaFaceDetector_DIR: ${{env.INSTALL_DIR}}/lib/cmake
+          SeetaFaceLandmarker_DIR: ${{env.INSTALL_DIR}}/lib/cmake
+          SeetaFaceRecognizer_DIR: ${{env.INSTALL_DIR}}/lib/cmake
+          SeetaFaceTracker_DIR: ${{env.INSTALL_DIR}}/lib/cmake
+          SeetaQualityAssessor_DIR: ${{env.INSTALL_DIR}}/lib/cmake
+          facedetection_DIR: ${{env.INSTALL_DIR}}/lib/cmake/facedetection
+        run: |
+          ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
+          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
+
+      - name: Update xml file
+        working-directory: ${{github.workspace}}
+        run: |
+          sudo Xvfb :99 -ac &
+          export DISPLAY=:99.0
+          sudo apt install ./transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
+          MD5=`md5sum transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb|awk '{print $1}'`
+          echo "MD5:${MD5}"
+          /bin/bash /opt/transformcoordinate/bin/TransformCoordinate.sh \
+              -f "${{github.workspace}}/update_linux.xml" \
+              --md5 ${MD5} \
+              -m "${{env.TransformCoordinate_VERSION}}" \
+              -u "https://github.com/KangLin/TransformCoordinate/releases/download/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb;https://sourceforge.net/projects/TransformCoordinate/files/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb"
 
       - name: Update artifact
         #if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -77,8 +97,7 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}/build/TransformCoordinate-*.tar.gz
-            ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip
+            ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip
 
 #    - name: Upload To Github Release
 #      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}

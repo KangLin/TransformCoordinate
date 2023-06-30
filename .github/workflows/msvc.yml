@@ -135,27 +135,15 @@ jobs:
             ${{env.INSTALL_DIR}}
           key: msvc_cache-installed-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
 
-      - name: build log4qt
-        if: false
+      - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: |
-          IF NOT EXIST ${{env.INSTALL_DIR}}\lib\cmake\Log4Qt (
-              git clone https://github.com/MEONMedical/Log4Qt.git
-              cd Log4Qt
-              git checkout -b eb4b952a886ab03d24e896e38df015cf0ff5bd7a eb4b952a886ab03d24e896e38df015cf0ff5bd7a
-              cmake -E make_directory build
-              cd build
-              cmake .. ^
-                  -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
-                  -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
-                  -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
-                  -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
-                  -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
-              cmake --build . --config ${{matrix.BUILD_TYPE}}
-              cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-          )
+          git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: Build TransformCoordinate
+        env:
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        working-directory: ${{github.workspace}}\build
         run: |
           cd ${{github.workspace}}/build
           cmake ${{github.workspace}} ^
@@ -171,17 +159,19 @@ jobs:
               -DINSTALL_QT=OFF ^
               -DBUILD_APP=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
 
       - name: Package
         #if: ${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}\build
         run: |
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
+          dir
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-          7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_msvc_${{matrix.CMAKE_GENERATOR_PLATFORM}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip .\install\*
+          dir
+          makensis ${{github.workspace}}\build\Install.nsi
+          copy /Y TransformCoordinate_Setup_${{env.TransformCoordinate_VERSION}}.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_setup.exe
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -189,4 +179,4 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_msvc_${{matrix.CMAKE_GENERATOR_PLATFORM}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip
+            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_setup.exe

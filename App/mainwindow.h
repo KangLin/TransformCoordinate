@@ -31,6 +31,8 @@ private slots:
     
     void on_actionUpdate_U_triggered();
     
+    void on_actionStyle_triggered();
+    
 private:
     Ui::MainWindow *ui;
     

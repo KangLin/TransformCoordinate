@@ -61,10 +61,16 @@ jobs:
           fi
           sudo cp ${{env.TOOSL_DIR}}/doxygen-${{env.DOXYGEN_VERSION}}/bin/doxygen /usr/bin/doxygen
 
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          git clone https://github.com/KangLin/RabbitCommon.git
+
       - name: build doxygen
         working-directory: ${{github.workspace}}
         env:
           BUILD_DOCS: ON
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           cmake -E make_directory ${{github.workspace}}/build
           cd ${{github.workspace}}/build

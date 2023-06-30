@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
+SET(CMAKE_VERBOSE_MAKEFILE ON)
+
 project(TransformCoordinate)
 
 SET(BUILD_VERSION "v0.0.9")

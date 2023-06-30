@@ -1,5 +1,10 @@
 project(TransformCoordinateApp)
 
+#打开 qt 编译工具
+SET(CMAKE_AUTOUIC ON)
+SET(CMAKE_AUTOMOC ON)
+SET(CMAKE_AUTORCC ON)
+
 if(NOT RabbitCommon_DIR)
     set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
     if(NOT RabbitCommon_DIR)
@@ -25,28 +30,15 @@ else()
     endif()
 endif()
 
-#打开 qt 编译工具
-SET(CMAKE_AUTOUIC ON)
-SET(CMAKE_AUTOMOC ON)
-SET(CMAKE_AUTORCC ON)
-SET(CMAKE_INCLUDE_CURRENT_DIR ON)
-SET(CMAKE_VERBOSE_MAKEFILE ON)
-
 #需要的QT组件
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 endif()
 SET(QT_COMPONENTS Core Gui Widgets)
-if(ANDROID)
-    if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 6.0.0
-            AND Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0)
-        LIST(APPEND QT_COMPONENTS AndroidExtras)
-    endif()
-endif()
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
 message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
-if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0 AND ANDROID)
-    message(FATAL_ERROR "Qt must great 5.10.0")
+if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 6.0.0 AND ANDROID)
+    message(FATAL_ERROR "Qt must great 6.0.0")
 endif()
 if(Qt${QT_VERSION_MAJOR}_FOUND)
     FOREACH(_COMPONENT ${QT_COMPONENTS})
@@ -85,20 +77,23 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_DEFINITIONS RABBITCOMMON)
 
 if(UNIX)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/debian/TransformCoordinate.desktop
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.desktop
         DESTINATION "share/applications"
-        COMPONENT Runtime)
+            COMPONENT Runtime)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.sh
+        DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            COMPONENT Runtime)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.png
         DESTINATION "share/pixmaps"
-        COMPONENT Runtime)
+            COMPONENT Runtime)
 endif()
 IF(WIN32)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico
         DESTINATION .
-        COMPONENT Runtime)
+            COMPONENT Runtime)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi
         DESTINATION "${CMAKE_BINARY_DIR}"
-        COMPONENT Runtime)
+            COMPONENT Runtime)
 ENDIF()
 
 # Install other files
@@ -107,8 +102,4 @@ set(OTHER_FILES ${CMAKE_SOURCE_DIR}/License.md
     ${CMAKE_SOURCE_DIR}/ChangeLog.md
     ${CMAKE_SOURCE_DIR}/Authors_zh_CN.md
     ${CMAKE_SOURCE_DIR}/ChangeLog_zh_CN.md)
-if(ANDROID)
-    INSTALL(FILES ${OTHER_FILES} DESTINATION "assets" COMPONENT Runtime)
-else()
-    INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
-endif()
+INSTALL_FILE(SOURCES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)

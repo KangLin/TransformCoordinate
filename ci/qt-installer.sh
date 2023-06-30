@@ -44,7 +44,7 @@ case $BUILD_ARCH in
         fi
         ;;
     *)
-        echo "Aach[$BUILD_ARCH] don't suppoert"
+        echo "Aach[$BUILD_ARCH] don't support"
         ;;
 esac
 

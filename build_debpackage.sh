@@ -19,7 +19,7 @@ fi
 
 if [ ! -d "$RabbitCommon_DIR" ]; then
 	echo "$0 QT_ROOT RabbitCommon_DIR"
-        exit -2
+    exit -2
 fi
 
 export RabbitCommon_DIR=$RabbitCommon_DIR

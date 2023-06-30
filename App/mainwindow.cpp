@@ -13,9 +13,11 @@
 #include <QStandardPaths>
 
 #ifdef RABBITCOMMON
-    #include "DlgAbout/DlgAbout.h"
-    #include "FrmUpdater/FrmUpdater.h"
+    #include "DlgAbout.h"
+    #include "FrmUpdater.h"
     #include "RabbitCommonDir.h"
+    #include "RabbitCommonTools.h"
+    #include "FrmStyle.h"
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -28,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
+    ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(this));
     
     QStringList lstCoor;
     lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";
@@ -54,7 +57,7 @@ void MainWindow::on_pbConversion_clicked()
                       static_cast<_COORDINATE>(ui->cbDstCoor->currentIndex()));
     if(nRet)
     {
-        SetStatusInfo(tr("Conver fail"), Qt::red);
+        SetStatusInfo(tr("Convert fail"), Qt::red);
         return;
     }
     
@@ -222,4 +225,14 @@ int MainWindow::SetStatusInfo(QString szText, QColor color)
     m_statusInfo.setPalette(pe);
     m_statusInfo.setText(szText);
     return 0;
+}
+
+void MainWindow::on_actionStyle_triggered()
+{
+    CFrmStyle* pStyle = new CFrmStyle(this);
+#if defined(Q_OS_ANDROID)
+    pStyle->showMaximized();
+#else
+    pStyle->show();
+#endif
 }

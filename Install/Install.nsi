@@ -67,7 +67,7 @@ LangString LANG_DIRECTORY_PERMISSION ${LANG_SIMPCHINESE} "无目录访问权限"
 
 Name "$(LANG_PRODUCT_NAME)-${PRODUCT_VERSION}"
 Caption "$(LANG_PRODUCT_NAME)-${PRODUCT_VERSION}"
-OutFile "${PRODUCT_NAME}-Setup-${PRODUCT_VERSION}.exe"
+OutFile "${PRODUCT_NAME}_Setup_${PRODUCT_VERSION}.exe"
 InstallDir "$LOCALAPPDATA\${PRODUCT_NAME}"
 ;InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" ""
 
@@ -81,7 +81,7 @@ Function InstallVC
    ClearErrors
    ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}" "Version"
 
-   ; check regist
+   ; check register
    IfErrors 0 VSRedistInstalled
    Exec "$INSTDIR\bin\vcredist_x86.exe /q"
    StrCpy $R0 "-1"
@@ -97,7 +97,7 @@ Function InstallVC64
     ClearErrors
     ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}" "Version"
     
-    ; check regist
+    ; check register
     IfErrors 0 VSRedistInstalled
     Exec "$INSTDIR\bin\vcredist_x64.exe /q"
     StrCpy $R0 "-1"

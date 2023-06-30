@@ -18,5 +18,5 @@ jobs:
         with:
           check_filenames: true
           path: ${{github.workspace}}
-          skip: "*.lua,codespell.yml"
+          skip: "*.lua,codespell.yml,*.ts"
           ignore_words_list: "doubleclick,msdos,rabits,eArch"

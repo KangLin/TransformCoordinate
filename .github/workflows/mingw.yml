@@ -71,9 +71,15 @@ jobs:
             ${{env.INSTALL_DIR}}
           key: cache-installed-mingw-install
 
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          git clone https://github.com/KangLin/RabbitCommon.git
+
       - name: Build TransformCoordinate
         working-directory: ${{github.workspace}}
         env:
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
           MSYSTEM: MINGW64
           PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
         run: |
