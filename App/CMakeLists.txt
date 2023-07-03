@@ -91,9 +91,7 @@ IF(WIN32)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico
         DESTINATION .
             COMPONENT Runtime)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi
-        DESTINATION "${CMAKE_BINARY_DIR}"
-            COMPONENT Runtime)
+    FILE(COPY ${CMAKE_SOURCE_DIR}/Install/Install.nsi DESTINATION "${CMAKE_BINARY_DIR}")
 ENDIF()
 
 # Install other files

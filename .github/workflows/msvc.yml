@@ -159,6 +159,7 @@ jobs:
               -DINSTALL_QT=OFF ^
               -DBUILD_APP=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
 
       - name: Package
         #if: ${{ matrix.BUILD_TYPE == 'Release' }}

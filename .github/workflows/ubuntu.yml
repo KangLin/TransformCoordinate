@@ -60,19 +60,19 @@ jobs:
         working-directory: ${{env.SOURCE_DIR}}
         run: |
           git clone https://github.com/KangLin/RabbitCommon.git
-      
+
+      - name: CPACK
+        working-directory: ${{github.workspace}}/build
+        env:
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        run: |
+          cmake ${{github.workspace}}
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
+
       - name: build_debpackage.sh
         working-directory: ${{github.workspace}}
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-          SeetaFace_DIR: ${{env.INSTALL_DIR}}/lib/cmake
-          SeetaNet_DIR: ${{env.INSTALL_DIR}}/lib/cmake
-          SeetaFaceDetector_DIR: ${{env.INSTALL_DIR}}/lib/cmake
-          SeetaFaceLandmarker_DIR: ${{env.INSTALL_DIR}}/lib/cmake
-          SeetaFaceRecognizer_DIR: ${{env.INSTALL_DIR}}/lib/cmake
-          SeetaFaceTracker_DIR: ${{env.INSTALL_DIR}}/lib/cmake
-          SeetaQualityAssessor_DIR: ${{env.INSTALL_DIR}}/lib/cmake
-          facedetection_DIR: ${{env.INSTALL_DIR}}/lib/cmake/facedetection
         run: |
           ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
           cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb

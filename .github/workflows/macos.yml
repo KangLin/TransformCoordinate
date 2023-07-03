@@ -106,6 +106,7 @@ jobs:
               -DBUILD_APP=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
       
       - name: Update artifact
         #if: ${{ matrix.BUILD_TYPE == 'Release' }}

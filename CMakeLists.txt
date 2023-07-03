@@ -83,6 +83,8 @@ if(BUILD_APP)
     add_subdirectory(App)
 endif(BUILD_APP)
 
+include(Package/CMakeCPack.cmake)
+
 message("Build app:${BUILD_APP}")
 message("Build shared library:${BUILD_SHARED_LIBS}")
 message("Build GPXMODEL:${BUILD_GPXMODEL}")
