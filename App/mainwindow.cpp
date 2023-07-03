@@ -24,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);    
+    ui->setupUi(this);
+    ui->actionAbout_A->setIcon(windowIcon());
 
     InitStatusBar();
     
@@ -184,14 +185,20 @@ void MainWindow::on_actionAbout_A_triggered()
 {
 #ifdef RABBITCOMMON
     CDlgAbout about(this);
-    about.m_AppIcon = QImage(":/icon/App");
+    QIcon icon = windowIcon();
+    if(icon.isNull()) return;
+    auto sizeList = icon.availableSizes();
+    if(sizeList.isEmpty()) return;
+    QPixmap p = icon.pixmap(*sizeList.begin());
+    about.m_AppIcon = p.toImage();
     about.m_szHomePage = "https://github.com/KangLin/TransformCoordinate";
-    if(about.isHidden())
+    about.m_szCopyrightStartTime = "2018";
+    about.m_szVersionRevision = TransformCoordinate_REVISION;
 #if defined (Q_OS_ANDROID)
-        about.showMaximized();
-        about.exec();
+    about.showMaximized();
+    about.exec();
 #endif
-        about.exec();
+    about.exec();
 #endif
 }
 

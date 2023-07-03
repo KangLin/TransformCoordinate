@@ -5,7 +5,7 @@ SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 project(TransformCoordinate)
 
-SET(BUILD_VERSION "v0.0.9")
+SET(TransformCoordinate_VERSION "v0.0.9")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
@@ -18,20 +18,18 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
         EXECUTE_PROCESS(
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             COMMAND ${GIT} describe --tags
-            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
+            OUTPUT_VARIABLE TransformCoordinate_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-	    if(NOT GIT_VERSION)
-            EXECUTE_PROCESS(
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                COMMAND ${GIT} rev-parse --short HEAD
-                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
-            )
-        endif()
-        SET(BUILD_VERSION ${GIT_VERSION})
+	    
+        EXECUTE_PROCESS(
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMAND ${GIT} rev-parse --short HEAD
+            OUTPUT_VARIABLE TransformCoordinate_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        
     ENDIF()
 ENDIF()
-message("BUILD_VERSION:${BUILD_VERSION}")
-set(VERSION ${BUILD_VERSION})
+message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION}")
 
 if("Debug" STREQUAL CMAKE_BUILD_TYPE)
     add_definitions(-D_DEBUG)

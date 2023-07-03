@@ -23,11 +23,11 @@ case "$1" in
         if [ ! -f /usr/share/applications/TransformCoordinate.desktop ]; then
             ln -s /opt/TransformCoordinate/share/applications/TransformCoordinate.desktop /usr/share/applications/TransformCoordinate.desktop
         fi
-        if [ ! -f /usr/share/pixmaps/TransformCoordinate.png ]; then
+        if [ ! -f /usr/share/pixmaps/TransformCoordinate.svg ]; then
             if [ ! -d /usr/share/pixmaps ]; then
                 mkdir -p /usr/share/pixmaps
             fi
-            ln -s /opt/TransformCoordinate/share/pixmaps/TransformCoordinate.png /usr/share/pixmaps/TransformCoordinate.png
+            ln -s /opt/TransformCoordinate/share/pixmaps/TransformCoordinate.svg /usr/share/pixmaps/TransformCoordinate.svg
         fi
         echo "/opt/TransformCoordinate/lib" > /etc/ld.so.conf.d/TransformCoordinate.conf
         echo "/opt/TransformCoordinate/bin" >> /etc/ld.so.conf.d/TransformCoordinate.conf
@@ -41,7 +41,7 @@ case "$1" in
     abort-upgrade|abort-remove|abort-deconfigure)
         rm -fr /usr/share/applications/TransformCoordinate.desktop
         rm -fr /etc/ld.so.conf.d/TransformCoordinate.conf
-        rm -fr /usr/share/pixmaps/TransformCoordinate.png
+        rm -fr /usr/share/pixmaps/TransformCoordinate.svg
     ;;
 
     *)

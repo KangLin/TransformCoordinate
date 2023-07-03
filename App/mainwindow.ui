@@ -14,8 +14,7 @@
    <string>Coordinate conversion</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource/Resource.qrc">
-    <normaloff>:/icon/App</normaloff>:/icon/App</iconset>
+   <iconset theme="TransformCoordinate" />
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_6">

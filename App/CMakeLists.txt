@@ -64,17 +64,17 @@ if(WIN32)
         ${RCC_FILES}
         Resource/AppIcon.rc)
 endif()
-add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
-add_definitions(-DBUILD_ARCH="${BUILD_ARCH}")
-add_definitions(-DBUILD_PLATFORM="${BUILD_PLATFORM}")
 
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
     ISWINDOWS
-    VERSION ${BUILD_VERSION}
+    VERSION ${TransformCoordinate_VERSION}
     SOURCE_FILES ${SOURCES_FILES} ${HEAD_FILES} ${SOURCE_UI_FILES} ${RCC_FILES}
     PRIVATE_LIBS ${QT_LIBRARIES} TransformCoordinate RabbitCommon
-    PRIVATE_DEFINITIONS RABBITCOMMON)
+    PRIVATE_DEFINITIONS RABBITCOMMON
+        TransformCoordinate_REVISION="${TransformCoordinate_REVISION}"
+        TransformCoordinate_VERSION="${TransformCoordinate_VERSION}"
+    )
 
 if(UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.desktop
@@ -83,7 +83,7 @@ if(UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.sh
         DESTINATION "${CMAKE_INSTALL_BINDIR}"
             COMPONENT Runtime)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.png
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/icons/black/svg/TransformCoordinate.svg
         DESTINATION "share/pixmaps"
             COMPONENT Runtime)
 endif()
@@ -103,3 +103,5 @@ set(OTHER_FILES ${CMAKE_SOURCE_DIR}/License.md
     ${CMAKE_SOURCE_DIR}/Authors_zh_CN.md
     ${CMAKE_SOURCE_DIR}/ChangeLog_zh_CN.md)
 INSTALL_FILE(SOURCES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
+
+INSTALL_ICON_THEME(SOURCES ${CMAKE_SOURCE_DIR}/App/Resource/icons)

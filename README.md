@@ -2,7 +2,10 @@
 
 
 作者：康林(kl222@126.com)  
-项目地址：https://github.com/KangLin/TransformCoordinate  
+项目地址：https://github.com/KangLin/TransformCoordinate
+镜像地址：
+- https://gitlab.com/kl222/TransformCoordinate
+- https://sourceforge.net/projects/transformcoordinate/
 
 ------------
 [![Windows build status](https://ci.appveyor.com/api/projects/status/yxkcu6b6o2av6wmk?svg=true)](https://ci.appveyor.com/project/KangLin/transformcoordinate)  
