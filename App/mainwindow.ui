@@ -14,7 +14,8 @@
    <string>Coordinate conversion</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="TransformCoordinate" />
+   <iconset theme="TransformCoordinate">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_6">
@@ -302,6 +303,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionStyle"/>
+    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
@@ -356,6 +358,14 @@
    </property>
    <property name="text">
     <string>Style</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset theme="window-close"/>
+   </property>
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>

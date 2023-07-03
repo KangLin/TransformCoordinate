@@ -31,7 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
-    ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(this));
+    ui->menuTools->insertMenu(ui->actionExit,
+                              RabbitCommon::CTools::GetLogMenu(this));
     
     QStringList lstCoor;
     lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";
@@ -242,4 +243,9 @@ void MainWindow::on_actionStyle_triggered()
 #else
     pStyle->show();
 #endif
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    close();
 }
