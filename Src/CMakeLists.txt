@@ -32,6 +32,13 @@ target_compile_options(${PROJECT_NAME} PRIVATE
     "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
     $<$<CXX_COMPILER_ID:GNU,Clang>:$<IF:$<CONFIG:Debug>, -g -ggdb, -O3>>
     )
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>: _DEBUG DEBUG>)
+if(NOT MINGW)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CXX_COMPILER_ID:GNU,Clang>:-fPIC>
+    )
+endif()
 
 GENERATE_EXPORT_HEADER(${PROJECT_NAME})
 string(TOLOWER ${PROJECT_NAME} LOWER_PROJECT_NAME)

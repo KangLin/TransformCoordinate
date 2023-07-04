@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 
-SET(CMAKE_INCLUDE_CURRENT_DIR ON)
-SET(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
 
 project(TransformCoordinate)
 
@@ -31,36 +35,6 @@ ENDIF()
 message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION};TransformCoordinate_REVISION:${TransformCoordinate_REVISION}")
 if(NOT TransformCoordinate_VERSION)
     SET(TransformCoordinate_VERSION "v0.0.9")
-endif()
-
-if("Debug" STREQUAL CMAKE_BUILD_TYPE)
-    add_definitions(-D_DEBUG)
-endif()
-
-IF(MSVC)
-    # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
-    OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
-    MARK_AS_ADVANCED(WIN32_USE_MP)
-    IF(WIN32_USE_MP)
-        #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
-        add_compile_options(/MP)
-    ENDIF(WIN32_USE_MP)
-    add_compile_options(/utf-8)
-ENDIF(MSVC)
-IF(MINGW)
-    add_compile_options("-std=c++0x")
-ENDIF()
-
-option(BUILD_SHARED_LIBS "Build shared library" ON)
-if (BUILD_SHARED_LIBS)
-	add_definitions(-DBUILD_SHARED_LIBS)
-    if (CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
-       # Just setting CMAKE_POSITION_INDEPENDENT_CODE should be enough to set
-       # -fPIC for GCC but sometimes it still doesn't get set, so make sure it
-       # does.
-       add_definitions("-fPIC")
-    endif()
-    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 include(CMakePackageConfigHelpers)
