@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Icon=TransformCoordinate
-Exec=/opt/TransformCoordinate/bin/TransformCoordinateApp.sh
+Exec=/opt/TransformCoordinate/bin/TransformCoordinate.sh
 Terminal=false
 StartupNotify=true
 Categories=Application;Development;Tools;Qt

@@ -12,4 +12,4 @@ INSTALL_PATH=`pwd`
 echo "INSTALL_PATH:$INSTALL_PATH"
 export LD_LIBRARY_PATH=$INSTALL_PATH/bin:$INSTALL_PATH/lib:$INSTALL_PATH/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 echo "LD_LIBRARY_PATH:$LD_LIBRARY_PATH"
-$INSTALL_PATH/bin/FaceRecognizerApp $*
+$INSTALL_PATH/bin/TransformCoordinateApp $*
