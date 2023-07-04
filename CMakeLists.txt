@@ -5,7 +5,6 @@ SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 project(TransformCoordinate)
 
-SET(TransformCoordinate_VERSION "v0.0.9")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
@@ -29,7 +28,10 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
         
     ENDIF()
 ENDIF()
-message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION}")
+message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION};TransformCoordinate_REVISION:${TransformCoordinate_REVISION}")
+if(NOT TransformCoordinate_VERSION)
+    SET(TransformCoordinate_VERSION "v0.0.9")
+endif()
 
 if("Debug" STREQUAL CMAKE_BUILD_TYPE)
     add_definitions(-D_DEBUG)
