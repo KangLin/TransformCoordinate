@@ -5,6 +5,23 @@ SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 
+#需要的QT组件
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+endif()
+SET(QT_COMPONENTS Core Gui Widgets)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
+message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
+if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 6.0.0 AND ANDROID)
+    message(FATAL_ERROR "Qt must great 6.0.0")
+endif()
+if(Qt${QT_VERSION_MAJOR}_FOUND)
+    FOREACH(_COMPONENT ${QT_COMPONENTS})
+        LIST(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}::${_COMPONENT})
+    ENDFOREACH()
+endif()
+get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
+
 if(NOT RabbitCommon_DIR)
     set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
     if(NOT RabbitCommon_DIR)
@@ -29,23 +46,6 @@ else()
         message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
     endif()
 endif()
-
-#需要的QT组件
-if(NOT DEFINED QT_VERSION_MAJOR)
-    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-endif()
-SET(QT_COMPONENTS Core Gui Widgets)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
-message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
-if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 6.0.0 AND ANDROID)
-    message(FATAL_ERROR "Qt must great 6.0.0")
-endif()
-if(Qt${QT_VERSION_MAJOR}_FOUND)
-    FOREACH(_COMPONENT ${QT_COMPONENTS})
-        LIST(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}::${_COMPONENT})
-    ENDFOREACH()
-endif()
-get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
 
 set(HEAD_FILES
     mainwindow.h)
@@ -80,7 +80,7 @@ if(UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.desktop
         DESTINATION "share/applications"
             COMPONENT Runtime)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.sh
+    INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.sh
         DESTINATION "${CMAKE_INSTALL_BINDIR}"
             COMPONENT Runtime)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/icons/black/svg/TransformCoordinate.svg
