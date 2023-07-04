@@ -43,7 +43,7 @@ jobs:
       CMAKE_GENERATOR: "Visual Studio 17 2022"
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      TransformCoordinate_VERSION: v1.0.13
+      TransformCoordinate_VERSION: v0.0.9
       VCPKGGITCOMMITID: 9c7c66471005cb132832786d5d65d83d2cf503ad
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
@@ -79,7 +79,7 @@ jobs:
       - name: Install Qt
         # You may pin to the exact commit or the version.
         # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
-        uses: jurplel/install-qt-action@v3.1.0
+        uses: jurplel/install-qt-action@v3
         with:
           # Directory to install Qt
           dir: ${{env.TOOSL_DIR}}\qt # optional
