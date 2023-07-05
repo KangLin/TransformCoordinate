@@ -4,6 +4,7 @@ debian/debhelper-build-stamp
 obj*/
 *.log
 debian/transformcoordinate/
+debian/files
 build_windows*/
 build/
 build_unix/

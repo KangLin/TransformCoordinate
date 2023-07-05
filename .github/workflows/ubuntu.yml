@@ -85,7 +85,7 @@ jobs:
           sudo apt install ./transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           MD5=`md5sum transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb|awk '{print $1}'`
           echo "MD5:${MD5}"
-          /bin/bash /opt/transformcoordinate/bin/TransformCoordinate.sh \
+          /opt/TransformCoordinate/bin/TransformCoordinate.sh \
               -f "${{github.workspace}}/update_linux.xml" \
               --md5 ${MD5} \
               -m "${{env.TransformCoordinate_VERSION}}" \
