@@ -44,8 +44,6 @@ set(CPACK_PACKAGE_VERSION ${${PROJECT_NAME}_VERSION})
 
 # 将在安装程序（由 GUI 安装程序使用）中显示的图标。
 if(WIN32)
-    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\App\\Resource\\png\\TransformCoordinate.ico")
-else()
     set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico")
 endif()
 
