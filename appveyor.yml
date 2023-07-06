@@ -1,5 +1,5 @@
 #TODO: Change version
-version: 'v0.0.9.{build}'
+version: 'v0.0.10.{build}'
 
 environment:
   STOREPASS:
@@ -9,7 +9,7 @@ environment:
   QT_PASSWORD:
     secure: ejAYGgB+3sBispRxUSr0xw==
     
-  BUILD_VERSION: "v0.0.9"
+  BUILD_VERSION: "v0.0.10"
   matrix: 
   ##### msvc 2013 ########
   - BUILD_TARGERT: windows_msvc

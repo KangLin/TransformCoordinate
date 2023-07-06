@@ -26,7 +26,7 @@ message("CPACK_SYSTEM_NAME:${CPACK_SYSTEM_NAME}")
 
 # 包名。建议用英文。
 set(CPACK_PACKAGE_NAME "TransformCoordinate")
-set(CPACK_PACKAGE_VENDOR "康林工作室")
+set(CPACK_PACKAGE_VENDOR "Kang Lin studio")
 
 # 设置安装包的文件名
 string(TOLOWER ${CPACK_PACKAGE_NAME} CPACK_PACKAGE_NAME_lower)
@@ -61,7 +61,7 @@ set(CPACK_PACKAGE_DESCRIPTION "TransformCoordinate")
 set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_BINARY_DIR}/LICENSE.txt")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/KangLin/TransformCoordinate")
-set(CPACK_PACKAGE_CONTACT "康 林 <kl222@126.com>")
+set(CPACK_PACKAGE_CONTACT "Kang Lin <kl222@126.com>")
 
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "TransformCoordinate")
 # 设置注册表健。仅用于 WINDOWS
@@ -128,7 +128,7 @@ if(UNIX AND (NOT (MACOS AND APPLE)) AND (NOT ANDROID))
 
     # 设置 Source 字段
     set(CPACK_DEBIAN_PACKAGE_SOURCE TransformCoordinate)
-    set(CPACK_DEBIAN_PACKAGE_SECTION "games")
+    set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
     set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
 
     ##### 产生自定义脚本 #####
@@ -201,7 +201,7 @@ if(WIN32)
     set(CPACK_NSIS_DISPLAY_NAME "TransformCoordinate")
     set(CPACK_NSIS_HELP_LINK "https://github.com/KangLin/TransformCoordinate/issues")
     set(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/KangLin/TransformCoordinate")
-    set(CPACK_NSIS_CONTACT "康 林 <kl222@126.com>")
+    set(CPACK_NSIS_CONTACT "Kang Lin <kl222@126.com>")
     
     # 设置开始菜单快捷方式。格式： "程序位置（相对于安装根目录）" "菜单名"
     # 与 CPACK_PACKAGE_EXECUTABLES 功能类似
@@ -211,13 +211,13 @@ if(WIN32)
     )
     set(CPACK_NSIS_MUI_FINISHPAGE_RUN TransformCoordinateApp.exe)
     # 建立桌面快捷方式
-   # set(CPACK_NSIS_CREATE_ICONS_EXTRA "
-   #      CreateShortCut '$DESKTOP\\TransformCoordinate.lnk\' '$INSTDIR\\bin\\TransformCoordinateApp.exe\'
-   #      ")
+    set(CPACK_NSIS_CREATE_ICONS_EXTRA "
+        CreateShortCut '$DESKTOP\\\\TransformCoordinate.lnk' '$INSTDIR\\\\bin\\\\TransformCoordinateApp.exe'
+        ")
     # Delete the Startup menu link after uninstallation
-   # set(CPACK_NSIS_DELETE_ICONS_EXTRA "
-   #     Delete '$DESKTOP\\TransformCoordinate.lnk\'
-   # ")
+    set(CPACK_NSIS_DELETE_ICONS_EXTRA "
+        Delete '$DESKTOP\\\\TransformCoordinate.lnk'
+        ")
 endif()
 ############### NSIS ###################
 

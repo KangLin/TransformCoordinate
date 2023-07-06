@@ -34,7 +34,7 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 ENDIF()
 message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION};TransformCoordinate_REVISION:${TransformCoordinate_REVISION}")
 if(NOT TransformCoordinate_VERSION)
-    SET(TransformCoordinate_VERSION "v0.0.9")
+    SET(TransformCoordinate_VERSION "v0.0.10")
 endif()
 
 include(CMakePackageConfigHelpers)
@@ -52,6 +52,8 @@ check_function_exists("sin" HAVE_SIN)
 check_function_exists("cos" HAVE_COS)
 
 SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 add_subdirectory(Src)
 

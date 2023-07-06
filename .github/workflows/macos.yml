@@ -36,7 +36,7 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_macos
       qt_modules: ${{matrix.qt_modules}}
-      TransformCoordinate_VERSION: v0.0.9
+      TransformCoordinate_VERSION: "v0.0.10"
       artifact_name: build_macos
 
     # Map the job outputs to step outputs

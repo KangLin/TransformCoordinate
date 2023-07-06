@@ -5,9 +5,6 @@ SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 
-add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>"
-    "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-
 #需要的QT组件
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
