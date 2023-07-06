@@ -43,17 +43,19 @@ set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_lower}_${TransformCoord
 set(CPACK_PACKAGE_VERSION ${${PROJECT_NAME}_VERSION})
 
 # 将在安装程序（由 GUI 安装程序使用）中显示的图标。
-if(WIN32)
-    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico")
-endif()
+#if(WIN32)
+#    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\App\\Resource\\png\\TransformCoordinate.ico")
+#else()
+#    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico")
+#endif()
 
 # 项目描述，用于 CPack 生成的 Windows 安装程序的介绍屏幕等位置。如果未设置，则从 CPACK_PACKAGE_DESCRIPTION_FILE 命名的文件填充此变量的值。
-set(CPACK_PACKAGE_DESCRIPTION "坐标转换")
+set(CPACK_PACKAGE_DESCRIPTION "TransformCoordinate")
 #set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.md")
 # 设置简短的描述摘要。
 # 如果 CMAKE_PROJECT_DESCRIPTION 设置，用于默认值，
 # 否则默认值由 CMAKE 基于 CMAKE_PROJECT_NAME 产生.
-#SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "坐标转换")
+#SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "TransformCoordinate")
 
 #set(CPACK_RESOURCE_FILE_WELCOME )
 set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
@@ -94,7 +96,7 @@ if(UNIX AND (NOT (MACOS AND APPLE)) AND (NOT ANDROID))
     # 默认：
     # - 如果设置 CPACK_PACKAGE_DESCRIPTION。则用于默认值。
     # - 如果设置  CPACK_PACKAGE_DESCRIPTION_FILE 。则默认值是此文件的内容。
-    # set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "坐标转换")
+    # set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "TransformCoordinate")
 
     # 默认： CMAKE_PROJECT_HOMEPAGE_URL
     set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${CPACK_PACKAGE_HOMEPAGE_URL})
@@ -165,8 +167,8 @@ endif()
 # 设置开始菜单快捷方式。格式： "程序文件名" "菜单名"
 # 仅在 NSIS, WIX 中有效。
 # 与 CPACK_NSIS_MENU_LINKS 功能类似
-#set(CPACK_PACKAGE_EXECUTABLES "TransformCoordinateApp" "坐标转换")
-#set(CPACK_CREATE_DESKTOP_LINKS "坐标转换")
+#set(CPACK_PACKAGE_EXECUTABLES "TransformCoordinateApp" "TransformCoordinate")
+#set(CPACK_CREATE_DESKTOP_LINKS "TransformCoordinate")
 
 ############### NSIS ###################
 if(WIN32)
@@ -193,10 +195,10 @@ if(WIN32)
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/TransformCoordinateApp.exe")
     
     #显示在安装对话框中的包名
-    set(CPACK_NSIS_PACKAGE_NAME "坐标转换")
+    set(CPACK_NSIS_PACKAGE_NAME "TransformCoordinate")
     
     #显示在“控制面板->程序->程序和功能->卸载或更改程序”
-    set(CPACK_NSIS_DISPLAY_NAME "坐标转换")
+    set(CPACK_NSIS_DISPLAY_NAME "TransformCoordinate")
     set(CPACK_NSIS_HELP_LINK "https://github.com/KangLin/TransformCoordinate/issues")
     set(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/KangLin/TransformCoordinate")
     set(CPACK_NSIS_CONTACT "康 林 <kl222@126.com>")
@@ -204,17 +206,17 @@ if(WIN32)
     # 设置开始菜单快捷方式。格式： "程序位置（相对于安装根目录）" "菜单名"
     # 与 CPACK_PACKAGE_EXECUTABLES 功能类似
     set(CPACK_NSIS_MENU_LINKS
-        "bin/TransformCoordinateApp.exe" "坐标转换"
-        "https://github.com/KangLin/TransformCoordinate" "项目主页"
+        "bin/TransformCoordinateApp.exe" "TransformCoordinate"
+        "https://github.com/KangLin/TransformCoordinate" "Home"
     )
     set(CPACK_NSIS_MUI_FINISHPAGE_RUN TransformCoordinateApp.exe)
     # 建立桌面快捷方式
    # set(CPACK_NSIS_CREATE_ICONS_EXTRA "
-   #      CreateShortCut '$DESKTOP\\坐标转换.lnk\' '$INSTDIR\\bin\\TransformCoordinateApp.exe\'
+   #      CreateShortCut '$DESKTOP\\TransformCoordinate.lnk\' '$INSTDIR\\bin\\TransformCoordinateApp.exe\'
    #      ")
     # Delete the Startup menu link after uninstallation
    # set(CPACK_NSIS_DELETE_ICONS_EXTRA "
-   #     Delete '$DESKTOP\\坐标转换.lnk\'
+   #     Delete '$DESKTOP\\TransformCoordinate.lnk\'
    # ")
 endif()
 ############### NSIS ###################
