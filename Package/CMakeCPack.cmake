@@ -43,11 +43,11 @@ set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_lower}_${TransformCoord
 set(CPACK_PACKAGE_VERSION ${${PROJECT_NAME}_VERSION})
 
 # 将在安装程序（由 GUI 安装程序使用）中显示的图标。
-#if(WIN32)
-#    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\App\\Resource\\png\\TransformCoordinate.ico")
-#else()
-#    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico")
-#endif()
+if(WIN32)
+    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\App\\\\Resource\\\\png\\\\TransformCoordinate.ico")
+else()
+    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico")
+endif()
 
 # 项目描述，用于 CPack 生成的 Windows 安装程序的介绍屏幕等位置。如果未设置，则从 CPACK_PACKAGE_DESCRIPTION_FILE 命名的文件填充此变量的值。
 set(CPACK_PACKAGE_DESCRIPTION "TransformCoordinate")
@@ -179,8 +179,8 @@ if(WIN32)
     #set(CPACK_NSIS_INSTALL_ROOT "$LOCALAPPDATA")
     set(CPACK_NSIS_MODIFY_PATH ON)
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
-    set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}\\App\\Resource\\png\\TransformCoordinate.ico")
-    set(CPACK_NSIS_MUI_UNICON "${CMAKE_SOURCE_DIR}\\App\\Resource\\png\\TransformCoordinate.ico")
+    set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}\\\\App\\\\Resource\\\\png\\\\TransformCoordinate.ico")
+    set(CPACK_NSIS_MUI_UNICON "${CMAKE_SOURCE_DIR}\\\\App\\\\Resource\\\\png\\\\TransformCoordinate.ico")
     
     #set(CPACK_NSIS_EXTRA_PREINSTALL_COMMANDS )
     #set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS )
@@ -234,8 +234,8 @@ cpack_add_install_type(All
 cpack_add_install_type(Developer
     DISPLAY_NAME "Developer")
 
-cpack_add_install_type(EndUser
-    DISPLAY_NAME "End User")
+cpack_add_install_type(User
+    DISPLAY_NAME "User")
 
 cpack_add_component_group(Runtimes
     DISPLAY_NAME "Runtimes"
@@ -258,23 +258,31 @@ cpack_add_component_group(Applications
 cpack_add_component(DependLibraries
     DISPLAY_NAME  "DependLibraries"
     DESCRIPTION   "DependLibraries"
-    INSTALL_TYPES All EndUser Developer QtDeveloper QtEndUser
+    INSTALL_TYPES All User Developer
     GROUP Runtimes
+    )
+
+cpack_add_component(Runtime
+    DISPLAY_NAME  "Runtime"
+    DESCRIPTION   "Runtime"
+    INSTALL_TYPES All User Developer
+    GROUP Runtimes
+    DEPENDS DependLibraries
+	REQUIRED
     )
 
 cpack_add_component(Development
     DISPLAY_NAME  "Development"
     DESCRIPTION   "Development"
 	GROUP Developments
-	INSTALL_TYPES All Developer QtDeveloper MFCDeveloper
+	INSTALL_TYPES All Developer
     DEPENDS Runtime
     )
 
-cpack_add_component(Runtime
-    DISPLAY_NAME  "Runtime"
-    DESCRIPTION   "Runtime"
-    INSTALL_TYPES All EndUser Developer QtDeveloper QtEndUser MFCDeveloper MFCEndUser
-    GROUP Runtimes
-    DEPENDS DependLibraries
-	REQUIRED
+cpack_add_component(Application
+    DISPLAY_NAME  "Application"
+    DESCRIPTION   "Application"
+    INSTALL_TYPES All User
+    GROUP Applications
+    DEPENDS Runtime
     )

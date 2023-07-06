@@ -109,12 +109,13 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
       
       - name: Update artifact
-        #if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.5.1' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}/build/TransformCoordinate-*.tar.gz
+            ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.tar.gz
+            ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.sh
             ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip
 
 #    - name: Upload To Github Release

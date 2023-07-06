@@ -51,6 +51,8 @@ check_function_exists("fabs" HAVE_FABS)
 check_function_exists("sin" HAVE_SIN)
 check_function_exists("cos" HAVE_COS)
 
+SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
+
 add_subdirectory(Src)
 
 # Build options
