@@ -1,35 +1,56 @@
-## 坐标系统转
+# 坐标系统转换
 
-------
+作者：康 林 <kl222@126.com>
 
-作者：康林(kl222@126.com)  
-项目地址：https://github.com/KangLin/TransformCoordinate
-镜像地址：
-- https://gitlab.com/kl222/TransformCoordinate
-- https://sourceforge.net/projects/transformcoordinate/
+[![Windows build status](https://ci.appveyor.com/api/projects/status/yxkcu6b6o2av6wmk?svg=true)](https://ci.appveyor.com/project/KangLin/transformcoordinate)
+[![build](https://github.com/KangLin/TransformCoordinate/actions/workflows/build.yml/badge.svg)](https://github.com/KangLin/TransformCoordinate/actions/workflows/build.yml)
+[![GitHub stars](https://img.shields.io/github/stars/KangLin/TransformCoordinate?label=点赞量)](https://star-history.com/#KangLin/TransformCoordinate&Date)
+[![Gitee stars](https://gitee.com/kl222/TransformCoordinate/badge/star.svg?theme=dark)](https://gitee.com/kl222/TransformCoordinate/stargazers)
 
+[![Github 发行版本](https://img.shields.io/github/release-pre/KangLin/TransformCoordinate?label=Github%20发行版本)](https://github.com/KangLin/TransformCoordinate/releases)
+[![Github 最后发行版本](https://img.shields.io/github/release/KangLin/TransformCoordinate?label=Github%20最后发行版本)](https://github.com/KangLin/TransformCoordinate/releases)
+[![Github 所有发行版本下载量](https://img.shields.io/github/downloads/KangLin/TransformCoordinate/total?label=Github%20下载总量)](http://gra.caldis.me/?user=KangLin&repo=TransformCoordinate)
 
-[![Windows build status](https://ci.appveyor.com/api/projects/status/yxkcu6b6o2av6wmk?svg=true)](https://ci.appveyor.com/project/KangLin/transformcoordinate)  
-[![Linux build Status](https://travis-ci.org/KangLin/TransformCoordinate.svg?branch=master)](https://travis-ci.org/KangLin/TransformCoordinate)
+[![Download from sourceforge](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/TransformCoordinate/files/latest/download)
+[![从 sourceforge 下载量](https://img.shields.io/sourceforge/dt/TransformCoordinate.svg?label=Sourceforge%20下载总量)](https://sourceforge.net/projects/TransformCoordinate/files/latest/download)
 
++ 项目地址：https://github.com/KangLin/TransformCoordinate
++ 镜像地址：
+  - https://gitlab.com/kl222/TransformCoordinate
+  - https://sourceforge.net/projects/transformcoordinate/
+  - https://gitee.com/kl222/TransformCoordinate
 
 ### 介绍
 本项目对WGS84、GCJ02、百度坐标系之间进行转换。
 
-WGS84：为一种大地坐标系，也是目前广泛使用的全球卫星定位系统（GPS）使用的坐标系。  
-GCJ02：戏称火星坐标系，是由中国国家测绘局制定的地理坐标系统，是由WGS84加密后得到的坐标系。  
-BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09ll表示百度经纬度坐标，bd09mc表示百度墨卡托米制坐标。  
+- WGS84：
+为一种大地坐标系，也是目前广泛使用的全球卫星定位系统（GPS）使用的坐标系。
+- GCJ02：
+戏称火星坐标系，是由中国国家测绘局制定的地理坐标系统，是由WGS84加密后得到的坐标系。
+- BD09：
+为百度坐标系，在GCJ02坐标系基础上再次加密。
+其中bd09ll表示百度经纬度坐标，bd09mc表示百度墨卡托米制坐标。
 
 本项目还包括一个GPX文件操作模块。
 
-本项目包含：  
-- 坐标转换库：TransformCoordinate  
-- GPX文件操作库：GpxModel  
-- 坐标转换程序：TransformCoordinateApp  
+#### 本项目包含：
 
+- 坐标转换库：TransformCoordinate
+- GPX文件操作库：GpxModel
+- 坐标转换程序：TransformCoordinateApp
+
+#### 支持平台
+
+- [x] Windows 7 SP2 及以后
+- [x] Linux
+- [x] Android
+- [x] MacOS
+- [ ] IPHONE
+
+**注意:** 本人没有 MacOS 和 IPHONE 设备。请有设备的朋友自行测试。
+也可以向本人[捐赠资金](#捐赠)或相关设备，请联系：<kl222@126.com>
 
 ### [下载安装包](https://github.com/KangLin/TransformCoordinate/releases/latest)
-
 
 ### 编译
 #### 下载源码
@@ -51,66 +72,68 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
   - [必选] Rabbit 公共库: https://github.com/KangLin/RabbitCommon
   
 #### CMake 配置参数
-  - [必选] Qt5_DIR: qt 安装位置
+  - [必选] QT_DIR: qt 安装位置
+    - [可选] Qt5_DIR: qt5 安装位置
+    - [可选] Qt6_DIR: qt6 安装位置
   - [必选] RabbitCommon_DIR: RabbitCommon 源码位置
 
 #### 各平台编译
 ##### linux 平台编译说明
-  - 编译
+- 编译
+
+      cd TransformCoordinate
+      mkdir build
+      cd build
+      cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DQT_DIR=...... \
+          -DQt6_DIR=...... \
+          -DRabbitCommon_DIR= \
+          [其它可选 CMake 配置参数]
+      cmake --build . --config Release
+
+- 打包
+
+      cmake --build . --config Release --target package
+
+- 运行例子
+  + 把生成库的目录加入到变量 LD_LIBRARY_PATH 中
+
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/bin
+
+  + 执行 bin 目录下的程序
 
         cd TransformCoordinate
-        mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
-                 -DCMAKE_BUILD_TYPE=Release \
-                 -DQT_DIR=...... \
-                 -DQt6_DIR=...... \
-                 -DRabbitCommon_DIR= \
-                 [其它可选 CMake 配置参数]
-        cmake --build . --config Release
-
-  - 打包
-
-        cmake --build . --config Release --target package
-
-  - 运行例子
-    + 把生成库的目录加入到变量 LD_LIBRARY_PATH 中
- 
-            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/bin
-
-    + 执行 bin 目录下的程序
-
-            cd TransformCoordinate
-            cd build
-            cd bin
-            ./TransformCoordinate.sh
+        cd bin
+        ./TransformCoordinate.sh
 
 ##### windows 平台编译说明
-  - 使用 cmake-gui.exe 工具编译。打开 cmake-gui.exe 配置
-  - 命令行编译
-    + 把 cmake 命令所在目录加入到环境变量 PATH 中
-    + 从开始菜单打开 “VS2015开发人员命令提示”，进入命令行
+- 使用 cmake-gui.exe 工具编译。打开 cmake-gui.exe 配置
+- 命令行编译
+  + 把 cmake 命令所在目录加入到环境变量 PATH 中
+  + 从开始菜单打开 “VS2015开发人员命令提示”，进入命令行
 
-      - 编译
+    - 编译
 
-            cd TransformCoordinate
-            mkdir build
-            cd build
-            cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install ^
-                 -DCMAKE_BUILD_TYPE=Release ^
-                 -DQT_DIR=...... ^
-                 -DQt6_DIR=...... ^
-                 -DRabbitCommon_DIR= ^
-                 [其它可选 CMake 配置参数]
-            cmake --build . --config Release
+          cd TransformCoordinate
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install ^
+              -DCMAKE_BUILD_TYPE=Release ^
+              -DQT_DIR=...... ^
+              -DQt6_DIR=...... ^
+              -DRabbitCommon_DIR= ^
+              [其它可选 CMake 配置参数]
+          cmake --build . --config Release
 
-      - 打包
+    - 打包
 
-            cmake --build . --config Release --target package
+          cmake --build . --config Release --target package
 
-      - 运行例子
-        + 执行 bin 目录下的程序
-          - TransformCoordinateApp.exe
+    - 运行例子
+      + 执行 bin 目录下的程序
+        - TransformCoordinateApp.exe
 
 ##### Android 平台编译说明
 
@@ -182,6 +205,24 @@ BD09：为百度坐标系，在GCJ02坐标系基础上再次加密。其中bd09l
   - 安装 apk 到设备
 
        adb install android-build-debug.apk 
+
+##### MacOS 平台编译说明
+- 编译
+
+      cd TransformCoordinate
+      mkdir build
+      cd build
+      cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DQT_DIR=...... \
+          -DQt6_DIR=...... \
+          -DRabbitCommon_DIR= \
+          [其它可选 CMake 配置参数]
+      cmake --build . --config Release
+
+- 打包
+
+      cmake --build . --config Release --target package
 
 ### 捐赠:
 

@@ -1,3 +1,11 @@
+- v0.0.10
+  + 修改自动编译
+    - 增加 github actions
+  + 使用 RabbitCommon V2
+    + 增加日志菜单
+    + 增加设置样式菜单
+  + 使用 CPack 打包
+
 - v0.0.9
   + 修改更新
   + 增加 android 签名

@@ -25,14 +25,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     ui->actionAbout_A->setIcon(windowIcon());
 
     InitStatusBar();
     
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
+
     ui->menuTools->insertMenu(ui->actionExit,
                               RabbitCommon::CTools::GetLogMenu(this));
+    ui->menuTools->insertSeparator(ui->actionExit);
     
     QStringList lstCoor;
     lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";

@@ -1,3 +1,5 @@
+# 作者：康林<kl222@126.com>
+
 project(TransformCoordinate)
 
 option(BUILD_GPXMODEL "Set to ON to build GpxModel" ON)

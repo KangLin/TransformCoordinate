@@ -1,3 +1,5 @@
+// 作者：康林<kl222@126.com>
+
 #include <math.h>
 #include <string.h>
 
@@ -22,12 +24,9 @@ struct dpoint_t {
     }
 };
 
-
 dpoint_t _conv_(const dpoint_t& fromPoint, double factor[]) ;
 
-
 dpoint_t ll2mc(const dpoint_t& point) ;
-
 
 int ll2mc(const dpoint_t& pt, dpoint_t* res) ;
 

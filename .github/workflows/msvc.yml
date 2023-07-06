@@ -1,3 +1,5 @@
+# 作者：康林<kl222@126.com>
+
 name: build_msvc
 
 on:
@@ -43,7 +45,7 @@ jobs:
       CMAKE_GENERATOR: "Visual Studio 17 2022"
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      TransformCoordinate_VERSION: "v0.0.10"
+      TransformCoordinate_VERSION: "v0.0.9"
       VCPKGGITCOMMITID: 9c7c66471005cb132832786d5d65d83d2cf503ad
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
@@ -159,20 +161,12 @@ jobs:
               -DINSTALL_QT=OFF ^
               -DBUILD_APP=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
 
       - name: Package
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}\build
         run: |
-          dir
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
-          copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
-          copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
-          copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-          dir
-          makensis ${{github.workspace}}\build\Install.nsi
-          copy /Y TransformCoordinate_Setup_${{env.TransformCoordinate_VERSION}}.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_setup.exe
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.5.1' }}
@@ -180,4 +174,4 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_setup.exe
+            ${{github.workspace}}\build\TransformCoordinate_*.exe

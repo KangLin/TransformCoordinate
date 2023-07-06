@@ -1,3 +1,5 @@
+# 作者：康林<kl222@126.com>
+
 #TODO: Change version
 version: 'v0.0.10.{build}'
 
@@ -135,12 +137,9 @@ build_script:
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build.sh
 
 artifacts:
-  - path: build_$(BUILD_TARGERT)\TransformCoordinate-Setup-*.exe
+  - path: build_$(BUILD_TARGERT)\TransformCoordinate*.exe
     name: TransformCoordinate_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     type: zip
-    
-  - path: build_$(BUILD_TARGERT)\update_windows.xml
-  - path: TransformCoordinate_$(BUILD_VERSION).apk
 
 test: off
 
