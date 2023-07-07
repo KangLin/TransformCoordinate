@@ -302,7 +302,6 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionStyle"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuTools"/>
@@ -351,18 +350,10 @@
     <string>Update</string>
    </property>
   </action>
-  <action name="actionStyle">
-   <property name="icon">
-    <iconset theme="style">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Style</string>
-   </property>
-  </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset theme="window-close"/>
+    <iconset theme="window-close">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Exit</string>

@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
-
+    RabbitCommon::CTools::InsertStyleMenu(ui->menuTools, ui->actionExit, this);
     ui->menuTools->insertMenu(ui->actionExit,
                               RabbitCommon::CTools::GetLogMenu(this));
     ui->menuTools->insertSeparator(ui->actionExit);
