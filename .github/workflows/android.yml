@@ -139,8 +139,8 @@ jobs:
           cmake --build . --config ${{matrix.BUILD_TYPE}} --target all
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target install
           APK_FILE=`find . -name "android-*.apk"`
-          cp $APK_FILE TransformCoordinate_${{env.FaceRecognizer_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
-          7z a TransformCoordinate_${{env.FaceRecognizer_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip install/*
+          cp $APK_FILE TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+          7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip install/*
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.5.1' }}
@@ -148,5 +148,5 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}/build/TransformCoordinate_${{env.FaceRecognizer_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
-            ${{github.workspace}}/build/TransformCoordinate_${{env.FaceRecognizer_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip
+            ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+            ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip

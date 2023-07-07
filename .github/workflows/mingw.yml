@@ -100,8 +100,8 @@ jobs:
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}\build
         run: |
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
-          copy /Y transformcoordinate_${{env.TransformCoordinate_VERSION}}_Windows_AMD64_setup.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x64.exe
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+          7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x64.zip install/*
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -109,5 +109,5 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x64.exe
+            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x64.zip
             

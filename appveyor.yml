@@ -114,7 +114,7 @@ init:
   - echo QT_ROOT=%QT_ROOT%
   - echo QT_VERSION=%QT_VERSION%
   - del C:\msys64\usr\bin\link.exe
-  - set TransformCoordinate_VERSION="v0.0.9"
+  - set TransformCoordinate_VERSION="v0.0.10"
   
 install:
   - C:\msys64\autorebase.bat
