@@ -38,7 +38,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <meta-data android:name="android.app.lib_name" android:value="CalendarApp"/>
+            <meta-data android:name="android.app.lib_name" android:value="TransformCoordinateApp"/>
             <meta-data android:name="android.app.arguments" android:value=""/>
             <meta-data android:name="android.app.extract_android_style" android:value="full"/>
         </activity>

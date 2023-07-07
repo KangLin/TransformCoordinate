@@ -45,7 +45,7 @@ jobs:
       CMAKE_GENERATOR: "Visual Studio 17 2022"
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      TransformCoordinate_VERSION: "v0.0.9"
+      TransformCoordinate_VERSION: "v0.0.10"
       VCPKGGITCOMMITID: f6a5d4e8eb7476b8d7fc12a56dff300c1c986131
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
@@ -168,7 +168,7 @@ jobs:
         run: |
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           makensis.exe Install.nsi
-          copy /Y TransformCoordinate_Setup_${{env.TransformCoordinate_VERSION}}.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_Setup.exe
+          copy /Y TransformCoordinate_Setup_${{env.TransformCoordinate_VERSION}}.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version != '5.15.2' }}
@@ -176,4 +176,4 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_Setup.exe
+            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe

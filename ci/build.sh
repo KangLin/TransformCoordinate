@@ -259,8 +259,8 @@ if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
     
     if [ -z "${STATIC}" ]; then
         "/C/Program Files (x86)/NSIS/makensis.exe" "Install.nsi"
-        MD5=`md5sum TransformCoordinate-Setup-*.exe|awk '{print $1}'`
+        MD5=`md5sum TransformCoordinate_Setup_${VERSION}.exe|awk '{print $1}'`
         echo "MD5:${MD5}"
-        install/bin/TransformCoordinateApp.exe -f "`pwd`/update_windows.xml" --md5 ${MD5} -m "v0.0.9"
+        install/bin/TransformCoordinateApp.exe -f "`pwd`/update_windows.xml" --md5 ${MD5} -m "${VERSION}"
     fi
 fi

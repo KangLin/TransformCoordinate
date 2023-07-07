@@ -47,10 +47,26 @@
 - [x] MacOS
 - [ ] IPHONE
 
-**注意:** 本人没有 MacOS 和 IPHONE 设备。请有设备的朋友自行测试。
+**注意:** 本人没有 MacOS 和 IPHONE 设备。请有设备的朋友自行测试，并进行反馈。
 也可以向本人[捐赠资金](#捐赠)或相关设备，请联系：<kl222@126.com>
 
 ### [下载安装包](https://github.com/KangLin/TransformCoordinate/releases/latest)
+
+- Windows
+
+[TransformCoordinate_v0.0.10_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/TransformCoordinate_v0.0.10_win32_msvc2017_qt5.12.12_Setup.exe)
+
+- Ubuntu
+
+[transformcoordinate_0.0.10_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/transformcoordinate_0.0.10_amd64.deb)
+
+- Android
+  + [TransformCoordinate_v0.0.10_android_armv7_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/TransformCoordinate_v0.0.10_android_armv7_qt6.5.1_Release.apk)
+  + [TransformCoordinate_v0.0.10_android_x86_64_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/TransformCoordinate_v0.0.10_android_x86_64_qt6.5.1_Release.apk)
+
+- MacOS
+
+[transformcoordinate_v0.0.10_Darwin_x86_64_setup.tar.gz](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/transformcoordinate_v0.0.10_Darwin_x86_64_setup.tar.gz)
 
 ### 编译
 #### 下载源码
