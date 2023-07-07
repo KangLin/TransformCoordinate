@@ -93,10 +93,7 @@ jobs:
               -DCMARK_STATIC=ON ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
-              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
-              -DINSTALL_QT=OFF ^
-              -DBUILD_APP=OFF ^
-              -DCMAKE_CXX_COMPILER_ARCHITECTURE_ID=x86_64
+              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
       - name: Package
@@ -104,6 +101,7 @@ jobs:
         working-directory: ${{github.workspace}}\build
         run: |
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
+          copy /Y transformcoordinate_${{env.TransformCoordinate_VERSION}}_Windows_AMD64_setup.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x64.exe
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -111,5 +109,5 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x86_64_${{matrix.BUILD_TYPE}}.zip
+            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x64.exe
             

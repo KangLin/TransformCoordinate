@@ -114,6 +114,7 @@ init:
   - echo QT_ROOT=%QT_ROOT%
   - echo QT_VERSION=%QT_VERSION%
   - del C:\msys64\usr\bin\link.exe
+  - set TransformCoordinate_VERSION="v0.0.9"
   
 install:
   - C:\msys64\autorebase.bat
@@ -135,9 +136,11 @@ build_script:
   - set PATH="%CD%/bin";%PATH%
   - cd %APPVEYOR_BUILD_FOLDER%
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build.sh
-
+  - cd %APPVEYOR_BUILD_FOLDER%\build_$(BUILD_TARGERT)
+  - copy /Y TransformCoordinate_Setup_%TransformCoordinate_VERSION%.exe TransformCoordinate_%TransformCoordinate_VERSION%_qt%QT_VERSION%_Setup.exe
+  
 artifacts:
-  - path: build_$(BUILD_TARGERT)\TransformCoordinate*.exe
+  - path: build_$(BUILD_TARGERT)\TransformCoordinate_%TransformCoordinate_VERSION%_qt%QT_VERSION%_Setup.exe
     name: TransformCoordinate_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     type: zip
 
