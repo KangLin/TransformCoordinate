@@ -33,7 +33,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.BUILD_TYPE}}
-      TransformCoordinate_VERSION: "v0.0.1"
+      TransformCoordinate_VERSION: "v0.0.10"
       VCPKGGITCOMMITID: f6a5d4e8eb7476b8d7fc12a56dff300c1c986131
       ANDROID_PLATFORM: android-23
       ANDROID_NATIVE_API_LEVEL: 23
