@@ -197,6 +197,7 @@ void MainWindow::on_actionAbout_A_triggered()
     about.m_AppIcon = p.toImage();
     about.m_szHomePage = "https://github.com/KangLin/TransformCoordinate";
     about.m_szCopyrightStartTime = "2018";
+    about.m_szVersion = TransformCoordinate_VERSION;
     about.m_szVersionRevision = TransformCoordinate_REVISION;
 #if defined (Q_OS_ANDROID)
     about.showMaximized();

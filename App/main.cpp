@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setApplicationName("TransformCoordinate");
+    a.setApplicationVersion(TransformCoordinate_VERSION);
     
     QTranslator translator;
     bool bRet = translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
