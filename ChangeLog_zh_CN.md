@@ -1,3 +1,6 @@
+- v0.0.11
+  - 修复 Android 错误
+
 - v0.0.10
   + 修改自动编译
     - 增加 github actions

@@ -1,3 +1,6 @@
+- v0.0.11
+  + Fix android bug
+
 - v0.0.10
   + Modify ci
     + Add github actions
