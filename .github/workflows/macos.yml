@@ -120,7 +120,9 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
-              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+              -DVCPKG_VERBOSE=ON \
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
