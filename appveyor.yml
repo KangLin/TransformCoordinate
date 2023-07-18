@@ -1,7 +1,7 @@
 # 作者：康林<kl222@126.com>
 
 #TODO: Change version
-version: 'v0.0.10.{build}'
+version: 'v0.0.11.{build}'
 
 environment:
   STOREPASS:
@@ -11,7 +11,7 @@ environment:
   QT_PASSWORD:
     secure: ejAYGgB+3sBispRxUSr0xw==
     
-  BUILD_VERSION: "v0.0.10"
+  BUILD_VERSION: "v0.0.11"
   matrix: 
   ##### msvc 2013 ########
   - BUILD_TARGERT: windows_msvc
@@ -114,7 +114,7 @@ init:
   - echo QT_ROOT=%QT_ROOT%
   - echo QT_VERSION=%QT_VERSION%
   - del C:\msys64\usr\bin\link.exe
-  - set TransformCoordinate_VERSION="v0.0.10"
+  - set TransformCoordinate_VERSION="v0.0.11"
   
 install:
   - C:\msys64\autorebase.bat

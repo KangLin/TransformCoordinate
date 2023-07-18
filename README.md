@@ -55,19 +55,19 @@
 
 - Windows
 
-[TransformCoordinate_v0.0.10_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/TransformCoordinate_v0.0.10_win32_msvc2017_qt5.12.12_Setup.exe)
+[TransformCoordinate_v0.0.11_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.11/TransformCoordinate_v0.0.11_win32_msvc2017_qt5.12.12_Setup.exe)
 
 - Ubuntu
 
-[transformcoordinate_0.0.10_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/transformcoordinate_0.0.10_amd64.deb)
+[transformcoordinate_0.0.11_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.11/transformcoordinate_0.0.11_amd64.deb)
 
 - Android
-  + [TransformCoordinate_v0.0.10_android_armv7_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/TransformCoordinate_v0.0.10_android_armv7_qt6.5.1_Release.apk)
-  + [TransformCoordinate_v0.0.10_android_x86_64_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/TransformCoordinate_v0.0.10_android_x86_64_qt6.5.1_Release.apk)
+  + [TransformCoordinate_v0.0.11_android_armv7_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.11/TransformCoordinate_v0.0.11_android_armv7_qt6.5.1_Release.apk)
+  + [TransformCoordinate_v0.0.11_android_x86_64_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.11/TransformCoordinate_v0.0.11_android_x86_64_qt6.5.1_Release.apk)
 
 - MacOS
 
-[transformcoordinate_v0.0.10_Darwin_x86_64_setup.tar.gz](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.10/transformcoordinate_v0.0.10_Darwin_x86_64_setup.tar.gz)
+[transformcoordinate_v0.0.11_Darwin_x86_64_setup.tar.gz](https://github.com/KangLin/TransformCoordinate/releases/download/v0.0.11/transformcoordinate_v0.0.11_Darwin_x86_64_setup.tar.gz)
 
 ### 编译
 #### 下载源码

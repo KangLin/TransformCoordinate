@@ -113,10 +113,10 @@ case ${BUILD_TARGERT} in
 esac
 
 if [ -n "$appveyor_build_version" -a -z "$VERSION" ]; then
-    export VERSION="v0.0.10"
+    export VERSION="v0.0.11"
 fi
 if [ -z "$VERSION" ]; then
-    export VERSION="v0.0.10"
+    export VERSION="v0.0.11"
 fi
 export UPLOADTOOL_BODY="Release TransformCoordinate-${VERSION}.<br> The change see [ChangeLog.md](ChangeLog.md) or [ChangeLog_zh_CN.md](ChangeLog_zh_CN.md)"
  #export UPLOADTOOL_PR_BODY=
