@@ -9,10 +9,11 @@
 
 [![Github 发行版本](https://img.shields.io/github/release-pre/KangLin/TransformCoordinate?label=Github%20发行版本)](https://github.com/KangLin/TransformCoordinate/releases)
 [![Github 最后发行版本](https://img.shields.io/github/release/KangLin/TransformCoordinate?label=Github%20最后发行版本)](https://github.com/KangLin/TransformCoordinate/releases)
+
 [![Github 所有发行版本下载量](https://img.shields.io/github/downloads/KangLin/TransformCoordinate/total?label=Github%20下载总量)](http://gra.caldis.me/?user=KangLin&repo=TransformCoordinate)
+[![从 sourceforge 下载量](https://img.shields.io/sourceforge/dt/TransformCoordinate.svg?label=Sourceforge%20下载总量)](https://sourceforge.net/projects/TransformCoordinate/files/latest/download)
 
 [![Download from sourceforge](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/TransformCoordinate/files/latest/download)
-[![从 sourceforge 下载量](https://img.shields.io/sourceforge/dt/TransformCoordinate.svg?label=Sourceforge%20下载总量)](https://sourceforge.net/projects/TransformCoordinate/files/latest/download)
 
 + 项目地址：https://github.com/KangLin/TransformCoordinate
 + 镜像地址：

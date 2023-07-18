@@ -73,7 +73,7 @@ void MainWindow::on_pbConversion_clicked()
 void MainWindow::on_pbBrowsSrcFile_clicked()
 {
     QString szExt = tr("GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)");
-    QString szFile = RabbitCommon::CDir::GetOpenFileName(this, 
+    QString szFile = QFileDialog::getOpenFileName(this, 
                                         tr("Open source file"),
                                         QStandardPaths::writableLocation(
                                             QStandardPaths::DocumentsLocation),
@@ -88,7 +88,7 @@ void MainWindow::on_pbBrowsDstFile_clicked()
 #ifdef BUILD_LIBKML
 	szExt += tr("KML file(*.kml)");
 #endif
-    QString szFile = RabbitCommon::CDir::GetOpenFileName(this, 
+    QString szFile = QFileDialog::getOpenFileName(this, 
                                   tr("Open destination file"),
                                   QStandardPaths::writableLocation(
                                        QStandardPaths::DocumentsLocation),
@@ -128,21 +128,20 @@ void MainWindow::on_leSrcFile_textChanged(const QString &text)
 
 void MainWindow::on_pbSrcDir_clicked()
 {  
-    QString szDir = RabbitCommon::CDir::GetOpenDirectory(this,
+    QString szDir = QFileDialog::getExistingDirectory(this,
                                  tr("Open source directory"),
                                  QStandardPaths::writableLocation(
-                                            QStandardPaths::DocumentsLocation));
+                                 QStandardPaths::DocumentsLocation));
     if(szDir.isEmpty()) return;
     ui->leSrcDir->setText(szDir);
 }
 
 void MainWindow::on_pbDstDir_clicked()
 {
-    QFileDialog df(this, tr("Open destination directory"));
-    QString szDir = RabbitCommon::CDir::GetOpenDirectory(this,
+    QString szDir = QFileDialog::getExistingDirectory(this,
                             tr("Open destination directory"),
                             QStandardPaths::writableLocation(
-                                            QStandardPaths::DocumentsLocation));
+                               QStandardPaths::DocumentsLocation));
     if(szDir.isEmpty()) return;
     ui->leDstDir->setText(szDir);
 }

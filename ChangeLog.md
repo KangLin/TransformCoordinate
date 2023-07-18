@@ -1,5 +1,6 @@
 - v0.0.11
   + Fix android bug
+  + Replace RabbitCommon::CDir::GetOpenDirectory with QFileDialog::getExistingDirectory
 
 - v0.0.10
   + Modify ci
