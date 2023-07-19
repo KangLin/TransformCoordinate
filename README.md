@@ -51,6 +51,8 @@
 **注意:** 本人没有 MacOS 和 IPHONE 设备。请有设备的朋友自行测试，并进行反馈。
 也可以向本人[捐赠资金](#捐赠)或相关设备，请联系：<kl222@126.com>
 
+详见：[Qt5 支持平台](https://doc.qt.io/qt-5/supported-platforms.html)、[Qt6 支持平台](https://doc.qt.io/qt-6/supported-platforms.html)。
+
 ### [下载安装包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
 - Windows
