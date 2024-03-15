@@ -55,14 +55,39 @@ file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${HEAD_FILES}" # Install head files
-    VERSION ${TransformCoordinate_VERSION})
-if(NOT ANDROID)
+    INSTALL_RPATH "$ORIGIN;$ORIGIN/../lib;$ORIGIN/../lib/${CMAKE_LIBRARY_ARCHITECTURE}"
+    )
+if(TransformCoordinate_VERSION)
+    if(NOT WIN32)
+        string(REPLACE "v" "" TransformCoordinate_VERSION ${TransformCoordinate_VERSION})
+    endif()
+    if(NOT PARA_SOVERSION)
+        string(FIND ${TransformCoordinate_VERSION} "." _VERSION_MAJOR_POS)
+        string(SUBSTRING ${TransformCoordinate_VERSION} 0 ${_VERSION_MAJOR_POS} PARA_SOVERSION)
+    endif()
+    string(REPLACE "v" "" PARA_SOVERSION ${PARA_SOVERSION})
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        VERSION ${TransformCoordinate_VERSION}
     )
 endif()
+if(PARA_SOVERSION)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        SOVERSION ${PARA_SOVERSION}
+    )
+endif()
+if(WIN32)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    )
+else()
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    )
+endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+)
 
 # Install target
 SET(INSTALL_LIBRARY "${CMAKE_INSTALL_LIBDIR}")
