@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
-    RabbitCommon::CTools::InsertStyleMenu(ui->menuTools, ui->actionExit, this);
+    RabbitCommon::CTools::InsertStyleMenu(ui->menuTools, ui->actionExit);
     ui->menuTools->insertMenu(ui->actionExit,
                               RabbitCommon::CTools::GetLogMenu(this));
     ui->menuTools->insertSeparator(ui->actionExit);
@@ -236,16 +236,6 @@ int MainWindow::SetStatusInfo(QString szText, QColor color)
     m_statusInfo.setPalette(pe);
     m_statusInfo.setText(szText);
     return 0;
-}
-
-void MainWindow::on_actionStyle_triggered()
-{
-    CFrmStyle* pStyle = new CFrmStyle(this);
-#if defined(Q_OS_ANDROID)
-    pStyle->showMaximized();
-#else
-    pStyle->show();
-#endif
 }
 
 void MainWindow::on_actionExit_triggered()

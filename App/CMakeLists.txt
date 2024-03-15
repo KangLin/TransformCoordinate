@@ -78,21 +78,25 @@ ADD_TARGET(NAME ${PROJECT_NAME}
         TransformCoordinate_VERSION="${TransformCoordinate_VERSION}"
     )
 
+INSTALL_FILE(SOURCES ${CMAKE_SOURCE_DIR}/etc/logqt.ini
+    DESTINATION etc
+        COMPONENT Application)
+
 if(UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.desktop
         DESTINATION "share/applications"
-            COMPONENT Runtime)
+            COMPONENT Application)
     INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.sh
         DESTINATION "${CMAKE_INSTALL_BINDIR}"
-            COMPONENT Runtime)
+            COMPONENT Application)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/icons/black/svg/TransformCoordinate.svg
         DESTINATION "share/pixmaps"
-            COMPONENT Runtime)
+            COMPONENT Application)
 endif()
 IF(WIN32)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico
         DESTINATION .
-            COMPONENT Runtime)
+            COMPONENT Application)
     FILE(COPY ${CMAKE_SOURCE_DIR}/Install/Install.nsi DESTINATION "${CMAKE_BINARY_DIR}")
 ENDIF()
 
@@ -102,6 +106,8 @@ set(OTHER_FILES ${CMAKE_SOURCE_DIR}/License.md
     ${CMAKE_SOURCE_DIR}/ChangeLog.md
     ${CMAKE_SOURCE_DIR}/Authors_zh_CN.md
     ${CMAKE_SOURCE_DIR}/ChangeLog_zh_CN.md)
-INSTALL_FILE(SOURCES ${OTHER_FILES} DESTINATION ${CMAKE_INSTALL_DOCDIR} COMPONENT Runtime)
+INSTALL_FILE(SOURCES ${OTHER_FILES}
+    DESTINATION ${CMAKE_INSTALL_DOCDIR}
+        COMPONENT Application)
 
 INSTALL_ICON_THEME(SOURCES ${CMAKE_SOURCE_DIR}/App/Resource/icons)

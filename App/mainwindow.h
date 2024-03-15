@@ -31,8 +31,6 @@ private slots:
     
     void on_actionUpdate_U_triggered();
     
-    void on_actionStyle_triggered();
-    
     void on_actionExit_triggered();
     
 private:

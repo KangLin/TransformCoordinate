@@ -1,15 +1,76 @@
+# Debian 维护者指南: https://www.debian.org/doc/manuals/debmake-doc/ch05.zh-cn.html#control
+# Debian 新维护者手册: https://www.debian.org/doc/manuals/maint-guide/dreq.zh-cn.html#control
+# https://www.debian.org/doc/debian-policy/ch-controlfields.html
+
 Source: transformcoordinate
-Section: main
+Section: devel
 Priority: optional
 Maintainer: Kang Lin <kl222@126.com>
-Build-Depends: debhelper (>= 6)
-Standards-Version:"v0.0.11"
+Build-Depends: debhelper (>=13~), debhelper-compat (=13), fakeroot, cmake,
+ rabbitcommon-dev (>=2), qt6-tools-dev, qt6-tools-dev-tools,
+ qt6-base-dev, qt6-base-dev-tools, qt6-l10n-tools,
+ qt6-translations-l10n, qt6-scxml-dev, qt6-webengine-dev,
+ qt6-webengine-dev-tools, libsqlite3-dev
+Standards-Version: 4.6.2
 Homepage: https://github.com/KangLin/TransformCoordinate
 Vcs-Git: https://github.com/KangLin/TransformCoordinate.git
-#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/TransformCoordinate.git
+Vcs-Browser: https://github.com/KangLin/TransformCoordinate
+Rules-Requires-Root: binary-targets
 
 Package: transformcoordinate
 Architecture: any
+Multi-Arch: foreign
+Pre-Depends: ${misc:Pre-Depends}
+Depends: libtransformcoordinate (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: The Transform coordinate application using Qt
+ The Transform coordinate application using Qt
+ .
+ Author: Kang Lin <kl222@126.com>
+ .
+ Donation:
+ .
+ https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ .
+ https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ .
+ https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
+
+Package: libtransformcoordinate
+Section: libs
+Architecture: any
+Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: TransformCoordinate
+Replaces: rabbitcommon (>=2)
+Description: The Transform coordinate runtime library using Qt
+ The Transform coordinate runtime library using Qt
+ .
+ Author: Kang Lin <kl222@126.com>
+ .
+ Donation:
+ .
+ https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ .
+ https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ .
+ https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
+
+Package: libtransformcoordinate-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Replaces: rabbitcommon-dev (>=2)
+Depends: libtransformcoordinate (= ${binary:Version}), ${misc:Depends}
+Description: The Transform coordinate devel library using Qt
+  The Transform coordinate devel library using Qt
+  .
+  Author: Kang Lin <kl222@126.com>
+  .
+  Donation:
+  .
+  https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+  .
+  https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+  .
+  https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
+

@@ -17,31 +17,36 @@ set -e
 # for details, see https://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+INSTALL_ROOT=/opt/TransformCoordinate
 
 case "$1" in
     configure)
+        mkdir -p $INSTALL_ROOT/log
+        chmod -R a+w $INSTALL_ROOT/log
+        chmod -R a+w $INSTALL_ROOT/etc
         if [ ! -f /usr/share/applications/TransformCoordinate.desktop ]; then
-            ln -s /opt/TransformCoordinate/share/applications/TransformCoordinate.desktop /usr/share/applications/TransformCoordinate.desktop
+            ln -s $INSTALL_ROOT/share/applications/TransformCoordinate.desktop /usr/share/applications/TransformCoordinate.desktop
         fi
         if [ ! -f /usr/share/pixmaps/TransformCoordinate.svg ]; then
             if [ ! -d /usr/share/pixmaps ]; then
                 mkdir -p /usr/share/pixmaps
             fi
-            ln -s /opt/TransformCoordinate/share/pixmaps/TransformCoordinate.svg /usr/share/pixmaps/TransformCoordinate.svg
+            ln -s $INSTALL_ROOT/share/pixmaps/TransformCoordinate.svg /usr/share/pixmaps/TransformCoordinate.svg
         fi
-        echo "/opt/TransformCoordinate/lib" > /etc/ld.so.conf.d/TransformCoordinate.conf
-        echo "/opt/TransformCoordinate/bin" >> /etc/ld.so.conf.d/TransformCoordinate.conf
-        export QT_VERSION_DIR=
-        if [ -n "${QT_VERSION_DIR}" ]; then
-            echo "/opt/qt${QT_VERSION_DIR}/lib" >> /etc/ld.so.conf.d/FaceRecognizer.conf
-        fi
-        ldconfig
+        #echo "$INSTALL_ROOT/lib" > /etc/ld.so.conf.d/TransformCoordinate.conf
+        #echo "$INSTALL_ROOT/bin" >> /etc/ld.so.conf.d/TransformCoordinate.conf
+        #export QT_VERSION_DIR=
+        #if [ -n "${QT_VERSION_DIR}" ]; then
+        #    echo "/opt/qt${QT_VERSION_DIR}/lib" >> /etc/ld.so.conf.d/FaceRecognizer.conf
+        #fi
+        #ldconfig
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
         rm -fr /usr/share/applications/TransformCoordinate.desktop
-        rm -fr /etc/ld.so.conf.d/TransformCoordinate.conf
         rm -fr /usr/share/pixmaps/TransformCoordinate.svg
+        rm -fr $INSTALL_ROOT/log
+        #rm -fr /etc/ld.so.conf.d/TransformCoordinate.conf
     ;;
 
     *)

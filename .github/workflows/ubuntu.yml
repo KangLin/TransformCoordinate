@@ -78,6 +78,7 @@ jobs:
         run: |
           ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
           cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
+          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
 
       - name: Update xml file
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -85,6 +86,7 @@ jobs:
         run: |
           sudo Xvfb :99 -ac &
           export DISPLAY=:99.0
+          sudo apt install ./libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           sudo apt install ./transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           MD5=`md5sum transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb|awk '{print $1}'`
           echo "MD5:${MD5}"
