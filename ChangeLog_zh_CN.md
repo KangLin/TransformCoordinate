@@ -1,3 +1,6 @@
+- v0.0.12
+  - 使用 RabbitCommon v2.1.0
+
 - v0.0.11
   - 修复 Android 错误
   - 用 QFileDialog::getExistingDirectory 替换 RabbitCommon::CDir::GetOpenDirectory

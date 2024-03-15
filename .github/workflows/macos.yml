@@ -18,10 +18,10 @@ jobs:
       matrix:
         # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
-        qt_version: [6.5.1, 5.15.2, 5.12.12]
+        qt_version: [6.6.2, 5.15.2, 5.12.12]
         qt_arch: [clang_64]
         include:
-          - qt_version: 6.5.1
+          - qt_version: 6.6.2
             qt_modules: qtscxml qtwebengine qtwebchannel qtwebsockets qtwebview qtpositioning
 
           - qt_version: 5.15.2
@@ -33,13 +33,14 @@ jobs:
     runs-on: macos-latest
 
     env:
+      TransformCoordinate_VERSION: "v0.0.11"
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
-      INSTALL_DIR: ${{github.workspace}}/.cache/install_macos
-      qt_modules: ${{matrix.qt_modules}}
-      TransformCoordinate_VERSION: "v0.0.11"
-      VCPKGGITCOMMITID: f6a5d4e8eb7476b8d7fc12a56dff300c1c986131
+      INSTALL_DIR: ${{github.workspace}}/.cache/install
+      qt_modules: qtwebengine ${{matrix.qt_modules}}
+      VCPKGGITCOMMITID: a1a1cbc975abf909a6c8985a6a2b8fe20bbd9bd6
+      VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       artifact_name: build_macos
 
     # Map the job outputs to step outputs
@@ -65,42 +66,24 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: Cache-macos-installed-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+          key: install_macos_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
 
-      - name: run-vcpkg
-        uses: lukka/run-vcpkg@v7.4
+      - name: run vcpkg
+        uses: lukka/run-vcpkg@v11
         with:
-          # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
-          #setupOnly: # optional
-          #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
           vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
-          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-          # compute its hash and append this to the computed cache's key.
-          appendedCacheKey: vcpkg-${{env.VCPKGGITCOMMITID}}
-          #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
-          vcpkgTriplet: '${{matrix.triplet}}'
-          vcpkgArguments: 'openssl'
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v1  # not v2!
-        with:
-          path: ${{env.TOOSL_DIR}}/qt
-          key: qt${{matrix.qt_version}}-macos
-        
       - name: Install Qt
-        # You may pin to the exact commit or the version.
-        # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
         uses: jurplel/install-qt-action@v3
         with:
-          # Directory to install Qt
-          dir: ${{env.TOOSL_DIR}}/qt # optional
-          # Version of Qt to install
-          version: ${{matrix.qt_version}} # optional, default is 5.15.2
-          modules: ${{env.qt_modules}} # optional. See: https://ddalcino.github.io/aqt-list-server/
-          cache: ${{steps.cache-qt.outputs.cache-hit}} # optional, default is false
-
+          dir: '${{env.TOOSL_DIR}}/qt' # optional
+          version: '${{matrix.qt_version}}' # optional, default is 5.15.2
+          arch: '${{matrix.qt_arch}}' # optional
+          modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
+          cache: true
+          cache-key-prefix: cached_qt
+      
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: |
@@ -128,7 +111,7 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
       
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.5.1' }}
+        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.2' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}

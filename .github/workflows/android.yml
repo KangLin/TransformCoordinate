@@ -15,26 +15,31 @@ jobs:
     strategy:
       matrix:
         BUILD_TYPE: [Release]
-        qt_arch: [android_armv7, android_x86_64]
-        qt_version: [6.5.1]
+        qt_arch: [android_arm64_v8a, android_armv7, android_x86_64]
+        qt_version: [6.6.2]
         include:
-          - qt_arch: android_armv7
-            qt_version: 6.5.1
+          - qt_arch: android_arm64_v8a
+            VCPKG_TARGET_TRIPLET: arm64-android
+
+          - BUILD_TYPE: Release
+            qt_arch: android_armv7
             VCPKG_TARGET_TRIPLET: arm-android
 
-          - qt_version: 6.5.1
-            qt_arch: android_x86_64 
+          - qt_arch: android_x86_64 
             VCPKG_TARGET_TRIPLET: x64-android
 
     runs-on: ubuntu-latest
 
     env:
-      artifact_name: build_android
+      TransformCoordinate_VERSION: "v0.0.11"
+      VCPKGGITCOMMITID: a1a1cbc975abf909a6c8985a6a2b8fe20bbd9bd6
+      VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_HOST_TRIPLET: x64-linux
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
-      INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.BUILD_TYPE}}
-      TransformCoordinate_VERSION: "v0.0.11"
-      VCPKGGITCOMMITID: f6a5d4e8eb7476b8d7fc12a56dff300c1c986131
+      INSTALL_DIR: ${{github.workspace}}/.cache/install
+      STOREPASS: ${{secrets.STOREPASS}}
+      artifact_name: build_android
       ANDROID_PLATFORM: android-23
       ANDROID_NATIVE_API_LEVEL: 23
       qt_modules: 'qtimageformats qtmultimedia qtscxml'
@@ -63,31 +68,7 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: cache-installed-android-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}
-
-      - name: run-vcpkg
-        if: false
-        uses: lukka/run-vcpkg@v7.4
-        with:
-          # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
-          #setupOnly: # optional
-          #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
-          vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
-          vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
-          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-          # compute its hash and append this to the computed cache's key.
-          appendedCacheKey: vcpkg-${{env.VCPKGGITCOMMITID}}
-          additionalCachedPaths: $VCPKG_ROOT/installed
-          vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
-          vcpkgArguments: 'openssl '
-
-      - name: Cache Qt
-        #if: false
-        id: cache-qt
-        uses: actions/cache@v1  # not v2!
-        with:
-          path: ${{env.TOOSL_DIR}}/qt
-          key: qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
+          key: install_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.VCPKG_TARGET_TRIPLET}}_${{matrix.BUILD_TYPE}}
 
       - name: Install Qt of gcc_64
         uses: jurplel/install-qt-action@v3
@@ -98,7 +79,8 @@ jobs:
           target: 'desktop'
           arch: 'gcc_64'
           set-env: false
-          cached: '${{ steps.cache-qt.outputs.cache-hit }}' # optional, default is false
+          cache: true
+          cache-key-prefix: cached_qt
 
       - name: Install Qt of android
         uses: jurplel/install-qt-action@v3
@@ -116,7 +98,8 @@ jobs:
           # Additional Qt modules to install
           modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
           # Whether or not to actually download Qt
-          cached: '${{ steps.cache-qt.outputs.cache-hit }}' # optional, default is false
+          cache: true
+          cache-key-prefix: cached_qt
 
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
@@ -132,9 +115,9 @@ jobs:
           ${Qt6_DIR}/bin/qt-cmake .. \
               -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
               -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
-              -DANDROID_PLATFORM=${{env.ANDROID_PLATFORM}} \
-              -DANDROID_NATIVE_API_LEVEL=${{env.ANDROID_NATIVE_API_LEVEL}} \
+              -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
               -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
+              -DQT_ANDROID_SIGN_APK=ON \              
               -DCMAKE_INSTALL_PREFIX=`pwd`/install
           cmake --build . --config ${{matrix.BUILD_TYPE}} --target all
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target install
@@ -143,7 +126,7 @@ jobs:
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip install/*
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.5.1' }}
+        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.2' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
