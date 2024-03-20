@@ -19,17 +19,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationName("TransformCoordinate");
     a.setApplicationVersion(TransformCoordinate_VERSION);
-    
-    QTranslator translator;
-    bool bRet = translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                    + "/" + "TransformCoordinateApp_" + QLocale::system().name() + ".qm");
-    if(bRet)
-        qApp->installTranslator(&translator);
-    qDebug() << "language:" << QLocale::system().name();
- 
-    a.setApplicationDisplayName(QObject::tr("Transform coordinate"));
 
     RabbitCommon::CTools::Instance()->Init();
+    RabbitCommon::CTools::Instance()->InstallTranslator("TransformCoordinateApp"); 
+    a.setApplicationDisplayName(QObject::tr("Transform coordinate"));
+    
 #ifdef RABBITCOMMON 
     CFrmUpdater *pUpdate = new CFrmUpdater();
     pUpdate->SetTitle(QImage(":/icon/App"));
@@ -47,9 +41,7 @@ int main(int argc, char *argv[])
 #endif
 
     int nRet = a.exec();
-
-    if(bRet)
-        qApp->removeTranslator(&translator);
-
+    
+    RabbitCommon::CTools::Instance()->Clean();
     return nRet;
 }
