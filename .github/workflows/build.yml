@@ -26,10 +26,12 @@ jobs:
 
   android:
     uses: ./.github/workflows/android.yml
+    secrets: inherit
 
   doxygen:
     uses: ./.github/workflows/doxygen.yml
     if: false
+    secrets: inherit
 
   deploy:
     if: ${{ startsWith(github.ref, 'refs/tags/') }}

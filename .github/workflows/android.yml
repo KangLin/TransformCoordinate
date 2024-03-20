@@ -15,34 +15,33 @@ jobs:
     strategy:
       matrix:
         BUILD_TYPE: [Release]
-        qt_arch: [android_arm64_v8a, android_armv7, android_x86_64]
+        qt_arch: [android_arm64_v8a, android_x86_64]
         qt_version: [6.6.2]
         include:
           - qt_arch: android_arm64_v8a
             VCPKG_TARGET_TRIPLET: arm64-android
-
-          - BUILD_TYPE: Release
-            qt_arch: android_armv7
-            VCPKG_TARGET_TRIPLET: arm-android
+            ANDROID_ABI: arm64-v8a
 
           - qt_arch: android_x86_64 
             VCPKG_TARGET_TRIPLET: x64-android
+            ANDROID_ABI: x86_64
 
     runs-on: ubuntu-latest
 
     env:
       TransformCoordinate_VERSION: "v0.0.11"
-      VCPKGGITCOMMITID: a1a1cbc975abf909a6c8985a6a2b8fe20bbd9bd6
+      VCPKGGITCOMMITID: 898b728edc5e0d12b50015f9cd18247c4257a3eb
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
-      VCPKG_HOST_TRIPLET: x64-linux
+      VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_DEFAULT_HOST_TRIPLET: x64-linux
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      STOREPASS: ${{secrets.STOREPASS}}
       artifact_name: build_android
       ANDROID_PLATFORM: android-23
       ANDROID_NATIVE_API_LEVEL: 23
-      qt_modules: 'qtimageformats qtmultimedia qtscxml'
+      ANDROID_ABI: ${{matrix.ANDROID_ABI}}
+      qt_modules: 'qtimageformats qtmultimedia qtscxml qtwebchannel qtwebsockets qtwebview'
 
     # Map the job outputs to step outputs
     outputs:
@@ -62,13 +61,18 @@ jobs:
           cmake -E make_directory ${{github.workspace}}/build
 
       - name: Cache installed
-        #if: false
         uses: actions/cache@v2
         id: cache-installed
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: install_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.VCPKG_TARGET_TRIPLET}}_${{matrix.BUILD_TYPE}}
+          key: install_android_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
+
+      - name: run-vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
+          vcpkgDirectory: ${{env.SOURCE_DIR}}/vcpkg
 
       - name: Install Qt of gcc_64
         uses: jurplel/install-qt-action@v3
@@ -110,19 +114,35 @@ jobs:
         working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+          QT_ANDROID_KEYSTORE_PATH: ${{env.SOURCE_DIR}}/RabbitCommon/RabbitCommon.keystore
+          QT_ANDROID_KEYSTORE_ALIAS: rabbitcommon
+          QT_ANDROID_KEYSTORE_STORE_PASS: ${{secrets.STOREPASS}}
         run: |
           sudo chmod 777 ${Qt6_DIR}/bin/qt-cmake
           ${Qt6_DIR}/bin/qt-cmake .. \
+              -DCMARK_SHARED=OFF \
+              -DCMARK_TESTS=OFF \
+              -DCMARK_STATIC=ON \
               -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
+              -DCMAKE_AUTOGEN_VERBOSE=ON \
+              -DQT_CHAINLOAD_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+              -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
+              -DVCPKG_TARGET_TRIPLET=${{env.VCPKG_TARGET_TRIPLET}} \
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON \
+              -DVCPKG_VERBOSE=ON \
+              -DINSTALL_QT=ON \
               -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
-              -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
+              -DQT_ANDROID_SIGN_APK=ON \
+              -DQT_ENABLE_VERBOSE_DEPLOYMENT=ON \
+              -DVCPKG_TRACE_FIND_PACKAGE=ON \
               -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
-              -DQT_ANDROID_SIGN_APK=ON \              
               -DCMAKE_INSTALL_PREFIX=`pwd`/install
-          cmake --build . --config ${{matrix.BUILD_TYPE}} --target all
-          cmake --build . --config ${{matrix.BUILD_TYPE}}  --target install
+          cmake --build . --verbose --config ${{matrix.BUILD_TYPE}} --target all
           APK_FILE=`find . -name "android-*.apk"`
+          echo "cp $APK_FILE ..."
           cp $APK_FILE TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+          echo "Developer library"
+          cmake --build . --verbose --config ${{matrix.BUILD_TYPE}} --target install
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip install/*
 
       - name: Update artifact

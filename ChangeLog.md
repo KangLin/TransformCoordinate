@@ -1,5 +1,5 @@
 - v0.0.12
-  - Use RabbitCommon v2.1.0
+  - Use [RabbitCommon v2.2.0](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.0)
 
 - v0.0.11
   + Fix android bug
