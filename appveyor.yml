@@ -56,8 +56,15 @@ install:
   - echo %PATH%
 
   - cd %OTHER_SOURCE%
-  #- set VCPKG_DIR=c:\Tools\vcpkg
-  - if not exist %VCPKG_DIR% (git clone "https://github.com/microsoft/vcpkg.git" && cd "%VCPKG_DIR%" && git checkout -b a1a1cbc975abf909a6c8985a6a2b8fe20bbd9bd6 a1a1cbc975abf909a6c8985a6a2b8fe20bbd9bd6 && bootstrap-vcpkg.bat)
+  - set VCPKG_DIR=%OTHER_SOURCE%\vcpkg
+  - ps: |
+      if( -not (Test-Path -Path ${env:VCPKG_DIR}) )
+      {
+          git clone -q "https://github.com/microsoft/vcpkg.git"
+          cd ${env:VCPKG_DIR}
+          git checkout -q -b 898b728edc5e0d12b50015f9cd18247c4257a3eb 898b728edc5e0d12b50015f9cd18247c4257a3eb
+          bootstrap-vcpkg.bat
+      }
   
 before_build:
 
