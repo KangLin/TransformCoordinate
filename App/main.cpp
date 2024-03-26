@@ -12,10 +12,6 @@
 
 int main(int argc, char *argv[])
 {
-#if (QT_VERSION > QT_VERSION_CHECK(5,6,0))
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-
     QApplication a(argc, argv);
     a.setApplicationName("TransformCoordinate");
     a.setApplicationVersion(TransformCoordinate_VERSION);
