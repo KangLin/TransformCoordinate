@@ -41,7 +41,7 @@ jobs:
       ANDROID_PLATFORM: android-23
       ANDROID_NATIVE_API_LEVEL: 23
       ANDROID_ABI: ${{matrix.ANDROID_ABI}}
-      qt_modules: 'qtimageformats qtmultimedia qtscxml'
+      qt_modules: 'qtimageformats qtmultimedia qtscxml qtwebchannel qtwebsockets qtwebview'
 
     # Map the job outputs to step outputs
     outputs:
@@ -114,9 +114,9 @@ jobs:
         working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-          QT_ANDROID_KEYSTORE_PATH: ${{env.SOURCE_DIR}}/RabbitCommon/RabbitCommon.keystore
-          QT_ANDROID_KEYSTORE_ALIAS: rabbitcommon
-          QT_ANDROID_KEYSTORE_STORE_PASS: ${{secrets.STOREPASS}}
+#          QT_ANDROID_KEYSTORE_PATH: ${{env.SOURCE_DIR}}/RabbitCommon/RabbitCommon.keystore
+#          QT_ANDROID_KEYSTORE_ALIAS: rabbitcommon
+#          QT_ANDROID_KEYSTORE_STORE_PASS: ${{secrets.STOREPASS}}
         run: |
           sudo chmod 777 ${Qt6_DIR}/bin/qt-cmake
           ${Qt6_DIR}/bin/qt-cmake .. \
