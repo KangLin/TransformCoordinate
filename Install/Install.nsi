@@ -22,8 +22,8 @@ SetCompressor lzma
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "install\TransformCoordinate.ico"
-!define MUI_UNICON "install\TransformCoordinate.ico"
+!define MUI_ICON "@CMAKE_INSTALL_PREFIX@\TransformCoordinate.ico"
+!define MUI_UNICON "@CMAKE_INSTALL_PREFIX@\TransformCoordinate.ico"
 
 ; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
@@ -33,7 +33,7 @@ SetCompressor lzma
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "share\doc\TransformCoordinate\License.md"
+!insertmacro MUI_PAGE_LICENSE "@CMAKE_INSTALL_PREFIX@\share\doc\TransformCoordinate\License.md"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
 ; Directory page
