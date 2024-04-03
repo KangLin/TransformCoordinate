@@ -36,7 +36,7 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 ENDIF()
 message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION};TransformCoordinate_REVISION:${TransformCoordinate_REVISION}")
 if(NOT TransformCoordinate_VERSION)
-    SET(TransformCoordinate_VERSION "v0.0.11")
+    SET(TransformCoordinate_VERSION "v1.0.0")
 endif()
 
 include(CMakePackageConfigHelpers)

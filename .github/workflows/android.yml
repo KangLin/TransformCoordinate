@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TransformCoordinate_VERSION: "v0.0.11"
+      TransformCoordinate_VERSION: "v1.01.0"
       VCPKGGITCOMMITID: 898b728edc5e0d12b50015f9cd18247c4257a3eb
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}

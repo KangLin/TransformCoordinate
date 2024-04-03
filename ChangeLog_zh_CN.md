@@ -1,5 +1,5 @@
-- v0.0.12
-  - 使用 [RabbitCommon v2.2.0](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.0)
+- v1.0.0
+  - 使用 [RabbitCommon v2.2.1](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.1)
 
 - v0.0.11
   - 修复 Android 错误
