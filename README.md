@@ -55,22 +55,6 @@
 
 ### [下载安装包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
-- Windows
-
-[TransformCoordinate_v1.0.0_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.0/TransformCoordinate_v1.0.0_win32_msvc2017_qt5.12.12_Setup.exe)
-
-- Ubuntu
-
-[transformcoordinate_1.0.0_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.0/transformcoordinate_1.0.0_amd64.deb)
-
-- Android
-  + [TransformCoordinate_v1.0.0_android_armv7_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.0/TransformCoordinate_v1.0.0_android_armv7_qt6.5.1_Release.apk)
-  + [TransformCoordinate_v1.0.0_android_x86_64_qt6.5.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.0/TransformCoordinate_v1.0.0_android_x86_64_qt6.5.1_Release.apk)
-
-- MacOS
-
-[transformcoordinate_v1.0.0_Darwin_x86_64_setup.tar.gz](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.0/transformcoordinate_v1.0.0_Darwin_x86_64_setup.tar.gz)
-
 ### 编译
 #### 下载源码
 
