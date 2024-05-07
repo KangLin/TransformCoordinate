@@ -240,6 +240,7 @@
   - 接口详见： [TransformCoordinate](Src/TransformCoordinate.h)
    
 - GPX文件操作库: 
+  - 编译时，需要设置 CMake 参数: WITH_GPXMODEL=ON
   - 在程序 CMakeLists.txt 中加入下面行
   
         find_package(GpxModel)

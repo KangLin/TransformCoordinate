@@ -1,4 +1,4 @@
-# 作者：康林<kl222@126.com>
+# 作者：康林 <kl222@126.com>
 
 name: build_macos
 
@@ -11,7 +11,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
 jobs:
   build_macos:
     strategy:
@@ -20,17 +20,17 @@ jobs:
         BUILD_TYPE: [Release, Debug]
         qt_version: [6.6.2, 5.15.2, 5.12.12]
         qt_arch: [clang_64]
+        config_arch: [x86_64]
+        VCPKG_TARGET_TRIPLET: [x64-osx]
         include:
           - qt_version: 6.6.2
-            qt_modules: qtscxml qtwebengine qtwebchannel qtwebsockets qtwebview qtpositioning
+            qt_modules: qtscxml qtwebchannel qtwebsockets qtwebview qtpositioning
 
           - qt_version: 5.15.2
-            qt_modules: qtwebengine
 
           - qt_version: 5.12.12
-            qt_modules: qtwebengine
 
-    runs-on: macos-latest
+    runs-on: macos-13
 
     env:
       TransformCoordinate_VERSION: "v1.0.0"
@@ -39,7 +39,7 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
       qt_modules: qtwebengine ${{matrix.qt_modules}}
-      VCPKGGITCOMMITID: 898b728edc5e0d12b50015f9cd18247c4257a3eb
+      VCPKGGITCOMMITID: 28b1cf627c0570b3e094192df2fce31a3a2bc1d3
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       artifact_name: build_macos
 
@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: recursive
-    
+
       - name: Make directories
         run: |
           cmake -E make_directory ${{env.SOURCE_DIR}}
@@ -83,33 +83,33 @@ jobs:
           modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
           cache: true
           cache-key-prefix: cached_qt
-      
+
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: |
           git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: Build TransformCoordinate
+        working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-        working-directory: ${{github.workspace}}/build
         run: |
           cmake ${{github.workspace}} \
               -DCMARK_SHARED=OFF \
               -DCMARK_TESTS=OFF \
               -DCMARK_STATIC=ON \
-              -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
-              -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
-              -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
-              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
               -DVCPKG_VERBOSE=ON \
-              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON \
+              -DVCPKG_APPLOCAL_DEPS=ON \
+              -DINSTALL_QT=ON \
+              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
-      
+
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.2' }}
         uses: actions/upload-artifact@v3
