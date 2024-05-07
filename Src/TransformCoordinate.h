@@ -23,18 +23,20 @@ enum _COORDINATE{
 };
 
 static std::string gCoordinateDescription[] = {"WGS84", "GCJ02", "BD09LL", "BD09MC"};   
-TRANSFORMCOORDINATE_EXPORT int TransformCoordinate(double oldx,
-                                double oldy,
-                                double &newx,
-                                double &newy,
-                                _COORDINATE from = WGS84,
-                                _COORDINATE to = GCJ02);
+TRANSFORMCOORDINATE_EXPORT int TransformCoordinate(
+    double oldx,
+    double oldy,
+    double &newx,
+    double &newy,
+    _COORDINATE from = WGS84,
+    _COORDINATE to = GCJ02);
 
-#ifdef BUILD_GPXMODEL
-TRANSFORMCOORDINATE_EXPORT int TransformCoordinateFiles(const char *szSrc,
-                                     const char *szDst,
-                                     _COORDINATE from = WGS84,
-                                     _COORDINATE to = GCJ02);
-#endif //BUILD_GPXMODEL
+#ifdef WITH_GPXMODEL
+TRANSFORMCOORDINATE_EXPORT int TransformCoordinateFiles(
+    const char *szSrc,
+    const char *szDst,
+    _COORDINATE from = WGS84,
+    _COORDINATE to = GCJ02);
+#endif //WITH_GPXMODEL
 
 #endif

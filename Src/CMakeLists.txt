@@ -2,8 +2,8 @@
 
 project(TransformCoordinate)
 
-option(BUILD_GPXMODEL "Set to ON to build GpxModel" ON)
-if(BUILD_GPXMODEL)
+option(WITH_GPXMODEL "Set to ON to build GpxModel" ON)
+if(WITH_GPXMODEL)
     add_subdirectory(GpxModel)
 endif()
 
@@ -22,7 +22,7 @@ add_library(${PROJECT_NAME}
     )
 if(TARGET GpxModel)
     target_link_libraries(${PROJECT_NAME} PUBLIC GpxModel)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC BUILD_GPXMODEL)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC WITH_GPXMODEL)
 endif()
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>

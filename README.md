@@ -36,8 +36,9 @@
 
 #### 本项目包含：
 
-- 坐标转换库：TransformCoordinate
-- GPX文件操作库：GpxModel
+- C++ 库：
+  - 坐标转换库：[TransformCoordinate](Src/TransformCoordinate.h)
+  - GPX文件操作库：[GpxModel](Src/GpxModel/gpx_model.h)
 - 坐标转换程序：TransformCoordinateApp
 
 #### 支持平台
@@ -82,6 +83,7 @@
 
 #### 各平台编译
 ##### linux 平台编译说明
+
 - 编译
 
       cd TransformCoordinate
@@ -196,7 +198,7 @@
       - arm64-v8a：ARMv8 AArch64 指令集。
       - x86：IA-32 指令集。
       - x86_64 - 用于 x86-64 架构的指令集。
-    + ANDROID_NDK <path> 主机上安装的 NDK 根目录的绝对路径
+    + ANDROID_NDK \<path\> 主机上安装的 NDK 根目录的绝对路径
     + ANDROID_PLATFORM: 如需平台名称和对应 Android 系统映像的完整列表，请参阅 [Android NDK 原生 API](https://developer.android.google.cn/ndk/guides/stable_apis.html)
     + ANDROID_ARM_MODE
     + ANDROID_ARM_NEON
@@ -226,6 +228,24 @@
 - 打包
 
       cmake --build . --config Release --target package
+
+### 使用 C++ 库
+
+- 坐标转换库:
+  - 在程序 CMakeLists.txt 中加入下面行
+
+        find_package(TransformCoordinate)
+        target_link_libraries(${PROJECT_NAME} PRIVATE TransformCoordinate)
+
+  - 接口详见： [TransformCoordinate](Src/TransformCoordinate.h)
+   
+- GPX文件操作库: 
+  - 在程序 CMakeLists.txt 中加入下面行
+  
+        find_package(GpxModel)
+        target_link_libraries(${PROJECT_NAME} PRIVATE GpxModel)
+
+  - 接口详见: [GpxModel](Src/GpxModel/gpx_model.h)
 
 ### 捐赠:
 

@@ -99,7 +99,7 @@ void MainWindow::on_pbBrowsDstFile_clicked()
 
 void MainWindow::on_pbConversionFile_clicked()
 {
-#ifdef BUILD_GPXMODEL
+#ifdef WITH_GPXMODEL
     this->statusBar()->showMessage(tr("Start transform ......"));
     QCursor cursor = this->cursor();
     this->setCursor(Qt::WaitCursor);
@@ -111,7 +111,7 @@ void MainWindow::on_pbConversionFile_clicked()
     this->setCursor(cursor);
     this->statusBar()->showMessage(tr("Ready"));
 #else
-    qDebug() << "Please set BUILD_GPXMODEL to ON";
+    qDebug() << "Please set WITH_GPXMODEL to ON";
 #endif
 }
 
@@ -168,14 +168,14 @@ void MainWindow::on_pbConversionDir_clicked()
     foreach (QFileInfo f, d.entryInfoList()) {
         if(f.isFile())
         {
-#ifdef BUILD_GPXMODEL
+#ifdef WITH_GPXMODEL
             this->statusBar()->showMessage(tr("Be transforming ") + QString::number(num++) + " ......");
             TransformCoordinateFiles(f.filePath().toStdString().c_str(),
                     (ui->leDstDir->text() + QDir::separator() + f.fileName()).toStdString().c_str(),
                     (_COORDINATE)ui->cbSrcCoor->currentIndex(),
                     (_COORDINATE)ui->cbDstCoor->currentIndex());
 #else
-            qDebug() << "Please set BUILD_GPXMODEL to ON";
+            qDebug() << "Please set WITH_GPXMODEL to ON";
 #endif
         }
     }

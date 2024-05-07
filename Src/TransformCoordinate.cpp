@@ -693,7 +693,9 @@ int gcj_decrypt(dpoint_t oldxy, dpoint_t *newxy) {
     return res;
 }
 
-int TransformCoordinate(double oldx, double oldy, double &newx, double &newy, _COORDINATE from, _COORDINATE to)
+int TransformCoordinate(double oldx, double oldy,
+                        double &newx, double &newy,
+                        _COORDINATE from, _COORDINATE to)
 {    
     if (from == to) {
         newx = oldx;
@@ -750,12 +752,13 @@ int TransformCoordinate(double oldx, double oldy, double &newx, double &newy, _C
     return 0;
 }
 
-#ifdef BUILD_GPXMODEL
+#ifdef WITH_GPXMODEL
 #include "GpxModel/gpx_model.h"
 #include <iostream>
 #include <string>
 
-int TransformCoordinateFiles(const char* szSrc, const char* szDst,  _COORDINATE from, _COORDINATE to)
+int TransformCoordinateFiles(const char* szSrc, const char* szDst,
+                             _COORDINATE from, _COORDINATE to)
 {
     if(NULL == szSrc || NULL == szDst)
         return -1;
@@ -768,10 +771,16 @@ int TransformCoordinateFiles(const char* szSrc, const char* szDst,  _COORDINATE 
     }
      
     gpx.metadata.desc = "Transform coordinate from " + gCoordinateDescription[from] + " to " + gCoordinateDescription[to];
-    //gpx.metadata.author = "KangLin(kl222@126.com)";
     GPX_linkType linkType;
     linkType.href = "https://github.com/KangLin/coordtrans";
-    linkType.text = "Transform coordinate project. Author: KangLin(kl222@126.com)";
+    linkType.text = "Transform coordinate project. Author: Kang Lin <kl222@126.com>";
+    linkType.type = "text/html";
+    //*
+    gpx.metadata.author.link = linkType;
+    gpx.metadata.author.name = "Kang Lin";
+    gpx.metadata.author.email.id = "kl222";
+    gpx.metadata.author.email.domain = "126.com";
+    //*/
     gpx.metadata.links.push_back(linkType);
     
     bool bSave = false;

@@ -69,4 +69,4 @@ include(Package/CMakeCPack.cmake)
 
 message("Build app:${BUILD_APP}")
 message("Build shared library:${BUILD_SHARED_LIBS}")
-message("Build GPXMODEL:${BUILD_GPXMODEL}")
+message("Build GPXMODEL:${WITH_GPXMODEL}")
