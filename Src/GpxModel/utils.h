@@ -30,7 +30,7 @@ extern "C" {
 void UTILS_setenv(const char *name, const char *value);
 
 /**
- * @brief Seletes the variable name from the environment
+ * @brief Deletes the variable name from the environment
  * @param name Variable
  */
 void UTILS_unsetenv(const char *name);
