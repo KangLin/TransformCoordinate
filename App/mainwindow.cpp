@@ -43,11 +43,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cbSrcCoor->setCurrentIndex(WGS84);
     ui->cbDstCoor->addItems(lstCoor);
     ui->cbDstCoor->setCurrentIndex(GCJ02);
+    
+    RabbitCommon::CTools::RestoreWidget(this);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    RabbitCommon::CTools::SaveWidget(this);
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::on_pbConversion_clicked()
