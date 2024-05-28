@@ -19,21 +19,21 @@ jobs:
         include:
           - qt_version: 6.6.2
             triplet: x64-windows
-            VCPKG_PLATFORM_TOOLSET: v142
+            VCPKG_PLATFORM_TOOLSET: v143
             qt_arch: win64_msvc2019_64
             CMAKE_GENERATOR_PLATFORM: x64
             qt_modules: qtscxml qtwebchannel qtwebsockets qtwebview qtpositioning
 
           - qt_version: 5.15.2
             triplet: x64-windows
-            VCPKG_PLATFORM_TOOLSET: v142
+            VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
             qt_arch: win64_msvc2019_64
             CMAKE_GENERATOR_PLATFORM: x64
 
           - qt_version: 5.12.12
             triplet: x86-windows
-            VCPKG_PLATFORM_TOOLSET: v141
+            VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
             qt_arch: win32_msvc2017
             CMAKE_GENERATOR_PLATFORM: Win32
@@ -45,7 +45,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install
-      VCPKGGITCOMMITID: 28b1cf627c0570b3e094192df2fce31a3a2bc1d3
+      VCPKGGITCOMMITID: 007aaced1a9d3245e28a2ba9395dca88ea890db1
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       VCPKG_MANIFEST_DIR: "${{github.workspace}}${{matrix.VCPKG_MANIFEST_DIR}}"
