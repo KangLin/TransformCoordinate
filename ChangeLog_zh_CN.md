@@ -1,5 +1,6 @@
 - v1.0.1
   - 修改文档
+  - 修改自动化编译
 
 - v1.0.0
   - 使用 [RabbitCommon v2.2.1](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.1)

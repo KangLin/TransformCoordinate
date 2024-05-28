@@ -1,5 +1,6 @@
 - v1.0.1
   - Modify documents
+  - Modify ci
 
 - v1.0.0
   - Use [RabbitCommon v2.2.1](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.1)

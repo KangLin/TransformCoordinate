@@ -79,6 +79,7 @@ jobs:
           ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
           cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
+          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
 
       - name: Update xml file
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -103,6 +104,8 @@ jobs:
           name: ${{ env.artifact_name }}
           path: |
             ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
             ${{github.workspace}}/update_linux.xml
 
 #    - name: Upload To Github Release
