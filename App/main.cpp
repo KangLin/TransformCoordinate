@@ -7,7 +7,7 @@
 #ifdef RABBITCOMMON
     #include "RabbitCommonDir.h"
     #include "RabbitCommonTools.h"
-    #include "FrmUpdater/FrmUpdater.h"
+    #include "FrmUpdater.h"
 #endif
 
 int main(int argc, char *argv[])
@@ -17,9 +17,10 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(TransformCoordinate_VERSION);
 
     RabbitCommon::CTools::Instance()->Init();
-    RabbitCommon::CTools::Instance()->InstallTranslator("TransformCoordinateApp"); 
+    QSharedPointer<QTranslator> translator =
+        RabbitCommon::CTools::Instance()->InstallTranslator("TransformCoordinateApp"); 
     a.setApplicationDisplayName(QObject::tr("Transform coordinate"));
-    
+
 #ifdef RABBITCOMMON 
     CFrmUpdater *pUpdate = new CFrmUpdater();
     pUpdate->SetTitle(QImage(":/icon/App"));
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
 
     int nRet = a.exec();
     
+    RabbitCommon::CTools::Instance()->RemoveTranslator(translator);
     RabbitCommon::CTools::Instance()->Clean();
     return nRet;
 }

@@ -19,10 +19,22 @@ ifdef INSTALL_DIR
 endif
 
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
 BUILD_DIR = "build_$(DEB_HOST_MULTIARCH)"
+
 PACKAGE_DIR = "debian/libtransformcoordinate"
 PACKAGE_DEV_DIR = "debian/libtransformcoordinate-dev"
 PACKAGE_APP_DIR = "debian/transformcoordinate"
+
+PACKAGE_APP_PREFIX = $(PACKAGE_APP_DIR)/opt/TransformCoordinate
+
+ifeq ($(strip $(shell pkg-config --libs RabbitCommon)), -lRabbitCommon)
+	PACKAGE_PREFIX = $(PACKAGE_DIR)/usr
+	PACKAGE_DEV_PREFIX = $(PACKAGE_DEV_DIR)/usr
+else
+	PACKAGE_PREFIX = $(PACKAGE_DIR)/opt/TransformCoordinate
+	PACKAGE_DEV_PREFIX = $(PACKAGE_DEV_DIR)/opt/TransformCoordinate
+endif
 
 %:
 	dh $@
@@ -30,10 +42,15 @@ PACKAGE_APP_DIR = "debian/transformcoordinate"
 # Debian 维护者指南: https://www.debian.org/doc/manuals/debmake-doc/index.zh-cn.html
 # Debian 新维护者手册: https://www.debian.org/doc/manuals/maint-guide/dreq.zh-cn.html#rules
 # https://www.debian.org/doc/manuals/maint-guide/dreq.zh-cn.html#rules
+# See: man debhelper
 # This is example for Cmake (See https://bugs.debian.org/641051 )
 override_dh_auto_configure:
+	# See: man dh_auto_configure an debhelper
 	dh_auto_configure -B$(BUILD_DIR) -- \
-		-DCMAKE_BUILD_TYPE=Release
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMARK_SHARED=OFF \
+        -DCMARK_TESTS=OFF \
+	    -DCMARK_STATIC=ON
 
 override_dh_auto_build:
 	cmake --build $(BUILD_DIR) --config Release \
@@ -41,14 +58,17 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	cmake --install $(BUILD_DIR) --config Release \
-		--component Runtime --prefix $(PACKAGE_DIR)/usr
+		--component Runtime --prefix $(PACKAGE_PREFIX)
 	cmake --install $(BUILD_DIR) --config Release \
-		--component Development --prefix $(PACKAGE_DEV_DIR)/usr
+		--component Development --prefix $(PACKAGE_DEV_PREFIX)
 	cmake --install $(BUILD_DIR) --config Release \
 		--component Application \
 		--prefix $(PACKAGE_APP_DIR)/opt/TransformCoordinate
 
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/$(BUILD_DIR)/lib:$(LIB_PARAS)
+
 override_dh_builddeb:
-	dh_builddeb --package=transformcoordinate -P$(PACKAGE_APP_DIR)
 	dh_builddeb --package=libtransformcoordinate -P$(PACKAGE_DIR)
 	dh_builddeb --package=libtransformcoordinate-dev -P$(PACKAGE_DEV_DIR)
+	dh_builddeb --package=transformcoordinate -P$(PACKAGE_APP_DIR)

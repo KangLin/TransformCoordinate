@@ -1,5 +1,5 @@
 Authors:
-KangLin(kl222@126.com)
+KangLin <kl222@126.com>
 
 The third project:
 

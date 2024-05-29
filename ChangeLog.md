@@ -1,3 +1,9 @@
+- v1.0.2
+  - debian: Check whether the RabbitCommon development library
+    is installed on the system, and if so, install it on the system.
+    If not, compile RabbitCommon from source
+    and install it to /opt/TransformCoordinate
+
 - v1.0.1
   - Modify documents
   - Modify ci

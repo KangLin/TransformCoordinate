@@ -1,3 +1,7 @@
+- v1.0.2
+  - debian: 判断系统中是否安装有RabbitCommon开发库，如果有，则安装到系统。如果没
+    有，则从源码编译RabbitCommon，并安装到/opt/TransformCoordinate
+
 - v1.0.1
   - 修改文档
   - 修改自动化编译
