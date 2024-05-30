@@ -248,6 +248,26 @@
 
   - 接口详见: [GpxModel](Src/GpxModel/gpx_model.h)
 
+### 脚本
+
+- build_debpackage.sh
+  + 此脚本是 linux 下生成 deb 包的。使用前，请确保安装了下面程序
+
+        sudo apt-get install debhelper fakeroot
+
+  + 用系统自带的 QT
+
+        sudo apt-get install \
+            qt6-tools-dev qt6-tools-dev-tools \
+            qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
+            libqt6svg6-dev qt6-l10n-tools qt6-translations-l10n \
+            qt6-scxml-dev qt6-multimedia-dev libqt6serialport6-dev \
+            qt6-webengine-dev qt6-webengine-dev-tools
+
+  See: [ubuntu.yml](.github/workflows/ubuntu.yml)
+
+- deploy.sh: 此脚本用于产生新的发行版本号和标签。仅程序发布者使用。
+
 ### 捐赠:
 
 本软件如果对你有用，或者你喜欢它，请你捐赠，支持作者。谢谢！

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Icon=TransformCoordinate
+Icon=org.Rabbit.TransformCoordinate.svg
 Exec=/opt/TransformCoordinate/bin/TransformCoordinate.sh
 Terminal=false
 StartupNotify=true

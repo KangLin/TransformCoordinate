@@ -47,7 +47,7 @@ sed -i "s/^\Standards-Version:.*/\Standards-Version:\"${VERSION}\"/g" ${SOURCE_D
 DEBIAN_VERSION=`echo ${VERSION}|cut -d "v" -f 2`
 sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/ubuntu.yml
 sed -i "s/transformcoordinate (.*)/transformcoordinate (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
-sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/share/TransformCoordinate.desktop
+sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/share/org.Rabbit.TransformCoordinate.desktop
 sed -i "s/transformcoordinate_[0-9]\+\.[0-9]\+\.[0-9]\+_amd64.deb/transformcoordinate_${DEBIAN_VERSION}_amd64.deb/g" ${SOURCE_DIR}/README*.md
 sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/App/android/AndroidManifest.xml
 if [ -f ${SOURCE_DIR}/vcpkg.json ]; then

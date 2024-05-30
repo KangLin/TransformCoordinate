@@ -22,8 +22,8 @@ INSTALL_ROOT=/opt/TransformCoordinate
 
 case "$1" in
     purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-        rm -fr /usr/share/applications/TransformCoordinate.desktop
-        rm -fr /usr/share/pixmaps/TransformCoordinate.svg
+        rm -fr /usr/share/applications/org.Rabbit.TransformCoordinate.desktop
+        rm -fr /usr/share/pixmaps/org.Rabbit.TransformCoordinate.svg
         rm -fr $INSTALL_ROOT/log
         #rm -fr /etc/ld.so.conf.d/TransformCoordinate.conf
     ;;

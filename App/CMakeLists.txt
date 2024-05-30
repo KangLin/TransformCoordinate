@@ -83,7 +83,7 @@ INSTALL_FILE(SOURCES ${CMAKE_SOURCE_DIR}/etc/logqt.ini
         COMPONENT Application)
 
 if(UNIX)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.desktop
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/org.Rabbit.TransformCoordinate.desktop
         DESTINATION "share/applications"
             COMPONENT Application)
     INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/TransformCoordinate.sh

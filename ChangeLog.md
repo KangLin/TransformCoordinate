@@ -3,6 +3,7 @@
     is installed on the system, and if so, install it on the system.
     If not, compile RabbitCommon from source
     and install it to /opt/TransformCoordinate
+  - Rename share/TransformCoordinate.desktop to share/org.Rabbit.TransformCoordinate.desktop
 
 - v1.0.1
   - Modify documents
