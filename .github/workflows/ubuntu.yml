@@ -68,8 +68,14 @@ jobs:
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
-          cmake ${{github.workspace}}
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
+          cmake ${{github.workspace}} \
+            -DCMARK_SHARED=OFF \
+            -DCMARK_TESTS=OFF \
+            -DCMARK_STATIC=ON \
+            -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
+            -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install
+          cmake --build . --config ${{matrix.BUILD_TYPE}}
+          cpack -G "DEB;STGZ"
 
       - name: build_debpackage.sh
         working-directory: ${{github.workspace}}
