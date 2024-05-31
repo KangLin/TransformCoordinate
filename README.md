@@ -102,16 +102,16 @@
       cmake --build . --config Release --target package
 
 - 运行例子
-  + 把生成库的目录加入到变量 LD_LIBRARY_PATH 中
+  + [可选] 把生成库的目录加入到变量 LD_LIBRARY_PATH 中
 
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/bin
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/lib
 
   + 执行 bin 目录下的程序
 
         cd TransformCoordinate
         cd build
         cd bin
-        ./TransformCoordinate.sh
+        ./TransformCoordinateApp
 
 ##### windows 平台编译说明
 - 使用 cmake-gui.exe 工具编译。打开 cmake-gui.exe 配置
