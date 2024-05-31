@@ -64,6 +64,7 @@ jobs:
           git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: CPACK
+        if: false
         working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
@@ -83,12 +84,36 @@ jobs:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
+
+      - name: git clone RabbitCommon kits
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          export RabbitCommon_VERSION=2.2.3
+          wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon-dev_${RabbitCommon_VERSION}_amd64.deb
+          wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon_${RabbitCommon_VERSION}_amd64.deb
+          sudo apt install -q -y ./rabbitcommon_${RabbitCommon_VERSION}_amd64.deb \
+            ./rabbitcommon-dev_${RabbitCommon_VERSION}_amd64.deb
+
+      - name: build_debpackage.sh
+        working-directory: ${{github.workspace}}
+        env:
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        run: |
+          git clean -xdf
+          ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
+          
+      - name: copy
+        working-directory: ${{github.workspace}}
+        run: |
+          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb   
           cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
 
       - name: Update xml file
-        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        if: false #${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}
         run: |
           sudo Xvfb :99 -ac &
@@ -110,10 +135,14 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
+            ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
             ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
             ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
             ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
-            ${{github.workspace}}/update_linux.xml
+
+#            ${{github.workspace}}/update_linux.xml
 
 #    - name: Upload To Github Release
 #      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}

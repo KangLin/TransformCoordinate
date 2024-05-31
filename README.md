@@ -73,19 +73,23 @@
         + MinGW
   + [CMake](http://www.cmake.org/)
 + 依赖库
-  - [必选] Rabbit 公共库: https://github.com/KangLin/RabbitCommon
+  - [必选] Rabbit 公共库(RabbitCommon):
+    - 源码： `https://github.com/KangLin/RabbitCommon`
+    - 开发包： `https://github.com/KangLin/RabbitCommon/releases`
   
 #### CMake 配置参数
   - [必选] QT_DIR: qt 安装位置
     - [可选] Qt5_DIR: qt5 安装位置
     - [可选] Qt6_DIR: qt6 安装位置
-  - [必选] RabbitCommon_DIR: RabbitCommon 源码位置
+  - [可选] RabbitCommon_DIR: RabbitCommon 源码位置
 
 #### 各平台编译
 ##### linux 平台编译说明
 
 - 编译
 
+      git clone https://github.com/KangLin/RabbitCommon.git
+      git clone https://github.com/KangLin/TransformCoordinate.git
       cd TransformCoordinate
       mkdir build
       cd build
@@ -264,7 +268,10 @@
             qt6-scxml-dev qt6-multimedia-dev libqt6serialport6-dev \
             qt6-webengine-dev qt6-webengine-dev-tools
 
-  See: [ubuntu.yml](.github/workflows/ubuntu.yml)
+  + 详见: [ubuntu.yml](.github/workflows/ubuntu.yml)
+  + 注意:
+    - 如果使用 RabbitCommon 源码编译，则本库安装的库位于： /opt/TransformCoordinate
+    - 如果使用 RabbitCommon 安装包编译，则本库安装于系统目录: /usr
 
 - deploy.sh: 此脚本用于产生新的发行版本号和标签。仅程序发布者使用。
 

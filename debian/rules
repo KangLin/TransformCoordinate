@@ -20,11 +20,11 @@ endif
 
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
-BUILD_DIR = "build_$(DEB_HOST_MULTIARCH)"
+BUILD_DIR = build_$(DEB_HOST_MULTIARCH)
 
-PACKAGE_DIR = "debian/libtransformcoordinate"
-PACKAGE_DEV_DIR = "debian/libtransformcoordinate-dev"
-PACKAGE_APP_DIR = "debian/transformcoordinate"
+PACKAGE_DIR = debian/libtransformcoordinate
+PACKAGE_DEV_DIR = debian/libtransformcoordinate-dev
+PACKAGE_APP_DIR = debian/transformcoordinate
 
 PACKAGE_APP_PREFIX = $(PACKAGE_APP_DIR)/opt/TransformCoordinate
 
