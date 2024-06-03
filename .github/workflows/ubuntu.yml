@@ -1,4 +1,4 @@
-# 作者：康林<kl222@126.com>
+# 作者：康林 <kl222@126.com>
 
 name: build_ubuntu
 
@@ -84,6 +84,9 @@ jobs:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
+          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
 
       - name: git clone RabbitCommon kits
         working-directory: ${{env.SOURCE_DIR}}
@@ -105,9 +108,9 @@ jobs:
       - name: copy
         working-directory: ${{github.workspace}}
         run: |
-          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb   
+          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
+          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
           cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
