@@ -1,13 +1,13 @@
-# 作者：康林<kl222@126.com>
+# 作者：康林 <kl222@126.com>
 
 project(TransformCoordinateApp)
 
-#打开 qt 编译工具
+# 打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 
-#需要的QT组件
+# 需要的QT组件
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 endif()
@@ -89,7 +89,7 @@ if(UNIX)
     INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/Package/share/applications/TransformCoordinate.sh
         DESTINATION "${CMAKE_INSTALL_BINDIR}"
             COMPONENT Application)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/icons/black/svg/TransformCoordinate.svg
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/icons/rabbit-black/svg/TransformCoordinate.svg
         DESTINATION "share/pixmaps"
             COMPONENT Application)
 endif()
@@ -112,5 +112,12 @@ INSTALL_FILE(SOURCES ${OTHER_FILES}
     DESTINATION ${CMAKE_INSTALL_DOCDIR}
         COMPONENT Application)
 
-INSTALL_ICON_THEME(SOURCES ${CMAKE_SOURCE_DIR}/App/Resource/icons
-    COMPONENT Application)
+if(NOT RabbitCommon_FOUND AND LINUX)
+    INSTALL_ICON_THEME(SOURCES ${CMAKE_SOURCE_DIR}/App/Resource/icons
+        COMPONENT Application
+        PARAMETERS PATTERN index.theme EXCLUDE
+        )
+else()
+    INSTALL_ICON_THEME(SOURCES ${CMAKE_SOURCE_DIR}/App/Resource/icons
+        COMPONENT Application)
+endif()

@@ -1,3 +1,7 @@
+- v1.0.3
+  - Modify org.Rabbit.TransformCoordinate.desktop
+  - Rename icon theme rabbit-*
+
 - v1.0.2
   - debian: Check whether the RabbitCommon development library
     is installed on the system, and if so, install it on the system.

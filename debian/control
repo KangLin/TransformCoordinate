@@ -24,7 +24,6 @@ Architecture: any
 Multi-Arch: foreign
 Pre-Depends: ${misc:Pre-Depends}
 Depends: libtransformcoordinate (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
-Replaces: libtransformcoordinate
 Description: The Transform coordinate application using Qt
  The Transform coordinate application using Qt
  .
