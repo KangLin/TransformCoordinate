@@ -1,6 +1,7 @@
 - v1.0.3
   - Modify org.Rabbit.TransformCoordinate.desktop
   - Rename icon theme rabbit-*
+  - Modify version format
 
 - v1.0.2
   - debian: Check whether the RabbitCommon development library

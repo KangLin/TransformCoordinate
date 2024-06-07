@@ -1,6 +1,7 @@
 - v1.0.3
   - 重命名图标方案 rabbit-*
   - 修改 org.Rabbit.TransformCoordinate.desktop
+  - 修改版本格式
 
 - v1.0.2
   - debian: 判断系统中是否安装有RabbitCommon开发库，如果有，则安装到系统。如果没

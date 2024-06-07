@@ -54,9 +54,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     INSTALL_RPATH "$ORIGIN;$ORIGIN/../lib;$ORIGIN/../lib/${CMAKE_LIBRARY_ARCHITECTURE}"
     )
 if(TransformCoordinate_VERSION)
-    if(NOT WIN32)
-        string(REPLACE "v" "" TransformCoordinate_VERSION ${TransformCoordinate_VERSION})
-    endif()
+    string(REPLACE "v" "" TransformCoordinate_VERSION ${TransformCoordinate_VERSION})
     if(NOT PARA_SOVERSION)
         string(FIND ${TransformCoordinate_VERSION} "." _VERSION_MAJOR_POS)
         string(SUBSTRING ${TransformCoordinate_VERSION} 0 ${_VERSION_MAJOR_POS} PARA_SOVERSION)
