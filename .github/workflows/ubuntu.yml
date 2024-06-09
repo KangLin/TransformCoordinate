@@ -58,28 +58,12 @@ jobs:
               qt6-scxml-dev qt6-multimedia-dev libqt6serialport6-dev \
               qt6-webengine-dev qt6-webengine-dev-tools
 
-      - name: git clone RabbitCommon kits
-        working-directory: ${{env.SOURCE_DIR}}
-        run: |
-          export RabbitCommon_VERSION=2.2.3
-          wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon-dev_${RabbitCommon_VERSION}_amd64.deb
-          wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon_${RabbitCommon_VERSION}_amd64.deb
-          sudo apt install -q -y ./rabbitcommon_${RabbitCommon_VERSION}_amd64.deb \
-            ./rabbitcommon-dev_${RabbitCommon_VERSION}_amd64.deb
-
-      - name: build_debpackage.sh
-        working-directory: ${{github.workspace}}
-        run: |
-          git clean -xdf
-          ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
-
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: |
           git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: CPACK
-        if: false
         working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
@@ -103,6 +87,17 @@ jobs:
           cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
           cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
 
+      - name: build_debpackage.sh with RabbitCommon kits
+        working-directory: ${{github.workspace}}
+        run: |
+          git clean -xdf
+          export RabbitCommon_VERSION=2.2.3
+          wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon-dev_${RabbitCommon_VERSION}_amd64.deb
+          wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon_${RabbitCommon_VERSION}_amd64.deb
+          sudo apt install -q -y ./rabbitcommon_${RabbitCommon_VERSION}_amd64.deb \
+              ./rabbitcommon-dev_${RabbitCommon_VERSION}_amd64.deb
+          ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
+
       - name: copy
         working-directory: ${{github.workspace}}
         run: |
@@ -113,8 +108,8 @@ jobs:
           cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
           cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
 
-      - name: Update xml file
-        if: false #${{ matrix.BUILD_TYPE == 'Release' }}
+      - name: Update configure file
+        if: ${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}
         run: |
           sudo Xvfb :99 -ac &
@@ -125,7 +120,7 @@ jobs:
           echo "MD5:${MD5}"
           ./test/test_linux.sh
           /opt/TransformCoordinate/bin/TransformCoordinate.sh \
-              -f "${{github.workspace}}/update_linux.xml" \
+              -f "${{github.workspace}}/version.json" \
               --md5 ${MD5} \
               -m "${{env.TransformCoordinate_VERSION}}" \
               -u "https://github.com/KangLin/TransformCoordinate/releases/download/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb;https://sourceforge.net/projects/TransformCoordinate/files/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb"
@@ -142,8 +137,7 @@ jobs:
             ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
             ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
             ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
-
-#            ${{github.workspace}}/update_linux.xml
+            ${{github.workspace}}/version.json
 
 #    - name: Upload To Github Release
 #      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}
