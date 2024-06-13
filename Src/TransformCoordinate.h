@@ -36,7 +36,8 @@ TRANSFORMCOORDINATE_EXPORT int TransformCoordinateFiles(
     const char *szSrc,
     const char *szDst,
     _COORDINATE from = WGS84,
-    _COORDINATE to = GCJ02);
+    _COORDINATE to = GCJ02,
+    bool bIgnoreError = false);
 #endif //WITH_GPXMODEL
 
 #endif

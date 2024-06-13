@@ -758,7 +758,7 @@ int TransformCoordinate(double oldx, double oldy,
 #include <string>
 
 int TransformCoordinateFiles(const char* szSrc, const char* szDst,
-                             _COORDINATE from, _COORDINATE to)
+                             _COORDINATE from, _COORDINATE to, bool bIgnoreError)
 {
     if(NULL == szSrc || NULL == szDst)
         return -1;
@@ -795,8 +795,18 @@ int TransformCoordinateFiles(const char* szSrc, const char* szDst,
                 itWpt++)
             {
                 double x, y;
-                if(!TransformCoordinate(itWpt->longitude, itWpt->latitude, x, y, from, to))
-                {
+                int nRet = TransformCoordinate(itWpt->longitude,
+                                               itWpt->latitude,
+                                               x, y, from, to);
+                if(nRet) {
+                    std::cout << "Transform coordinat fail: longitude:"
+                              << itWpt->longitude
+                              << "latitude:" << itWpt->latitude;
+                    if(bIgnoreError)
+                        continue;
+                    else
+                        return nRet;
+                } else {
                     itWpt->longitude = x;
                     itWpt->latitude = y;
                     bSave = true;

@@ -1,3 +1,6 @@
+- v1.1.0
+  - Modify TransformCoordinateFiles
+
 - v1.0.4
   - Modify prompt
 

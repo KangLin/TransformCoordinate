@@ -1,3 +1,6 @@
+- v1.1.0
+  - 修改 TransformCoordinateFiles
+
 - v1.0.4
   - 修改提示信息
 
