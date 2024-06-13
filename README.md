@@ -58,19 +58,19 @@
 
 - Ubuntu
   - 不包含玉兔公共库(RabbitCommon)。安装前需要先从 [RabbitCommon](https://github.com/KangLin/RabbitCommon/releases/latest) 下载，并安装 RabbitCommon。
-    - [开发库 libtransformcoordinate-dev_1.0.3_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/libtransformcoordinate-dev_1.0.3_amd64.deb)
-    - [运行库 libtransformcoordinate_1.0.3_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/libtransformcoordinate_1.0.3_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.0.3_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/transformcoordinate_1.0.3_amd64.deb)
+    - [开发库 libtransformcoordinate-dev_1.0.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/libtransformcoordinate-dev_1.0.4_amd64.deb)
+    - [运行库 libtransformcoordinate_1.0.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/libtransformcoordinate_1.0.4_amd64.deb)
+    - [转换示例程序 transformcoordinate_1.0.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/transformcoordinate_1.0.4_amd64.deb)
   - 包含玉兔公共库(RabbitCommon)
-    - [开发库 libtransformcoordinate-dev_1.0.3_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/libtransformcoordinate-dev_1.0.3_RabbitCommon_amd64.deb)
-    - [运行库 libtransformcoordinate_1.0.3_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/libtransformcoordinate_1.0.3_RabbitCommon_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.0.3_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/transformcoordinate_1.0.3_RabbitCommon_amd64.deb)
+    - [开发库 libtransformcoordinate-dev_1.0.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/libtransformcoordinate-dev_1.0.4_RabbitCommon_amd64.deb)
+    - [运行库 libtransformcoordinate_1.0.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/libtransformcoordinate_1.0.4_RabbitCommon_amd64.deb)
+    - [转换示例程序 transformcoordinate_1.0.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/transformcoordinate_1.0.4_RabbitCommon_amd64.deb)
 - Windows
-  - [TransformCoordinate_v1.0.3_win64_msvc2019_64_qt6.6.2_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/TransformCoordinate_v1.0.3_win64_msvc2019_64_qt6.6.2_Setup.exe)
-  - [TransformCoordinate_v1.0.3_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/TransformCoordinate_v1.0.3_win32_msvc2017_qt5.12.12_Setup.exe)
+  - [TransformCoordinate_v1.0.4_win64_msvc2019_64_qt6.6.2_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/TransformCoordinate_v1.0.4_win64_msvc2019_64_qt6.6.2_Setup.exe)
+  - [TransformCoordinate_v1.0.4_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/TransformCoordinate_v1.0.4_win32_msvc2017_qt5.12.12_Setup.exe)
 - Android
-  - [TransformCoordinate_1.0.3_android_arm64_v8a_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/TransformCoordinate_1.0.3_android_arm64_v8a_qt6.6.2_Release.apk)
-  - [TransformCoordinate_1.0.3_android_x86_64_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.3/TransformCoordinate_1.0.3_android_x86_64_qt6.6.2_Release.apk)
+  - [TransformCoordinate_1.0.4_android_arm64_v8a_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/TransformCoordinate_1.0.4_android_arm64_v8a_qt6.6.2_Release.apk)
+  - [TransformCoordinate_1.0.4_android_x86_64_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.0.4/TransformCoordinate_1.0.4_android_x86_64_qt6.6.2_Release.apk)
 - [更多的下载包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
 ### 编译

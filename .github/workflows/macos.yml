@@ -35,7 +35,7 @@ jobs:
     runs-on: macos-13
 
     env:
-      TransformCoordinate_VERSION: "1.0.3"
+      TransformCoordinate_VERSION: "1.0.4"
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
