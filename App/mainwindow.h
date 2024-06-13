@@ -40,7 +40,7 @@ private:
     
     QLabel m_statusInfo;
     int InitStatusBar();
-    int SetStatusInfo(QString szText, QColor color = Qt::black);
+    int SetStatusInfo(QString szText, QColor color = QPalette().color(QPalette::WindowText));
     
     // QWidget interface
 protected:

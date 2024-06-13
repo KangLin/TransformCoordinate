@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include "TransformCoordinate.h"
-#include <QDebug>
+#include <QLoggingCategory>
 #include <QMessageBox>
 #include <QFile>
 #include <QFileInfo>
@@ -20,6 +20,8 @@
     #include "FrmStyle.h"
 #endif
 
+static Q_LOGGING_CATEGORY(log, "main")
+    
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -43,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cbSrcCoor->setCurrentIndex(WGS84);
     ui->cbDstCoor->addItems(lstCoor);
     ui->cbDstCoor->setCurrentIndex(GCJ02);
-    
+
     RabbitCommon::CTools::RestoreWidget(this);
 }
 
@@ -70,10 +72,12 @@ void MainWindow::on_pbConversion_clicked()
                       static_cast<_COORDINATE>(ui->cbDstCoor->currentIndex()));
     if(nRet)
     {
+        qCritical(log) << tr("Convert fail:") << nRet;
         SetStatusInfo(tr("Convert fail"), Qt::red);
         return;
     }
-    
+
+    SetStatusInfo(tr("Ready"));
     ui->leDstLong->setText(QString::number(x1));
     ui->leDstLat->setText(QString::number(y1));
 }
@@ -108,18 +112,23 @@ void MainWindow::on_pbBrowsDstFile_clicked()
 void MainWindow::on_pbConversionFile_clicked()
 {
 #ifdef WITH_GPXMODEL
-    this->statusBar()->showMessage(tr("Start transform ......"));
+    SetStatusInfo(tr("Start transform ......"));
     QCursor cursor = this->cursor();
     this->setCursor(Qt::WaitCursor);
-    TransformCoordinateFiles(ui->leSrcFile->text().toStdString().c_str(),
+    int nRet = TransformCoordinateFiles(ui->leSrcFile->text().toStdString().c_str(),
                     ui->leDstFile->text().toStdString().c_str(),
                     (_COORDINATE)ui->cbSrcCoor->currentIndex(),
                     (_COORDINATE)ui->cbDstCoor->currentIndex());
-    //QMessageBox::information(this, tr("End"), tr("Transform coordinate end"));
     this->setCursor(cursor);
-    this->statusBar()->showMessage(tr("Ready"));
+    if(nRet) {
+        qDebug(log) << "Transform Coordinate files fail:" << nRet;
+        SetStatusInfo(tr("Convert files fail"), Qt::red);
+    } else {
+        //QMessageBox::information(this, tr("End"), tr("Transform coordinate end"));
+        SetStatusInfo(tr("Ready"));
+    }
 #else
-    qDebug() << "Please set WITH_GPXMODEL to ON";
+    qDebug(log) << "Please set WITH_GPXMODEL to ON";
 #endif
 }
 
@@ -177,13 +186,13 @@ void MainWindow::on_pbConversionDir_clicked()
         if(f.isFile())
         {
 #ifdef WITH_GPXMODEL
-            this->statusBar()->showMessage(tr("Be transforming ") + QString::number(num++) + " ......");
+            SetStatusInfo(tr("Be transforming ") + QString::number(num++) + " ......");
             TransformCoordinateFiles(f.filePath().toStdString().c_str(),
                     (ui->leDstDir->text() + QDir::separator() + f.fileName()).toStdString().c_str(),
                     (_COORDINATE)ui->cbSrcCoor->currentIndex(),
                     (_COORDINATE)ui->cbDstCoor->currentIndex());
 #else
-            qDebug() << "Please set WITH_GPXMODEL to ON";
+            qDebug(log) << "Please set WITH_GPXMODEL to ON";
 #endif
         }
     }
@@ -240,9 +249,11 @@ int MainWindow::InitStatusBar()
 
 int MainWindow::SetStatusInfo(QString szText, QColor color)
 {
-    QPalette pe;
-    pe.setColor(QPalette::WindowText, color);
-    m_statusInfo.setPalette(pe);
+    if(color.isValid()) {
+        QPalette pe;
+        pe.setColor(QPalette::WindowText, color);
+        m_statusInfo.setPalette(pe);
+    }
     m_statusInfo.setText(szText);
     return 0;
 }

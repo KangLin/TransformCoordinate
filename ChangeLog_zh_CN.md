@@ -1,3 +1,6 @@
+- v1.0.4
+  - 修改提示信息
+
 - v1.0.3
   - 重命名图标方案 rabbit-*
   - 修改 org.Rabbit.TransformCoordinate.desktop

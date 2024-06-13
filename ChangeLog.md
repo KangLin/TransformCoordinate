@@ -1,3 +1,6 @@
+- v1.0.4
+  - Modify prompt
+
 - v1.0.3
   - Modify org.Rabbit.TransformCoordinate.desktop
   - Rename icon theme rabbit-*

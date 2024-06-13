@@ -89,97 +89,102 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="322"/>
+        <location filename="../../mainwindow.ui" line="321"/>
         <source>About(&amp;A)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="325"/>
-        <location filename="../../mainwindow.ui" line="328"/>
-        <location filename="../../mainwindow.ui" line="331"/>
-        <location filename="../../mainwindow.ui" line="334"/>
+        <location filename="../../mainwindow.ui" line="324"/>
+        <location filename="../../mainwindow.ui" line="327"/>
+        <location filename="../../mainwindow.ui" line="330"/>
+        <location filename="../../mainwindow.ui" line="333"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="339"/>
+        <location filename="../../mainwindow.ui" line="338"/>
         <source>Update(&amp;U)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="342"/>
-        <location filename="../../mainwindow.ui" line="345"/>
-        <location filename="../../mainwindow.ui" line="348"/>
-        <location filename="../../mainwindow.ui" line="351"/>
+        <location filename="../../mainwindow.ui" line="341"/>
+        <location filename="../../mainwindow.ui" line="344"/>
+        <location filename="../../mainwindow.ui" line="347"/>
+        <location filename="../../mainwindow.ui" line="350"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.ui" line="360"/>
-        <source>Style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../mainwindow.ui" line="368"/>
+        <location filename="../../mainwindow.ui" line="359"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="65"/>
+        <location filename="../../mainwindow.cpp" line="76"/>
         <source>Convert fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="75"/>
+        <location filename="../../mainwindow.cpp" line="87"/>
         <source>GPX file(*.gpx);;NMea file(*.nmea);;ACT file(*.act);;txt(*.txt);;All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="77"/>
+        <location filename="../../mainwindow.cpp" line="89"/>
         <source>Open source file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="87"/>
+        <location filename="../../mainwindow.cpp" line="99"/>
         <source>GPX file(*.gpx);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="89"/>
+        <location filename="../../mainwindow.cpp" line="101"/>
         <source>KML file(*.kml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="92"/>
+        <location filename="../../mainwindow.cpp" line="104"/>
         <source>Open destination file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="103"/>
-        <location filename="../../mainwindow.cpp" line="164"/>
+        <location filename="../../mainwindow.cpp" line="115"/>
+        <location filename="../../mainwindow.cpp" line="180"/>
         <source>Start transform ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="112"/>
-        <location filename="../../mainwindow.cpp" line="184"/>
-        <location filename="../../mainwindow.cpp" line="225"/>
+        <location filename="../../mainwindow.cpp" line="80"/>
+        <location filename="../../mainwindow.cpp" line="128"/>
+        <location filename="../../mainwindow.cpp" line="200"/>
+        <location filename="../../mainwindow.cpp" line="243"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="132"/>
+        <location filename="../../mainwindow.cpp" line="75"/>
+        <source>Convert fail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="125"/>
+        <source>Convert files fail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="149"/>
         <source>Open source directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="141"/>
-        <location filename="../../mainwindow.cpp" line="143"/>
+        <location filename="../../mainwindow.cpp" line="159"/>
         <source>Open destination directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="173"/>
+        <location filename="../../mainwindow.cpp" line="189"/>
         <source>Be transforming </source>
         <translation type="unfinished"></translation>
     </message>
@@ -187,7 +192,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="29"/>
+        <location filename="../../main.cpp" line="22"/>
         <source>Transform coordinate</source>
         <translation type="unfinished"></translation>
     </message>

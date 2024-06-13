@@ -767,7 +767,7 @@ int TransformCoordinateFiles(const char* szSrc, const char* szDst,
     if(GPX_model::GPXM_OK != gpx.load(szSrc, GPX_model::GPXM_FILE_AUTOMATIC, true))
     {
         std::cout << "Open file " << szSrc << " fail." << std::endl;
-        return -1;
+        return -2;
     }
      
     gpx.metadata.desc = "Transform coordinate from " + gCoordinateDescription[from] + " to " + gCoordinateDescription[to];
