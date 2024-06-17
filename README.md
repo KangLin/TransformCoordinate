@@ -58,25 +58,25 @@
 
 - Ubuntu
   - 包含玉兔公共库(RabbitCommon)
-    - [开发库 libtransformcoordinate-dev_1.1.0_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/libtransformcoordinate-dev_1.1.0_RabbitCommon_amd64.deb)
-    - [运行库 libtransformcoordinate_1.1.0_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/libtransformcoordinate_1.1.0_RabbitCommon_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.1.0_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/transformcoordinate_1.1.0_RabbitCommon_amd64.deb)
+    - [开发库 libtransformcoordinate-dev_1.1.1_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/libtransformcoordinate-dev_1.1.1_RabbitCommon_amd64.deb)
+    - [运行库 libtransformcoordinate_1.1.1_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/libtransformcoordinate_1.1.1_RabbitCommon_amd64.deb)
+    - [转换示例程序 transformcoordinate_1.1.1_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/transformcoordinate_1.1.1_RabbitCommon_amd64.deb)
     - 安装
     
-          sudo apt install ./libtransformcoordinate_1.1.0_RabbitCommon_amd64.deb \
-                           ./transformcoordinate_1.1.0_RabbitCommon_amd64.deb
+          sudo apt install ./libtransformcoordinate_1.1.1_RabbitCommon_amd64.deb \
+                           ./transformcoordinate_1.1.1_RabbitCommon_amd64.deb
 
   - 不包含玉兔公共库(RabbitCommon)。安装前需要先从 [RabbitCommon](https://github.com/KangLin/RabbitCommon/releases/latest) 下载，并安装 RabbitCommon。
-    - [开发库 libtransformcoordinate-dev_1.1.0_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/libtransformcoordinate-dev_1.1.0_amd64.deb)
-    - [运行库 libtransformcoordinate_1.1.0_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/libtransformcoordinate_1.1.0_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.1.0_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/transformcoordinate_1.1.0_amd64.deb)
+    - [开发库 libtransformcoordinate-dev_1.1.1_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/libtransformcoordinate-dev_1.1.1_amd64.deb)
+    - [运行库 libtransformcoordinate_1.1.1_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/libtransformcoordinate_1.1.1_amd64.deb)
+    - [转换示例程序 transformcoordinate_1.1.1_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/transformcoordinate_1.1.1_amd64.deb)
   
 - Windows
-  - [TransformCoordinate_v1.1.0_win64_msvc2019_64_qt6.6.2_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/TransformCoordinate_v1.1.0_win64_msvc2019_64_qt6.6.2_Setup.exe)
-  - [TransformCoordinate_v1.1.0_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/TransformCoordinate_v1.1.0_win32_msvc2017_qt5.12.12_Setup.exe)
+  - [TransformCoordinate_v1.1.1_win64_msvc2019_64_qt6.6.2_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/TransformCoordinate_v1.1.1_win64_msvc2019_64_qt6.6.2_Setup.exe)
+  - [TransformCoordinate_v1.1.1_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/TransformCoordinate_v1.1.1_win32_msvc2017_qt5.12.12_Setup.exe)
 - Android
-  - [TransformCoordinate_1.1.0_android_arm64_v8a_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/TransformCoordinate_1.1.0_android_arm64_v8a_qt6.6.2_Release.apk)
-  - [TransformCoordinate_1.1.0_android_x86_64_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.0/TransformCoordinate_1.1.0_android_x86_64_qt6.6.2_Release.apk)
+  - [TransformCoordinate_1.1.1_android_arm64_v8a_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/TransformCoordinate_1.1.1_android_arm64_v8a_qt6.6.2_Release.apk)
+  - [TransformCoordinate_1.1.1_android_x86_64_qt6.6.2_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.1/TransformCoordinate_1.1.1_android_x86_64_qt6.6.2_Release.apk)
 - [更多的下载包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
 ### 编译
