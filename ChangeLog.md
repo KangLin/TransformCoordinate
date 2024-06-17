@@ -1,3 +1,8 @@
+- v1.1.1
+  - Modify share/org.Rabbit.SerialPortAssistant.desktop to Categories
+  - Fix debian/rules in aarch64
+  - Use [RabbitCommon v2.2.5](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.5)
+
 - v1.1.0
   - Modify TransformCoordinateFiles
 

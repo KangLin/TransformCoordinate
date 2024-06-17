@@ -1,3 +1,7 @@
+- v1.1.1
+  - 修复 debian/rules 并行错误
+  - 使用 [RabbitCommon v2.2.5](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.5)
+
 - v1.1.0
   - 修改 TransformCoordinateFiles
 
