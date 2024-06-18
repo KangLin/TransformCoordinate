@@ -16,7 +16,7 @@ jobs:
       matrix:
         BUILD_TYPE: [Release]
         qt_arch: [android_arm64_v8a, android_x86_64]
-        qt_version: [6.6.2]
+        qt_version: [6.6.3]
         include:
           - qt_arch: android_arm64_v8a
             VCPKG_TARGET_TRIPLET: arm64-android
@@ -41,7 +41,7 @@ jobs:
       ANDROID_PLATFORM: android-23
       ANDROID_NATIVE_API_LEVEL: 23
       ANDROID_ABI: ${{matrix.ANDROID_ABI}}
-      qt_modules: 'qtimageformats qtmultimedia qtscxml qtwebchannel qtwebsockets qtwebview'
+      qt_modules: 'qtscxml qtwebchannel qtwebsockets qtwebview'
 
     # Map the job outputs to step outputs
     outputs:
@@ -105,6 +105,15 @@ jobs:
           cache: true
           cache-key-prefix: cached_qt
 
+      - name: run vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
+          #setupOnly: # optional
+          #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
+          vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
+          vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
+      
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: |
@@ -129,8 +138,10 @@ jobs:
               -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
               -DVCPKG_TARGET_TRIPLET=${{env.VCPKG_TARGET_TRIPLET}} \
               -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON \
+              -DVCPKG_APPLOCAL_DEPS=ON \
               -DVCPKG_VERBOSE=ON \
-              -DINSTALL_QT=ON \
+              -DRABBIT_ENABLE_INSTALL_QT=ON \
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=ON \
               -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
               -DQT_ANDROID_SIGN_APK=ON \
               -DQT_ENABLE_VERBOSE_DEPLOYMENT=ON \
@@ -146,7 +157,7 @@ jobs:
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip install/*
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.2' }}
+        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.3' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
