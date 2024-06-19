@@ -11,7 +11,7 @@ Build-Depends: debhelper (>=13~), debhelper-compat (=13), fakeroot, cmake,
  qt6-base-dev, qt6-base-dev-tools, qt6-l10n-tools,
  qt6-translations-l10n, qt6-scxml-dev, qt6-webengine-dev,
  qt6-webengine-dev-tools, libsqlite3-dev,
- rabbitcommon-dev (>=2.2.3)
+ rabbitcommon-dev (>=2.2.6)
 Standards-Version: 4.6.2
 Homepage: https://github.com/KangLin/TransformCoordinate
 Vcs-Git: https://github.com/KangLin/TransformCoordinate.git
