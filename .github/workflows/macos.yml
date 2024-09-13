@@ -18,12 +18,12 @@ jobs:
       matrix:
         # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
-        qt_version: [6.6.2, 5.15.2, 5.12.12]
+        qt_version: [6.6.3, 5.15.2, 5.12.12]
         qt_arch: [clang_64]
         config_arch: [x86_64]
         VCPKG_TARGET_TRIPLET: [x64-osx]
         include:
-          - qt_version: 6.6.2
+          - qt_version: 6.6.3
             qt_modules: qtscxml qtwebchannel qtwebsockets qtwebview qtpositioning
 
           - qt_version: 5.15.2
@@ -35,7 +35,7 @@ jobs:
     runs-on: macos-13
 
     env:
-      TransformCoordinate_VERSION: "1.1.1"
+      TransformCoordinate_VERSION: "1.1.2"
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
@@ -113,10 +113,10 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.2' }}
-        uses: actions/upload-artifact@v3
+        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.3' }}
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact_name }}_${{matrix.qt_arch}}
           path: |
             ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.tar.gz
             ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.sh

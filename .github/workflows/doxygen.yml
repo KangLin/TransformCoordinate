@@ -21,7 +21,7 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_doxygen
       DOXYGEN_VERSION: 1.9.5
-      TransformCoordinate_VERSION: "v1.1.1"
+      TransformCoordinate_VERSION: "v1.1.2"
       artifact_name: build_doxygen
 
     # Map the job outputs to step outputs
@@ -91,8 +91,7 @@ jobs:
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_document.zip Doxygen/*
 
       - name: Update artifact
-        if: ${{ env.BUILD_TYPE == 'Release' }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}
           path: |

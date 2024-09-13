@@ -1,5 +1,9 @@
-transformcoordinate (1.1.1) unstable; urgency=medium
+transformcoordinate (1.1.2) unstable; urgency=medium
 
+    * CI: update actions/download-artifact to 4
+    * FIX: Modify author format (#3)
+    * CI: update RabbitCommon version to 2.2.6
+    * Fix deploy.sh bug
+    * CI: modify android.yml
 
-
- -- Kang Lin <kl222@126.com>  Mon, 17 Jun 2024 16:17:48 +0800
+ -- Kang Lin <kl222@126.com>  Fri, 13 Sep 2024 17:01:44 +0800

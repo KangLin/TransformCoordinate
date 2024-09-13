@@ -28,7 +28,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw
-      TransformCoordinate_VERSION: "1.1.1"
+      TransformCoordinate_VERSION: "1.1.2"
       artifact_name: build_mingw
 
     # Map the job outputs to step outputs
@@ -105,7 +105,7 @@ jobs:
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}
           path: |

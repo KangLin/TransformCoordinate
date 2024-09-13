@@ -5,7 +5,7 @@ name: build
 env:
   artifact_path: artifact_path
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TransformCoordinate_VERSION: "v1.1.1"
+  TransformCoordinate_VERSION: "v1.1.2"
 
 on:
   push:
@@ -34,9 +34,9 @@ jobs:
     secrets: inherit
 
   deploy:
-    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    #if: ${{ startsWith(github.ref, 'refs/tags/') }}
     runs-on: ubuntu-latest
-    needs: [ubuntu, mingw, msvc, macos, android]
+    needs: [ubuntu, msvc, macos, android]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -44,45 +44,51 @@ jobs:
           submodules: false
 
 #      - name: Download all artifact
-#        uses: actions/download-artifact@v3
+#        uses: actions/download-artifact@v4
 #        with:
 #          path: ${{ env.artifact_path }}
 
       - name: Download ubuntu
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ needs.ubuntu.outputs.name }}
           path: ${{ env.artifact_path }}
+          merge-multiple: true
 
       - name: Download msvc
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.msvc.outputs.name }}
+          pattern: ${{ needs.msvc.outputs.name }}*
           path: ${{ env.artifact_path }}
+          merge-multiple: true
 
       - name: Download mingw
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ needs.mingw.outputs.name }}
           path: ${{ env.artifact_path }}
+          merge-multiple: true
 
       - name: Download macos
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.macos.outputs.name }}
+          pattern: ${{ needs.macos.outputs.name }}*
           path: ${{ env.artifact_path }}
+          merge-multiple: true
 
       - name: Download android
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.android.outputs.name }}
+          pattern: ${{ needs.android.outputs.name }}*
           path: ${{ env.artifact_path }}
+          merge-multiple: true
 
       - name: Download doxygen
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ needs.doxygen.outputs.name }}
           path: ${{ env.artifact_path }}
+          merge-multiple: true
 
       - name: Process configure file
         run: |
@@ -94,7 +100,7 @@ jobs:
 
       - name: Make Note.md file
         run: |
-          echo "[:cn: 修改日志](https://github.com/KangLin/TransformCoordinate/blob/${{env.TransformCoordinate_VERSION}}/ChangeLog_zh_CN.md) [:us: Change log](https://github.com/KangLin/TransformCoordinate/blob/${{env.TransformCoordinate_VERSION}}/ChangeLog.md)" > ${{github.workspace}}/Note.md
+          echo "[:cn: 修改日志](https://github.com/KangLin/TransformCoordinate/blob/${{env.TransformCoordinate_VERSION}}/ChangeLog.md)" > ${{github.workspace}}/Note.md
           echo "" >> ${{github.workspace}}/Note.md
           echo "文件签名:" >> ${{github.workspace}}/Note.md
           cd ${{ env.artifact_path }}
@@ -112,7 +118,7 @@ jobs:
           done
 
       - name: Upload To Github Release
-        #if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
           gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --notes-file ${{github.workspace}}/Note.md
           gh release upload ${{ github.ref_name }} ${{github.workspace}}/${{ env.artifact_path }}/* ${{github.workspace}}/Note.md

@@ -1,66 +1,64 @@
 - v1.1.2
-  - Modify author format
-  - Use [RabbitCommon v2.2.6](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.6)
-
+  - 修改作者格式
+  - 使用 [RabbitCommon v2.2.6](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.6)
+  
 - v1.1.1
-  - Modify share/org.Rabbit.SerialPortAssistant.desktop to Categories
-  - Fix debian/rules in aarch64
-  - Use [RabbitCommon v2.2.5](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.5)
+  - 修复 debian/rules 并行错误
+  - 修复 debian/rules in aarch64
+  - 使用 [RabbitCommon v2.2.5](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.5)
 
 - v1.1.0
-  - Modify TransformCoordinateFiles
+  - 修改 TransformCoordinateFiles
 
 - v1.0.4
-  - Modify prompt
+  - 修改提示信息
 
 - v1.0.3
-  - Modify org.Rabbit.TransformCoordinate.desktop
-  - Rename icon theme rabbit-*
-  - Modify version format
+  - 重命名图标方案 rabbit-*
+  - 修改 org.Rabbit.TransformCoordinate.desktop
+  - 修改版本格式
 
 - v1.0.2
-  - debian: Check whether the RabbitCommon development library
-    is installed on the system, and if so, install it on the system.
-    If not, compile RabbitCommon from source
-    and install it to /opt/TransformCoordinate
-  - Rename share/TransformCoordinate.desktop to share/org.Rabbit.TransformCoordinate.desktop
+  - debian: 判断系统中是否安装有RabbitCommon开发库，如果有，则安装到系统。如果没
+    有，则从源码编译RabbitCommon，并安装到/opt/TransformCoordinate
+  - 重命名 share/TransformCoordinate.desktop 到 share/org.Rabbit.TransformCoordinate.desktop
 
 - v1.0.1
-  - Modify documents
-  - Modify ci
+  - 修改文档
+  - 修改自动化编译
 
 - v1.0.0
-  - Use [RabbitCommon v2.2.1](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.1)
+  - 使用 [RabbitCommon v2.2.1](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.1)
 
 - v0.0.11
-  + Fix android bug
-  + Replace RabbitCommon::CDir::GetOpenDirectory with QFileDialog::getExistingDirectory
+  - 修复 Android 错误
+  - 用 QFileDialog::getExistingDirectory 替换 RabbitCommon::CDir::GetOpenDirectory
 
 - v0.0.10
-  + Modify ci
-    + Add github actions
-  + Use RabbitCommon V2
-    + Add Log
-    + Add set style
-  + Use CPack to package
+  + 修改自动编译
+    - 增加 github actions
+  + 使用 RabbitCommon V2
+    + 增加日志菜单
+    + 增加设置样式菜单
+  + 使用 CPack 打包
 
 - v0.0.9
-  + Add android sign
-  + Modify update
-
+  + 修改更新
+  + 增加 android 签名
+  
 - v0.0.8
-  + Modify translation
-  + Modify ci
-  + Add install runtime
-
+  + 修改翻译
+  + 修改自动化编译
+  + 增加运行库安装
+  
 - v0.0.7
-  + Modify translation
-  + Modify open file
-  + Modify status bar prompt
-  + Modify CMAKE_INSTALL_PREFIX for android
-  + Modify translation and README
-  + android hide splash screen
-
+  + 修改翻译
+  + 修改打开文件对话框
+  + 修改状态栏提示
+  + 修改 CMAKE_INSTALL_PREFIX 为 android
+  + 修改翻译和 README
+  + android 启动 Splash screen 隐藏
+  
 - v0.0.6
-  + Transform coordinate
-  + Modify translation
+  + 坐标转换
+  + 修改翻译

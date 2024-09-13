@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TransformCoordinate_VERSION: "1.1.1"
+      TransformCoordinate_VERSION: "1.1.2"
       VCPKGGITCOMMITID: 007aaced1a9d3245e28a2ba9395dca88ea890db1
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
@@ -152,15 +152,15 @@ jobs:
           APK_FILE=`find . -name "android-*.apk"`
           echo "cp $APK_FILE ..."
           cp $APK_FILE TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
-          echo "Developer library"
+          echo "Developer library..."
           cmake --build . --verbose --config ${{matrix.BUILD_TYPE}} --target install
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip install/*
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.3' }}
-        uses: actions/upload-artifact@v3
+        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact_name }}_${{matrix.qt_arch}}
           path: |
             ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
             ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip
