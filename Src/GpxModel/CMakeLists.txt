@@ -1,4 +1,4 @@
-# 作者：康林<kl222@126.com>
+# 作者：康 林 <kl222@126.com>
 
 cmake_minimum_required(VERSION 2.8)
 

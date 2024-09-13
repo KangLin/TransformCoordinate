@@ -1,4 +1,4 @@
-// 作者：康林<kl222@126.com>
+// 作者：康 林 <kl222@126.com>
 
 #include <math.h>
 #include <string.h>
@@ -773,7 +773,7 @@ int TransformCoordinateFiles(const char* szSrc, const char* szDst,
     gpx.metadata.desc = "Transform coordinate from " + gCoordinateDescription[from] + " to " + gCoordinateDescription[to];
     GPX_linkType linkType;
     linkType.href = "https://github.com/KangLin/coordtrans";
-    linkType.text = "Transform coordinate project. Author: Kang Lin <kl222@126.com>";
+    linkType.text = "Transform coordinate project. Author: Kang Lin (kl222@126.com)";
     linkType.type = "text/html";
     //*
     gpx.metadata.author.link = linkType;

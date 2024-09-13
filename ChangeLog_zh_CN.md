@@ -1,5 +1,10 @@
+- v1.1.2
+  - 修改作者格式
+  - 使用 [RabbitCommon v2.2.6](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.6)
+  
 - v1.1.1
   - 修复 debian/rules 并行错误
+  - 修复 debian/rules in aarch64
   - 使用 [RabbitCommon v2.2.5](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.5)
 
 - v1.1.0

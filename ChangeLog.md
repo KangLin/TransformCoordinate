@@ -1,3 +1,7 @@
+- v1.1.2
+  - Modify author format
+  - Use [RabbitCommon v2.2.6](https://github.com/KangLin/RabbitCommon/releases/tag/v2.2.6)
+
 - v1.1.1
   - Modify share/org.Rabbit.SerialPortAssistant.desktop to Categories
   - Fix debian/rules in aarch64

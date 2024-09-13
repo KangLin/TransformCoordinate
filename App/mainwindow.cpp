@@ -1,3 +1,5 @@
+// 作者：康 林 <kl222@126.com>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>

@@ -1,3 +1,5 @@
+// 作者：康 林 <kl222@126.com>
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

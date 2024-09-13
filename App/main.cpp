@@ -1,3 +1,5 @@
+// 作者：康 林 <kl222@126.com>
+
 #include <QApplication>
 #if defined(Q_OS_ANDROID) && QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)  && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     #include <QtAndroidExtras/QtAndroid>
