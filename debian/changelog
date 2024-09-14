@@ -6,4 +6,4 @@ transformcoordinate (1.1.2) unstable; urgency=medium
     * Fix deploy.sh bug
     * CI: modify android.yml
 
- -- Kang Lin <kl222@126.com>  Fri, 13 Sep 2024 17:01:44 +0800
+ -- Kang Lin <kl222@126.com>  Sat, 14 Sep 2024 10:12:17 +0800
