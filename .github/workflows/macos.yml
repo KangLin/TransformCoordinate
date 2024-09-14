@@ -116,7 +116,7 @@ jobs:
         if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.3' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}_${{matrix.qt_arch}}
+          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}
           path: |
             ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.tar.gz
             ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.sh
