@@ -218,11 +218,7 @@ void MainWindow::on_actionAbout_A_triggered()
     about.m_szCopyrightStartTime = "2018";
     about.m_szVersion = TransformCoordinate_VERSION;
     about.m_szVersionRevision = TransformCoordinate_REVISION;
-#if defined (Q_OS_ANDROID)
-    about.showMaximized();
-    about.exec();
-#endif
-    about.exec();
+    RC_SHOW_WINDOW(&about);
 #endif
 }
 
@@ -231,11 +227,7 @@ void MainWindow::on_actionUpdate_U_triggered()
 #ifdef RABBITCOMMON
     CFrmUpdater* m_pfrmUpdater = new CFrmUpdater();
     m_pfrmUpdater->SetTitle(QImage(":/icon/App"));
-    #if defined (Q_OS_ANDROID)
-        m_pfrmUpdater->showMaximized();
-    #else
-        m_pfrmUpdater->show();
-    #endif
+    RC_SHOW_WINDOW(m_pfrmUpdater);
 #endif
 }
 
