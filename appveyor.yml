@@ -56,16 +56,16 @@ install:
   - echo %PATH%
 
   - cd %OTHER_SOURCE%
-  - set VCPKG_DIR=%OTHER_SOURCE%\vcpkg
+  - set VCPKG_ROOT=%OTHER_SOURCE%\vcpkg
   - ps: |
-      if( -not (Test-Path -Path ${env:VCPKG_DIR}) )
+      if( -not (Test-Path -Path ${env:VCPKG_ROOT}) )
       {
           git clone -q "https://github.com/microsoft/vcpkg.git"
-          cd ${env:VCPKG_DIR}
+          cd ${env:VCPKG_ROOT}
           git checkout -q -b 898b728edc5e0d12b50015f9cd18247c4257a3eb 898b728edc5e0d12b50015f9cd18247c4257a3eb
           bootstrap-vcpkg.bat
       }
-  
+
 before_build:
 
 build_script:
@@ -85,7 +85,7 @@ build_script:
         -DCMAKE_BUILD_TYPE=Release ^
         -DCMAKE_INSTALL_PREFIX="%cd%/install" ^
         -DCMAKE_PREFIX_PATH="%INSTALL_DIR%" ^
-        -DCMAKE_TOOLCHAIN_FILE="%VCPKG_DIR%/scripts/buildsystems/vcpkg.cmake" ^
+        -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" ^
         -DVCPKG_MANIFEST_DIR="%APPVEYOR_BUILD_FOLDER%/vcpkg/manifests" ^
         -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
         -DVCPKG_APPLOCAL_DEPS=ON
@@ -97,9 +97,7 @@ build_script:
   - rename TransformCoordinate_Setup_%TransformCoordinate_VERSION%.exe TransformCoordinate_%TransformCoordinate_VERSION%_windows_xp_Setup.exe
 
 artifacts:
-  - path: build_$(BUILD_TARGERT)\TransformCoordinate_*.exe
-    #name: TransformCoordinate_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_TransformCoordinate_VERSION)
-    #type: zip
+  - path: build\TransformCoordinate_*.exe
 
 test: off
 
@@ -112,7 +110,6 @@ deploy:
     auth_token:
       secure: g7JyppMs3R6LHgau/3Ud1X0Mmj4sXkeo75Jy5saIwp75E+f5vFbJPUTAm0VXULKh
     on:
-      BUILD_TARGERT: windows_msvc
       TOOLCHAIN_VERSION: 14
       QT_VERSION: 5.6.3
       BUILD_ARCH: x86

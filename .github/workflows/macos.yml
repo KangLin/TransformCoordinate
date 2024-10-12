@@ -18,13 +18,13 @@ jobs:
       matrix:
         # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
-        qt_version: [6.6.3, 5.15.2, 5.12.12]
+        qt_version: [6.8.1, 5.15.2, 5.12.12]
         qt_arch: [clang_64]
         config_arch: [x86_64]
         VCPKG_TARGET_TRIPLET: [x64-osx]
         include:
-          - qt_version: 6.6.3
-            qt_modules: qtscxml qtwebchannel qtwebsockets qtwebview qtpositioning
+          - qt_version: 6.8.1
+            qt_modules: qtscxml
 
           - qt_version: 5.15.2
 
@@ -40,7 +40,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      qt_modules: qtwebengine ${{matrix.qt_modules}}
+      qt_modules:  ${{matrix.qt_modules}}
       VCPKGGITCOMMITID: 007aaced1a9d3245e28a2ba9395dca88ea890db1
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       artifact_name: build_macos
@@ -113,7 +113,7 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.6.3' }}
+        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.8.1' }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}

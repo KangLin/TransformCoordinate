@@ -5,6 +5,7 @@
     "homepage": "https://github.com/KangLin/TransformCoordinate",
     
     "dependencies": [
-        "openssl"
+        "openssl",
+	"cmark"
     ]
 }

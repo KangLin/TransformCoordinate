@@ -70,13 +70,15 @@
     - [开发库 libtransformcoordinate-dev_1.1.2_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/libtransformcoordinate-dev_1.1.2_amd64.deb)
     - [运行库 libtransformcoordinate_1.1.2_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/libtransformcoordinate_1.1.2_amd64.deb)
     - [转换示例程序 transformcoordinate_1.1.2_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/transformcoordinate_1.1.2_amd64.deb)
-  
-- Windows
-  - [TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.6.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.6.3_Setup.exe)
-  - [TransformCoordinate_v1.1.2_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_win32_msvc2017_qt5.12.12_Setup.exe)
-- Android
-  - [TransformCoordinate_1.1.2_android_arm64_v8a_qt6.6.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_arm64_v8a_qt6.6.3_Release.apk)
-  - [TransformCoordinate_1.1.2_android_x86_64_qt6.6.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_x86_64_qt6.6.3_Release.apk)
+- Windows:
+  - windows 7 及以后版本
+    - [TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.8.1_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.8.1_Setup.exe)
+    - [TransformCoordinate_v1.1.2_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_win32_msvc2017_qt5.12.12_Setup.exe)
+  - windows xp
+    - [TransformCoordinate_v1.1.2_windows_xp_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_windows_xp_Setup.exe)
+- Android: Android 9.0 及以后版本
+  - [TransformCoordinate_1.1.2_android_arm64_v8a_qt6.8.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_arm64_v8a_qt6.8.1_Release.apk)
+  - [TransformCoordinate_1.1.2_android_x86_64_qt6.8.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_x86_64_qt6.8.1_Release.apk)
 - [更多的下载包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
 ### 编译

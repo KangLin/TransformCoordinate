@@ -46,19 +46,23 @@ jobs:
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
+          cmake -E make_directory ${{github.workspace}}/build
 
       - name: pacman
 #        if: steps.cache-pacman.outputs.cache-hit != 'true'
         env:
           PATH: C:\msys64\usr\bin
         run: | 
+          C:\msys64\usr\bin\pacman -Syu --noconfirm
           C:\msys64\usr\bin\pacman -S --noconfirm ^
               mingw-w64-x86_64-cmake ^
               mingw-w64-x86_64-make ^
               mingw-w64-x86_64-nsis ^
               mingw-w64-x86_64-gcc ^
-              mingw-w64-x86_64-qt5 ^
-              mingw-w64-x86_64-qtwebkit ^
+              mingw-w64-x86_64-qt6 ^
+              mingw-w64-x86_64-cmark ^
+              mingw-w64-x86_64-zlib ^
+              mingw-w64-x86_64-openssl ^
               git base-devel
         
       - name: git clone TransformCoordinate
@@ -79,21 +83,23 @@ jobs:
           git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: Build TransformCoordinate
-        working-directory: ${{github.workspace}}
+        working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
           MSYSTEM: MINGW64
           PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
         run: |
-          cmake -E make_directory build
-          cd build
           cmake .. -G"MinGW Makefiles" ^
               -DCMARK_SHARED=OFF ^
               -DCMARK_TESTS=OFF ^
               -DCMARK_STATIC=ON ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
-              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake
+              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
+              -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
+              -DRABBIT_ENABLE_INSTALL_QT=OFF ^
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF ^
+              -DBUILD_FREERDP=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
       - name: Package

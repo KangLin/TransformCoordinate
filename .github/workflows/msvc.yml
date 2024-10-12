@@ -18,26 +18,28 @@ jobs:
         qt_version: [6.6.3, 5.15.2, 5.12.12]
         include:
           - qt_version: 6.6.3
-            triplet: x64-windows
+            VCPKG_TARGET_TRIPLET: x64-windows
             VCPKG_PLATFORM_TOOLSET: v143
             qt_arch: win64_msvc2019_64
             CMAKE_GENERATOR_PLATFORM: x64
-            qt_modules: qtscxml qtwebchannel qtwebsockets qtwebview qtpositioning
+            qt_modules: qtscxml
 
           - qt_version: 5.15.2
-            triplet: x64-windows
+            VCPKG_TARGET_TRIPLET: x64-windows
             VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
             qt_arch: win64_msvc2019_64
             CMAKE_GENERATOR_PLATFORM: x64
 
           - qt_version: 5.12.12
-            triplet: x86-windows
+            VCPKG_TARGET_TRIPLET: x86-windows
             VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
             qt_arch: win32_msvc2017
             CMAKE_GENERATOR_PLATFORM: Win32
 
+    # See: https://docs.github.com/zh/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+    # See: https://github.com/actions/runner-images/
     runs-on: windows-latest
 
     env:
@@ -45,13 +47,13 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install
+      CMAKE_GENERATOR: "Visual Studio 17 2022"
+      CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       VCPKGGITCOMMITID: 007aaced1a9d3245e28a2ba9395dca88ea890db1
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       VCPKG_MANIFEST_DIR: "${{github.workspace}}${{matrix.VCPKG_MANIFEST_DIR}}"
-      CMAKE_GENERATOR: "Visual Studio 17 2022"
-      CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      qt_modules: qtwebengine ${{matrix.qt_modules}}
+      qt_modules: ${{matrix.qt_modules}}
       artifact_name: build_msvc
 
     # Map the job outputs to step outputs
@@ -81,7 +83,7 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: install_msvc_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
+          key: cache-installed-msvc-${{matrix.qt_arch}}
 
       - name: run vcpkg
         uses: lukka/run-vcpkg@v11
@@ -105,11 +107,10 @@ jobs:
           git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: Build TransformCoordinate
+        working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-        working-directory: ${{github.workspace}}\build
         run: |
-          cd ${{github.workspace}}/build
           cmake ${{github.workspace}} ^
               -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
               -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
@@ -118,7 +119,6 @@ jobs:
               -DCMARK_STATIC=ON ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
-              -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}\lib\cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}\scripts\buildsystems\vcpkg.cmake ^
               -DVCPKG_MANIFEST_DIR=${{env.VCPKG_MANIFEST_DIR}} ^
               -DVCPKG_VERBOSE=ON ^

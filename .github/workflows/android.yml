@@ -16,7 +16,7 @@ jobs:
       matrix:
         BUILD_TYPE: [Release]
         qt_arch: [android_arm64_v8a, android_x86_64]
-        qt_version: [6.6.3]
+        qt_version: [6.8.1]
         include:
           - qt_arch: android_arm64_v8a
             VCPKG_TARGET_TRIPLET: arm64-android
@@ -26,7 +26,9 @@ jobs:
             VCPKG_TARGET_TRIPLET: x64-android
             ANDROID_ABI: x86_64
 
-    runs-on: ubuntu-latest
+    # See: https://docs.github.com/zh/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
+    # See: https://github.com/actions/runner-images/
+    runs-on: ubuntu-24.04
 
     env:
       TransformCoordinate_VERSION: "1.1.2"
@@ -38,10 +40,10 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
       artifact_name: build_android
-      ANDROID_PLATFORM: android-23
-      ANDROID_NATIVE_API_LEVEL: 23
+      ANDROID_PLATFORM: android-35
+      ANDROID_NATIVE_API_LEVEL: 35
       ANDROID_ABI: ${{matrix.ANDROID_ABI}}
-      qt_modules: 'qtscxml qtwebchannel qtwebsockets qtwebview'
+      qt_modules: 'qtscxml'
 
     # Map the job outputs to step outputs
     outputs:
@@ -81,7 +83,7 @@ jobs:
           version: '${{matrix.qt_version}}'
           #host: 'linux'
           target: 'desktop'
-          arch: 'gcc_64'
+          arch: 'linux_gcc_64'
           set-env: false
           cache: true
           cache-key-prefix: cached_qt
