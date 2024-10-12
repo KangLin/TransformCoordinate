@@ -1,6 +1,7 @@
 # 作者：康林 <kl222@126.com>
 
-project(TransformCoordinateApp)
+project(TransformCoordinateApp
+	DESCRIPTION "Transform coordinate application")
 
 # 打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
