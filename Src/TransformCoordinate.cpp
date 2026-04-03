@@ -771,9 +771,10 @@ int TransformCoordinateFiles(const char* szSrc, const char* szDst,
     }
      
     gpx.metadata.desc = "Transform coordinate from " + gCoordinateDescription[from] + " to " + gCoordinateDescription[to];
+
     GPX_linkType linkType;
-    linkType.href = "https://github.com/KangLin/coordtrans";
-    linkType.text = "Transform coordinate project. Author: Kang Lin (kl222@126.com)";
+    linkType.href = "https://github.com/KangLin/TransformCoordinate";
+    linkType.text = "Transform coordinate project.";
     linkType.type = "text/html";
     //*
     gpx.metadata.author.link = linkType;

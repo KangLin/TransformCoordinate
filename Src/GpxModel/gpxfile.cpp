@@ -49,7 +49,7 @@ static char gBuffer[BUFFER_SIZE];
 #define PARSING_TRKPT                       12
 #define PARSING_TRKPT_LINK                  13
 #define PARSING_TRKPT_EXTENSIONS            14
-#define PARSING_TRKPT_EXTENSIONS_GPXTPX     15  // Garmin TrackPointExtension extension
+#define PARSING_TRKPT_EXTENSIONS_GPXTPX     15  // Garmin TrackPointExtension extension. See: https://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd
 
 static bool gOverwriteMetadata = false;
 static int gVersion = 0;
@@ -276,7 +276,7 @@ static void openTag(void* pXml, char* pTag)
         break;
 
     case PARSING_TRKPT_EXTENSIONS:
-        if (strcmp(pTag, "gpxtpx:trackpointextension") == 0)
+        if (strcmp(pTag, "gpxtpx:TrackPointExtension") == 0)
         {
             gExtensionVector = &gpxm->trk.back().trkseg.back().trkpt.back().extensionsGarmin.other;
             gExtensionStr = "";
@@ -675,7 +675,7 @@ static void closeTag(void* pXml, char* pTag)
         break;
 
     case PARSING_TRKPT_EXTENSIONS_GPXTPX:
-        if (strcmp(pTag, "gpxtpx:trackpointextension") == 0)
+        if (strcmp(pTag, "gpxtpx:TrackPointExtension") == 0)
         {
             gExtensionVector = &gpxm->trk.back().trkseg.back().trkpt.back().extensions.extension;
             gExtensionStr = "";

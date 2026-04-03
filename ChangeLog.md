@@ -1,6 +1,11 @@
 - v1.1.3
   - Android 9.0 及以后版本
   - 使用 [RabbitCommon v2.3.4](https://github.com/KangLin/RabbitCommon/releases/tag/v2.3.4)
+  - 修复 [#4](https://github.com/KangLin/TransformCoordinate/issues/4):
+    重命名 gpxtpx:trackpointextension 到 gpxtpx:TrackPointExtension
+    详见：
+    - https://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd
+    - garmin 新的协议:　https://developer.garmin.com/
 
 - v1.1.2
   - 修改作者格式
