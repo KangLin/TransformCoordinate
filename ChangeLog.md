@@ -1,6 +1,6 @@
 - v1.1.3
   - Android 9.0 及以后版本
-  - 使用 [RabbitCommon v2.3.1](https://github.com/KangLin/RabbitCommon/releases/tag/v2.3.1)
+  - 使用 [RabbitCommon v2.3.4](https://github.com/KangLin/RabbitCommon/releases/tag/v2.3.4)
 
 - v1.1.2
   - 修改作者格式
