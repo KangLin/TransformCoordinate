@@ -41,7 +41,7 @@ install:
   - cd %APPVEYOR_BUILD_FOLDER%
   - git submodule update --init --recursive
   - git clone https://github.com/KangLin/RabbitCommon.git
-  - set RabbitCommon_DIR=%APPVEYOR_BUILD_FOLDER%/RabbitCommon
+  - set RabbitCommon_ROOT=%APPVEYOR_BUILD_FOLDER%/RabbitCommon
 
   - set OTHER_SOURCE=%APPVEYOR_BUILD_FOLDER%\..\other_source
   - set INSTALL_DIR=%OTHER_SOURCE%\install_dir
@@ -62,7 +62,7 @@ install:
       {
           git clone -q "https://github.com/microsoft/vcpkg.git"
           cd ${env:VCPKG_ROOT}
-          git checkout -q -b 898b728edc5e0d12b50015f9cd18247c4257a3eb 898b728edc5e0d12b50015f9cd18247c4257a3eb
+          git checkout -q -b cb2981c4e03d421fa03b9bb5044cd1986180e7e4 cb2981c4e03d421fa03b9bb5044cd1986180e7e4
           bootstrap-vcpkg.bat
       }
 

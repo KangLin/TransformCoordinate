@@ -16,32 +16,34 @@ jobs:
   build_macos:
     strategy:
       matrix:
-        # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-        BUILD_TYPE: [Release, Debug]
-        qt_version: [6.8.1, 5.15.2, 5.12.12]
-        qt_arch: [clang_64]
-        config_arch: [x86_64]
-        VCPKG_TARGET_TRIPLET: [x64-osx]
         include:
-          - qt_version: 6.8.1
-            qt_modules: qtscxml
+          - VCPKG_TARGET_TRIPLET: x64-osx
+            os: macos-15-intel
+            qt_version: 6.9.3
+            qt_arch: clang_64
+            WITH_MACOSX_BUNDLE: false
+            BUILD_TYPE: Release
 
-          - qt_version: 5.15.2
-
-          - qt_version: 5.12.12
+          - VCPKG_TARGET_TRIPLET: arm64-osx
+            os: macos-15
+            qt_version: 6.9.3
+            qt_arch: clang_64
+            WITH_MACOSX_BUNDLE: false
+            BUILD_TYPE: Release
 
     # See: https://docs.github.com/zh/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
     # See: https://github.com/actions/runner-images/tree/main
-    runs-on: macos-13
+    runs-on: ${{matrix.os}}
 
     env:
       TransformCoordinate_VERSION: "1.1.2"
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      BUILD_DIR:   ${{github.workspace}}/build
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
-      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      TOOLS_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      qt_modules:  ${{matrix.qt_modules}}
-      VCPKGGITCOMMITID: 007aaced1a9d3245e28a2ba9395dca88ea890db1
+      qt_modules:  qtscxml
+      VCPKGGITCOMMITID: cb2981c4e03d421fa03b9bb5044cd1986180e7e4
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       artifact_name: build_macos
 
@@ -51,19 +53,19 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
       - name: Make directories
         run: |
           cmake -E make_directory ${{env.SOURCE_DIR}}
-          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.TOOLS_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
 
       - name: Cache installed
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-installed
         with:
           path: |
@@ -77,9 +79,9 @@ jobs:
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
-          dir: '${{env.TOOSL_DIR}}/qt' # optional
+          dir: '${{env.TOOLS_DIR}}/qt' # optional
           version: '${{matrix.qt_version}}' # optional, default is 5.15.2
           arch: '${{matrix.qt_arch}}' # optional
           modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
@@ -94,20 +96,24 @@ jobs:
       - name: Build TransformCoordinate
         working-directory: ${{github.workspace}}/build
         env:
-          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           cmake ${{github.workspace}} \
-              -DCMARK_SHARED=OFF \
-              -DCMARK_TESTS=OFF \
-              -DCMARK_STATIC=ON \
-              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
-              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install \
-              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
-              -DVCPKG_VERBOSE=ON \
-              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON \
-              -DVCPKG_APPLOCAL_DEPS=ON \
-              -DINSTALL_QT=ON \
-              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+            -DCMARK_SHARED=OFF \
+            -DCMARK_TESTS=OFF \
+            -DCMARK_STATIC=ON \
+            -DWITH_CMARK=OFF \
+            -DWITH_CMARK_GFM=ON \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+            -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install \
+            -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
+            -DCMAKE_TOOLCHAIN_FILE="${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake" \
+            -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON \
+            -DVCPKG_VERBOSE=ON \
+            -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} \
+            -DRABBIT_WITH_MACDEPLOY=OFF \
+            -DENABLE_UPDATE_TRANSLATIONS=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package

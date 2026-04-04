@@ -23,7 +23,7 @@ jobs:
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
-      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      TOOLS_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu
       TransformCoordinate_VERSION: "1.1.2"
       artifact_name: build_ubuntu
@@ -34,14 +34,14 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
       - name: Make directories
         run: |
           cmake -E make_directory ${{env.SOURCE_DIR}}
-          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.TOOLS_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
 
@@ -67,7 +67,7 @@ jobs:
       - name: CPACK
         working-directory: ${{github.workspace}}/build
         env:
-          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           cmake ${{github.workspace}} \
             -DCMARK_SHARED=OFF \
@@ -81,7 +81,7 @@ jobs:
       - name: build_debpackage.sh
         working-directory: ${{github.workspace}}
         env:
-          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           ./build_debpackage.sh /usr/lib/`uname -a`-linux-gnu/cmake/Qt6
           cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
@@ -92,7 +92,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           git clean -xdf
-          export RabbitCommon_VERSION=2.3.0
+          export RabbitCommon_VERSION=2.3.3
           wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon-dev_${RabbitCommon_VERSION}_amd64.deb
           wget https://github.com/KangLin/RabbitCommon/releases/download/v${RabbitCommon_VERSION}/rabbitcommon_${RabbitCommon_VERSION}_amd64.deb
           sudo apt install -q -y ./rabbitcommon_${RabbitCommon_VERSION}_amd64.deb \

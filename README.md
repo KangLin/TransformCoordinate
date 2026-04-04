@@ -72,13 +72,13 @@
     - [转换示例程序 transformcoordinate_1.1.2_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/transformcoordinate_1.1.2_amd64.deb)
 - Windows:
   - windows 7 及以后版本
-    - [TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.8.1_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.8.1_Setup.exe)
+    - [TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.10.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_win64_msvc2019_64_qt6.10.3_Setup.exe)
     - [TransformCoordinate_v1.1.2_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_win32_msvc2017_qt5.12.12_Setup.exe)
   - windows xp
     - [TransformCoordinate_v1.1.2_windows_xp_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_v1.1.2_windows_xp_Setup.exe)
 - Android: Android 9.0 及以后版本
-  - [TransformCoordinate_1.1.2_android_arm64_v8a_qt6.8.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_arm64_v8a_qt6.8.1_Release.apk)
-  - [TransformCoordinate_1.1.2_android_x86_64_qt6.8.1_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_x86_64_qt6.8.1_Release.apk)
+  - [TransformCoordinate_1.1.2_android_arm64_v8a_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_arm64_v8a_qt6.10.3_Release.apk)
+  - [TransformCoordinate_1.1.2_android_x86_64_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.2/TransformCoordinate_1.1.2_android_x86_64_qt6.10.3_Release.apk)
 - [更多的下载包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
 ### 编译
@@ -106,7 +106,7 @@
   - [必选] QT_DIR: qt 安装位置
     - [可选] Qt5_DIR: qt5 安装位置
     - [可选] Qt6_DIR: qt6 安装位置
-  - [可选] RabbitCommon_DIR: RabbitCommon 源码位置
+  - [可选] RabbitCommon_ROOT: RabbitCommon 源码位置
 
 #### 各平台编译
 ##### linux 平台编译说明
@@ -122,7 +122,7 @@
           -DCMAKE_BUILD_TYPE=Release \
           -DQT_DIR=...... \
           -DQt6_DIR=...... \
-          -DRabbitCommon_DIR= \
+          -DRabbitCommon_ROOT= \
           [其它可选 CMake 配置参数]
       cmake --build . --config Release
 
@@ -157,7 +157,7 @@
               -DCMAKE_BUILD_TYPE=Release ^
               -DQT_DIR=...... ^
               -DQt6_DIR=...... ^
-              -DRabbitCommon_DIR= ^
+              -DRabbitCommon_ROOT= ^
               [其它可选 CMake 配置参数]
           cmake --build . --config Release
 
@@ -196,7 +196,7 @@
                  -DANDROID_PLATFORM=android-18 \
                  -DQT_DIR=...... \
                  -DQt6_DIR=...... \
-                 -DRabbitCommon_DIR= \
+                 -DRabbitCommon_ROOT= \
                  [其它可选 CMake 配置参数]
         cmake --build . --config Release --target package
 
@@ -213,7 +213,7 @@
                  -DANDROID_ARM_NEON=ON ^
                  -DQT_DIR=...... ^
                  -DQt6_DIR=...... ^
-                 -DRabbitCommon_DIR= ^
+                 -DRabbitCommon_ROOT= ^
                  [其它可选 CMake 配置参数]
         cmake --build . --config Release --target package
 
@@ -250,7 +250,7 @@
           -DCMAKE_BUILD_TYPE=Release \
           -DQT_DIR=...... \
           -DQt6_DIR=...... \
-          -DRabbitCommon_DIR= \
+          -DRabbitCommon_ROOT= \
           [其它可选 CMake 配置参数]
       cmake --build . --config Release
 
