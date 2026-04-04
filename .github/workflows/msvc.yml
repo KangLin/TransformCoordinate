@@ -55,7 +55,7 @@ jobs:
     runs-on: ${{matrix.os}}
 
     env:
-      TransformCoordinate_VERSION: "v1.1.2"
+      TransformCoordinate_VERSION: "v1.1.3"
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOLS_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install
