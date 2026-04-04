@@ -5,23 +5,23 @@ if [ -n "$1" -a -z "$QT_ROOT" ]; then
 fi
 
 if [ -z "$QT_ROOT" ]; then
-	echo "$0 QT_ROOT RabbitCommon_DIR"
+	echo "$0 QT_ROOT RabbitCommon_ROOT"
     exit -1
 fi
 
-if [ -n "$2" -a -z "$RabbitCommon_DIR" ]; then
-	RabbitCommon_DIR=$2
+if [ -n "$2" -a -z "$RabbitCommon_ROOT" ]; then
+	RabbitCommon_ROOT=$2
 fi
 
-if [ -z "$RabbitCommon_DIR" ]; then
-	RabbitCommon_DIR=`pwd`/../RabbitCommon
+if [ -z "$RabbitCommon_ROOT" ]; then
+	RabbitCommon_ROOT=`pwd`/../RabbitCommon
 fi
 
-if [ ! -d "$RabbitCommon_DIR" ]; then
-    echo "$0 QT_ROOT RabbitCommon_DIR"
+if [ ! -d "$RabbitCommon_ROOT" ]; then
+    echo "$0 QT_ROOT RabbitCommon_ROOT"
 fi
 
-export RabbitCommon_DIR=$RabbitCommon_DIR
+export RabbitCommon_ROOT=$RabbitCommon_ROOT
 export QT_ROOT=$QT_ROOT
 export PATH=$QT_ROOT/bin:$PATH
 export LD_LIBRARY_PATH=$QT_ROOT/lib/i386-linux-gnu:$QT_ROOT/lib:$LD_LIBRARY_PATH

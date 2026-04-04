@@ -4,6 +4,7 @@ project(TransformCoordinate)
 
 option(WITH_GPXMODEL "Set to ON to build GpxModel" ON)
 if(WITH_GPXMODEL)
+    set(TransformCoordinate_VERSION ${TransformCoordinate_VERSION})
     add_subdirectory(GpxModel)
 endif()
 

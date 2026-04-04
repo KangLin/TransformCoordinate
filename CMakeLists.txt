@@ -1,6 +1,6 @@
 # 作者：康林<kl222@126.com>
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.18)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD 11)
@@ -11,6 +11,25 @@ endif()
 
 project(TransformCoordinate)
 
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+include(GenerateExportHeader)
+include(CheckIncludeFile)
+include(CheckIncludeFileCXX)
+include(CheckFunctionExists)
+
+CHECK_INCLUDE_FILE_CXX("string" HAVE_STRING_H)
+check_include_file("math.h" HAVE_MATH_H)
+
+check_function_exists("fabs" HAVE_FABS)
+check_function_exists("sin" HAVE_SIN)
+check_function_exists("cos" HAVE_COS)
+
+SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
+SET(TransformCoordinate_VERSION "v1.1.2" CACHE STRING "Project version")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
@@ -31,38 +50,16 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
             COMMAND ${GIT} rev-parse --short HEAD
             OUTPUT_VARIABLE TransformCoordinate_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-
-        if(NOT TransformCoordinate_VERSION)
-            SET(TransformCoordinate_VERSION "v1.1.2")
-        endif()
     ENDIF()
 ENDIF()
-message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION};TransformCoordinate_REVISION:${TransformCoordinate_REVISION}")
-if(NOT TransformCoordinate_VERSION)
-    SET(TransformCoordinate_VERSION "v1.1.2")
+if(NOT(TransformCoordinate_VERSION MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+[+\\-^_~0-9A-Za-z]*"))
+    SET(TransformCoordinate_VERSION "1.1.2")
 endif()
 string(REPLACE "v" "" TransformCoordinate_VERSION ${TransformCoordinate_VERSION})
 if(TransformCoordinate_REVISION)
     string(REPLACE "v" "" TransformCoordinate_REVISION ${TransformCoordinate_REVISION})
 endif()
-
-include(CMakePackageConfigHelpers)
-include(GNUInstallDirs)
-include(GenerateExportHeader)
-include(CheckIncludeFile)
-include(CheckIncludeFileCXX)
-include(CheckFunctionExists)
-
-CHECK_INCLUDE_FILE_CXX("string" HAVE_STRING_H)
-check_include_file("math.h" HAVE_MATH_H)
-
-check_function_exists("fabs" HAVE_FABS)
-check_function_exists("sin" HAVE_SIN)
-check_function_exists("cos" HAVE_COS)
-
-SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
-add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+message("TransformCoordinate_VERSION: ${TransformCoordinate_VERSION}; TransformCoordinate_REVISION: ${TransformCoordinate_REVISION}")
 
 add_subdirectory(Src)
 

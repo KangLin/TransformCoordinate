@@ -1,7 +1,5 @@
 # 作者：康 林 <kl222@126.com>
 
-cmake_minimum_required(VERSION 2.8)
-
 project(GpxModel)
 
 set(HEAD_FILES
@@ -106,7 +104,6 @@ INSTALL(TARGETS ${PROJECT_NAME}
         COMPONENT Development
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
-
 export(TARGETS ${PROJECT_NAME}
        APPEND FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
        )
