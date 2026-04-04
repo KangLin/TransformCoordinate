@@ -72,7 +72,7 @@
     - [转换示例程序 transformcoordinate_1.1.3_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/transformcoordinate_1.1.3_amd64.deb)
 - Windows:
   - windows 7 及以后版本
-    - [TransformCoordinate_v1.1.3_win64_msvc2019_64_qt6.10.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_win64_msvc2019_64_qt6.10.3_Setup.exe)
+    - [TransformCoordinate_v1.1.3_win64_msvc2022_amd64_qt6.10.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_win64_msvc2022_arm64_qt6.10.3_Setup.exe)
     - [TransformCoordinate_v1.1.3_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_win32_msvc2017_qt5.12.12_Setup.exe)
   - windows xp
     - [TransformCoordinate_v1.1.3_windows_xp_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_windows_xp_Setup.exe)
@@ -103,9 +103,9 @@
     - 开发包： `https://github.com/KangLin/RabbitCommon/releases`
   
 #### CMake 配置参数
-  - [必选] QT_DIR: qt 安装位置
-    - [可选] Qt5_DIR: qt5 安装位置
-    - [可选] Qt6_DIR: qt6 安装位置
+  - [可选] QT_DIR: qt 安装位置。应用需要 qt
+    - [可选] Qt5_ROOT: qt5 安装位置
+    - [可选] Qt6_ROOT: qt6 安装位置
   - [可选] RabbitCommon_ROOT: RabbitCommon 源码位置
 
 #### 各平台编译
@@ -120,11 +120,17 @@
       cd build
       cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
           -DCMAKE_BUILD_TYPE=Release \
-          -DQT_DIR=...... \
-          -DQt6_DIR=...... \
+          -DQT_ROOT=...... \
+          -DQt6_ROOT=...... \
           -DRabbitCommon_ROOT= \
           [其它可选 CMake 配置参数]
       cmake --build . --config Release
+
+- 安装
+
+      cmake --install . --config Release --component Development # 只安装开发库
+      cmake --install . --config Release --component Runtime # 只安装运行库
+      cmake --install . --config Release #包含开发库和运行库
 
 - 打包
 
@@ -155,11 +161,17 @@
           cd build
           cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install ^
               -DCMAKE_BUILD_TYPE=Release ^
-              -DQT_DIR=...... ^
-              -DQt6_DIR=...... ^
+              -DQT_ROOT=...... ^
+              -DQt6_ROOT=...... ^
               -DRabbitCommon_ROOT= ^
               [其它可选 CMake 配置参数]
           cmake --build . --config Release
+
+    - 安装
+
+          cmake --install . --config Release --component Development # 只安装开发库
+          cmake --install . --config Release --component Runtime # 只安装运行库
+          cmake --install . --config Release #包含开发库和运行库
 
     - 打包
 
@@ -194,8 +206,8 @@
                  -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
                  -DANDROID_ABI="armeabi-v7a with NEON" \
                  -DANDROID_PLATFORM=android-18 \
-                 -DQT_DIR=...... \
-                 -DQt6_DIR=...... \
+                 -DQT_ROOT=...... \
+                 -DQt6_ROOT=...... \
                  -DRabbitCommon_ROOT= \
                  [其它可选 CMake 配置参数]
         cmake --build . --config Release --target package
@@ -211,8 +223,8 @@
                  -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe ^
                  -DANDROID_ABI=arm64-v8a ^
                  -DANDROID_ARM_NEON=ON ^
-                 -DQT_DIR=...... ^
-                 -DQt6_DIR=...... ^
+                 -DQT_ROOT=...... ^
+                 -DQt6_ROOT=...... ^
                  -DRabbitCommon_ROOT= ^
                  [其它可选 CMake 配置参数]
         cmake --build . --config Release --target package
@@ -248,8 +260,8 @@
       cd build
       cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
           -DCMAKE_BUILD_TYPE=Release \
-          -DQT_DIR=...... \
-          -DQt6_DIR=...... \
+          -DQT_ROOT=...... \
+          -DQt6_ROOT=...... \
           -DRabbitCommon_ROOT= \
           [其它可选 CMake 配置参数]
       cmake --build . --config Release
