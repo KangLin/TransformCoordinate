@@ -321,12 +321,6 @@ check_chang_log() {
     else
         echo_warn "    ! Warning: Don't include \"$VERSION\" in the file \"ChangeLog.md\""
     fi
-    content=$(<${SOURCE_DIR}/ChangeLog_zh_CN.md)
-    if [[ $content =~ "$VERSION" ]]; then
-        echo_success "    √ Modified in \"ChangeLog_zh_CN.md\""
-    else
-        echo_warn "    ! Warning: Don't include \"$VERSION\" in the file \"ChangeLog_zh_CN.md\""
-    fi
 }
 
 create_tag() {
