@@ -14,12 +14,11 @@ jobs:
 
     strategy:
       matrix:
-        BUILD_TYPE: [Release, Debug]
-        qt_version: [6.10.3, 5.15.2, 5.12.12]
         include:
           - CMAKE_GENERATOR_PLATFORM: x64
             VCPKG_TARGET_TRIPLET: x64-windows
             VCPKG_PLATFORM_TOOLSET: v143
+            BUILD_TYPE: Release
             os: windows-2022
             qt_arch: win64_msvc2022_64
             qt_version: 6.10.3
@@ -28,23 +27,26 @@ jobs:
           - CMAKE_GENERATOR_PLATFORM: arm64
             VCPKG_TARGET_TRIPLET: arm64-windows
             VCPKG_PLATFORM_TOOLSET: v143
+            BUILD_TYPE: Release
             os: windows-11-arm
             qt_arch: win64_msvc2022_arm64
             qt_version: 6.10.3
             qt_modules: qtscxml qt5compat
 
-          - CMAKE_GENERATOR_PLATFORM: x64
-            VCPKG_TARGET_TRIPLET: x64-windows
-            VCPKG_PLATFORM_TOOLSET: v143
-            VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
-            os: windows-2022
-            qt_arch: win64_msvc2019_64
-            qt_version: 5.15.2
+          # - CMAKE_GENERATOR_PLATFORM: x64
+          #   VCPKG_TARGET_TRIPLET: x64-windows
+          #   VCPKG_PLATFORM_TOOLSET: v143
+          #   VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
+          #   BUILD_TYPE: Release
+          #   os: windows-2022
+          #   qt_arch: win64_msvc2019_64
+          #   qt_version: 5.15.2
 
           - CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
             VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
+            BUILD_TYPE: Release
             os: windows-2022
             qt_arch: win32_msvc2017
             qt_version: 5.12.12
@@ -88,7 +90,8 @@ jobs:
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOLS_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
-
+          cmake -E make_directory ${{github.workspace}}/build_dev
+          
       - name: Cache installed
         uses: actions/cache@v4
         id: cache-installed
@@ -103,6 +106,31 @@ jobs:
           vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
 
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          git clone https://github.com/KangLin/RabbitCommon.git
+
+      - name: Build TransformCoordinate development library
+        working-directory: ${{github.workspace}}/build_dev
+        env:
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
+        run: |
+          cmake ${{github.workspace}} ^
+              -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+              -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
+              -DCMARK_SHARED=OFF ^
+              -DCMARK_TESTS=OFF ^
+              -DCMARK_STATIC=ON ^
+              -DWITH_CMARK=ON ^
+              -DWITH_CMARK_GFM=OFF ^
+              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
+              -DCMAKE_INSTALL_PREFIX=%CD%/install ^
+              -DBUILD_APP=OFF
+          cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          cmake --install . --config ${{ matrix.BUILD_TYPE }}
+          7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_development.zip .\install\*
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -112,11 +140,6 @@ jobs:
           modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
           cache: true
           cache-key-prefix: cached-qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
-
-      - name: git clone RabbitCommon
-        working-directory: ${{env.SOURCE_DIR}}
-        run: |
-          git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: Build TransformCoordinate
         working-directory: ${{github.workspace}}/build
@@ -129,15 +152,20 @@ jobs:
               -DCMARK_SHARED=OFF ^
               -DCMARK_TESTS=OFF ^
               -DCMARK_STATIC=ON ^
+              -DWITH_CMARK=ON ^
+              -DWITH_CMARK_GFM=OFF ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}\scripts\buildsystems\vcpkg.cmake ^
               -DVCPKG_MANIFEST_DIR=${{env.VCPKG_MANIFEST_DIR}} ^
               -DVCPKG_VERBOSE=ON ^
+              -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
               -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
+              -DVCPKG_APPLOCAL_DEPS=ON ^
+              -DENABLE_UPDATE_TRANSLATIONS=ON ^
               -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
               -DRABBIT_ENABLE_INSTALL_QT=ON ^
-              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
       - name: Package
@@ -147,6 +175,7 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           makensis.exe Install.nsi
           copy /Y TransformCoordinate_Setup_${{env.TransformCoordinate_VERSION}}.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
+          copy /Y ${{github.workspace}}/build_dev/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_development.zip .
 
       - name: Update configure file
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -169,3 +198,4 @@ jobs:
             ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
             ${{github.workspace}}\build\update_${{matrix.qt_arch}}_qt${{matrix.qt_version}}.json.xml
             ${{github.workspace}}\build\update_windows.xml
+            ${{github.workspace}}\build\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_development.zip

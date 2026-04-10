@@ -12,18 +12,17 @@ update_verion() {
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
     #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/build.yml
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/doxygen.yml
+    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/android.yml
     sed -i "s/v[0-9]\+\.[0-9]\+\.[0-9]\+/${VERSION}/g" ${SOURCE_DIR}/README*.md
-
     sed -i "s/_[0-9]\+\.[0-9]\+\.[0-9]\+_/_${DEBIAN_VERSION}_/g" ${SOURCE_DIR}/README*.md
 
+    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/build.yml
     sed -i "s/    SET(TransformCoordinate_VERSION \"${SEMVER_PATTERN}\"/    SET(TransformCoordinate_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
     sed -i "s/    SET(TransformCoordinate_VERSION.*/    SET(TransformCoordinate_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/App/CMakeLists.txt
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/ubuntu.yml
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/macos.yml
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/mingw.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/android.yml
     sed -i "s/transformcoordinate (.*)/transformcoordinate (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
     sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/Package/share/applications/org.Rabbit.TransformCoordinate.desktop
     sed -i "s/transformcoordinate_[0-9]\+\.[0-9]\+\.[0-9]\+_amd64.deb/transformcoordinate_${DEBIAN_VERSION}_amd64.deb/g" ${SOURCE_DIR}/README*.md

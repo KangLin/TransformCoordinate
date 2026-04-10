@@ -5,7 +5,7 @@ name: build
 env:
   artifact_path: artifact_path
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TransformCoordinate_VERSION: "v1.1.3"
+  TransformCoordinate_VERSION: "1.1.3"
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
     secrets: inherit
 
   deploy:
-    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    #if: ${{ startsWith(github.ref, 'refs/tags/') }}
     runs-on: ubuntu-latest
     needs: [ubuntu, msvc, macos, android]
     steps:
@@ -43,6 +43,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: false
+
+      - name: clean test tag
+        if: ${{ startsWith(github.ref, 'refs/heads/master') }}
+        continue-on-error: true
+        run: |
+          gh release delete test_${{ github.ref_name }} -y --cleanup-tag
 
 #      - name: Download all artifact
 #        uses: actions/download-artifact@v4
@@ -99,27 +105,58 @@ jobs:
               "${{ env.artifact_path }}" "${{ env.artifact_path }}/version.json"
           rm ${{ env.artifact_path }}/*.json
 
-      - name: Make Note.md file
+      - name: Add download
         run: |
-          echo "[:cn: 修改日志](https://github.com/KangLin/TransformCoordinate/blob/${{env.TransformCoordinate_VERSION}}/ChangeLog.md)" > ${{github.workspace}}/Note.md
-          echo "" >> ${{github.workspace}}/Note.md
-          echo "文件签名:" >> ${{github.workspace}}/Note.md
+          echo "[:cn: 修改日志](https://github.com/KangLin/TransformCoordinate/blob/v${{env.TransformCoordinate_VERSION}}/ChangeLog.md)" >> ${{github.workspace}}/Release.md
+          echo "" >> ${{github.workspace}}/Release.md
+          export BRANCH_NAME=${{ github.ref_name }}
+          if [ "${{ github.ref_name }}" == "master" ]; then
+              export BRANCH_NAME=test_${{ github.ref_name }}
+          fi
+          echo "## 下载:" >> ${{github.workspace}}/Release.md
+          echo "" >> ${{github.workspace}}/Release.md
+          echo "|       | x86-64 (64-bit) | x86-32 (32-bit) | AArch64 (ARM64) | ARMv7 (32-bit) |备注|" >> ${{github.workspace}}/Release.md
+          echo "|:-     | :-------------- | :-------------- | :-------------- | :------------- |:----|" >> ${{github.workspace}}/Release.md
+          echo "|Windows|[EXE](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_win64_msvc2022_64_qt6.10.3_Setup.exe)|[EXE](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_win32_msvc2017_qt5.12.12_Setup.exe)|[EXE](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_win64_msvc2022_arm64_qt6.10.3_Setup.exe)| |支持平台：[x86-32(Qt5)](https://doc.qt.io/qt-5/supported-platforms.html): <br> [x86-64(Qt6)](https://doc.qt.io/qt-6/supported-platforms.html)|" >> ${{github.workspace}}/Release.md
+          echo "|Windows development library|[zip](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_win64_msvc2022_64_development.zip)|[zip](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_win32_msvc2017_development.zip)|[zip](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_win64_msvc2022_arm64_development.zip)| ||" >> ${{github.workspace}}/Release.md
+          echo "|Android|[APK](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_android_x86_64_qt6.10.3_Release.apk) | |[APK](https://github.com/KangLin/TransformCoordinate/releases/download/${BRANCH_NAME}/TransformCoordinate_v${{env.TransformCoordinate_VERSION}}_android_arm64_v8a_qt6.10.3_Release.apk)| |Experiment.<br> [Supported platforms](https://doc.qt.io/qt-6/supported-platforms.html)|实验性的。<br> [支持平台](https://doc.qt.io/qt-6/supported-platforms.html)|" >> ${{github.workspace}}/Release.md
+          echo "" >> ${{github.workspace}}/Release.md
+
+      - name: Add artifact sha256sum in Release.md file
+        run: |
+          echo "文件签名:" >> ${{github.workspace}}/CheckSum.md
+          echo "|File|Checksum(md5)|Checksum(sha256)|" >> ${{github.workspace}}/CheckSum.md
+          echo "| :- |    :-       |:-|" >> ${{github.workspace}}/CheckSum.md
           cd ${{ env.artifact_path }}
           for file in *
           do
               echo "$file"
               if [ -f $file ]; then
                   if [ "${file##*.}" != "xml" ] && [ "${file##*.}" != "json" ]; then
-                      md5sum $file > $file.md5sum
-                      cat $file.md5sum >> ${{github.workspace}}/Note.md
+                      SumMd5=`md5sum $file | awk '{print  "|", $2, "|", $1, "|"}'`
+                      Sum256=`sha256sum $file | awk '{print $1, "|"}'`
+                      echo "${SumMd5}${Sum256}" >> ${{github.workspace}}/CheckSum.md
                   fi
               else
                  rm -fr $file
               fi
           done
+          #cat ${{github.workspace}}/CheckSum.md >> ${{github.workspace}}/Release.md
+          echo "" >> ${{github.workspace}}/Release.md
 
+      - name: Create Github Release
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        continue-on-error: true
+        run: |
+          gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --notes-file ${{github.workspace}}/Release.md
+        
       - name: Upload To Github Release
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
-          gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --notes-file ${{github.workspace}}/Note.md
-          gh release upload ${{ github.ref_name }} ${{github.workspace}}/${{ env.artifact_path }}/* ${{github.workspace}}/Note.md
+          gh release upload ${{ github.ref_name }} ${{github.workspace}}/${{ env.artifact_path }}/* ${{github.workspace}}/Release.md
+
+      - name: Upload test tag To Github Release
+        if: ${{ startsWith(github.ref, 'refs/heads/master') }}
+        run: |
+          gh release create test_${{ github.ref_name }} --prerelease --latest=false --title "Recently developed build - test_${{ github.ref_name }}" --notes-file ${{github.workspace}}/Release.md
+          gh release upload test_${{ github.ref_name }} --clobber ${{github.workspace}}/${{ env.artifact_path }}/* ${{github.workspace}}/Release.md ${{github.workspace}}/CheckSum.md

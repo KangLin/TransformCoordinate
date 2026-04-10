@@ -1,3 +1,6 @@
+- v1.1.4
+  - 重命名　org.Rabbit.TransformCoordinate.desktop　到　io.github.KangLin.TransformCoordinate.desktop
+
 - v1.1.3
   - Android 9.0 及以后版本
   - 使用 [RabbitCommon v2.3.4](https://github.com/KangLin/RabbitCommon/releases/tag/v2.3.4)

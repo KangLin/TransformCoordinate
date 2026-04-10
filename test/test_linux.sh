@@ -18,13 +18,13 @@ if [ ! -f /usr/share/applications/io.github.KangLin.${PROJECT_NAME}.desktop ]; t
 	EXIT_CODE=$[EXIT_CODE+1]
 fi
 
-if [ ! -f /opt/${PROJECT_NAME}/share/pixmaps/${PROJECT_NAME}.svg ]; then
-        echo "There are not /opt/${PROJECT_NAME}/share/pixmaps/${PROJECT_NAME}.svg"
+if [ ! -f /opt/${PROJECT_NAME}/share/pixmaps/io.github.KangLin.${PROJECT_NAME}.png ]; then
+        echo "There are not /opt/${PROJECT_NAME}/share/pixmaps/io.github.KangLin.${PROJECT_NAME}.png"
 	EXIT_CODE=$[EXIT_CODE+1]
 fi
 
-if [ ! -f /usr/share/pixmaps/io.github.KangLin.${PROJECT_NAME}.svg ]; then
-    echo "There are not /usr/share/pixmaps/io.github.KangLin.${PROJECT_NAME}.svg"
+if [ ! -f /usr/share/pixmaps/io.github.KangLin.${PROJECT_NAME}.png ]; then
+    echo "There are not /usr/share/pixmaps/io.github.KangLin.${PROJECT_NAME}.png"
     EXIT_CODE=$[EXIT_CODE+1]
 fi
 

@@ -72,13 +72,13 @@
     - [转换示例程序 transformcoordinate_1.1.3_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/transformcoordinate_1.1.3_amd64.deb)
 - Windows:
   - windows 7 及以后版本
-    - [TransformCoordinate_v1.1.3_win64_msvc2022_amd64_qt6.10.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_win64_msvc2022_arm64_qt6.10.3_Setup.exe)
+    - [TransformCoordinate_v1.1.3_win64_msvc2022_amd64_qt6.10.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_win64_msvc2022_64_qt6.10.3_Setup.exe)
     - [TransformCoordinate_v1.1.3_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_win32_msvc2017_qt5.12.12_Setup.exe)
   - windows xp
     - [TransformCoordinate_v1.1.3_windows_xp_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_windows_xp_Setup.exe)
 - Android: Android 9.0 及以后版本
-  - [TransformCoordinate_1.1.3_android_arm64_v8a_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_1.1.3_android_arm64_v8a_qt6.10.3_Release.apk)
-  - [TransformCoordinate_1.1.3_android_x86_64_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_1.1.3_android_x86_64_qt6.10.3_Release.apk)
+  - [TransformCoordinate_v1.1.3_android_arm64_v8a_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_android_arm64_v8a_qt6.10.3_Release.apk)
+  - [TransformCoordinate_v1.1.3_android_x86_64_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.3/TransformCoordinate_v1.1.3_android_x86_64_qt6.10.3_Release.apk)
 - [更多的下载包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
 ### 编译
