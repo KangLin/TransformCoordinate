@@ -96,16 +96,21 @@ INSTALL_FILE(SOURCES ${CMAKE_SOURCE_DIR}/etc/logqt.ini
     DESTINATION etc
         COMPONENT Application)
 
-if(UNIX)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Package/share/applications/org.Rabbit.TransformCoordinate.desktop
-        DESTINATION "share/applications"
-            COMPONENT Application)
+set(APP_ID io.github.KangLin.TransformCoordinate)
+if(UNIX AND NOT ANDROID)
+    configure_file(${CMAKE_SOURCE_DIR}/Package/share/applications/${APP_ID}.desktop.in
+        ${CMAKE_BINARY_DIR}/${APP_ID}.desktop)
+    INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.desktop
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
+            COMPONENT Application
+        PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
     INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/Package/share/applications/TransformCoordinate.sh
         DESTINATION "${CMAKE_INSTALL_BINDIR}"
             COMPONENT Application)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/icons/rabbit-black/svg/TransformCoordinate.svg
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.png
         DESTINATION "share/pixmaps"
-            COMPONENT Application)
+            COMPONENT Application
+        RENAME ${APP_ID}.png)
 endif()
 IF(WIN32)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/App/Resource/png/TransformCoordinate.ico

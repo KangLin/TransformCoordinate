@@ -20,14 +20,14 @@ set -e
 
 case "$1" in
     configure)
-        if [ ! -f /usr/share/applications/org.Rabbit.TransformCoordinate.desktop ]; then
-            ln -s @CPACK_PACKAGING_INSTALL_PREFIX@/share/applications/org.Rabbit.TransformCoordinate.desktop /usr/share/applications/org.Rabbit.TransformCoordinate.desktop
+        if [ ! -f /usr/share/applications/io.github.KangLin.TransformCoordinate.desktop ]; then
+            ln -s @CPACK_PACKAGING_INSTALL_PREFIX@/share/applications/io.github.KangLin.TransformCoordinate.desktop /usr/share/applications/io.github.KangLin.TransformCoordinate.desktop
         fi
-        if [ ! -f /usr/share/pixmaps/org.Rabbit.TransformCoordinate.svg ]; then
+        if [ ! -f /usr/share/pixmaps/io.github.KangLin.TransformCoordinate.png ]; then
             if [ ! -d /usr/share/pixmaps ]; then
                 mkdir -p /usr/share/pixmaps
             fi
-            ln -s @CPACK_PACKAGING_INSTALL_PREFIX@/share/pixmaps/org.Rabbit.TransformCoordinate.svg /usr/share/pixmaps/org.Rabbit.TransformCoordinate.svg
+            ln -s @CPACK_PACKAGING_INSTALL_PREFIX@/share/pixmaps/io.github.KangLin.TransformCoordinate.png /usr/share/pixmaps/io.github.KangLin.TransformCoordinate.png
         fi
         export QT_VERSION_DIR=
         if [ -n "${QT_VERSION_DIR}" ]; then
@@ -37,9 +37,9 @@ case "$1" in
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
-        rm -fr /usr/share/applications/org.Rabbit.TransformCoordinate.desktop
+        rm -fr /usr/share/applications/io.github.KangLin.TransformCoordinate.desktop
         rm -fr /etc/ld.so.conf.d/TransformCoordinate.conf
-        rm -fr /usr/share/pixmaps/org.Rabbit.TransformCoordinate.svg
+        rm -fr /usr/share/pixmaps/io.github.KangLin.TransformCoordinate.png
     ;;
 
     *)

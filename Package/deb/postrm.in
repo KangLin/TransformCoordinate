@@ -21,9 +21,9 @@ set -e
 
 case "$1" in
     purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-        rm -fr /usr/share/applications/org.Rabbit.TransformCoordinate.desktop
+        rm -fr /usr/share/applications/io.github.KangLin.TransformCoordinate.desktop
         rm -fr /etc/ld.so.conf.d/TransformCoordinate.conf
-        rm -fr /usr/share/pixmaps/org.Rabbit.TransformCoordinate.svg
+        rm -fr /usr/share/pixmaps/io.github.KangLin.TransformCoordinate.png
         ldconfig
     ;;
 

@@ -29,7 +29,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID) && !defined(Q_OS_MACOS)
+    // gnome icon isn't support svg
+    setWindowIcon(QIcon(":/icon/App"));
+#endif
     ui->actionAbout_A->setIcon(windowIcon());
 
     InitStatusBar();

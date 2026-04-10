@@ -1,0 +1,47 @@
+# https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
+# The desktop directory:
+# ~/.local/share/applications/
+# /usr/share/applications/
+# /usr/local/share/applications/
+#
+# Use follow order to update desktop database
+# `sudo update-desktop-database`
+
+[Desktop Entry]
+Type=Application
+# Icon path: http://freedesktop.org/wiki/Standards/icon-theme-spec
+# The freedesktop.org standard specifies in which order and directories programs should look for icons:
+#
+#    $HOME/.icons (for backwards compatibility)
+#    $XDG_DATA_DIRS/icons
+#    /usr/share/pixmaps
+Icon=@APP_ID@
+Exec=/opt/TransformCoordinate/bin/TransformCoordinate.sh
+Terminal=false
+StartupNotify=true
+
+# Find WM_CLASS:
+# Open terminal, run `xprop WM_CLASS` .
+# Your mouse cursor will change to a crosshair. Click on any window of RabbitRemoteControl.
+StartupWMClass=TransformCoordinate
+
+X-Flatpak=@APP_ID@
+#X-Flatpak-Sandbox=true     # 标识应用在沙箱中运行
+#X-Flatpak-Permissions=--socket=wayland --share=network
+
+# https://specifications.freedesktop.org/menu-spec/latest/apa.html
+Categories=Utility;Development
+
+# https://www.freedesktop.org/wiki/Specifications/mime-apps-spec/
+# https://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec/
+MimeType=application/gpx;text/plain;
+
+Keywords=Geographic coordinate conversion;地理坐标转换
+
+Name=TransformCoordinate
+GenericName=TransformCoordinate
+Comment=TransformCoordinate
+Name[zh_CN]=坐标转换
+GenericName[zh_CN]=坐标转换
+Comment[zh_CN]=坐标转换
+
