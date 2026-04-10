@@ -24,7 +24,6 @@ update_verion() {
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/macos.yml
     sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/mingw.yml
     sed -i "s/transformcoordinate (.*)/transformcoordinate (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
-    sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/Package/share/applications/org.Rabbit.TransformCoordinate.desktop
     sed -i "s/transformcoordinate_[0-9]\+\.[0-9]\+\.[0-9]\+_amd64.deb/transformcoordinate_${DEBIAN_VERSION}_amd64.deb/g" ${SOURCE_DIR}/README*.md
     sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/App/android/AndroidManifest.xml
     if [ -f ${SOURCE_DIR}/vcpkg.json ]; then
@@ -92,11 +91,10 @@ init_value() {
     fi
     if [ -n "${RabbitCommonBash}" -a -f ${RabbitCommonBash} ]; then
         source "${RabbitCommonBash}"
-        check_echo_color_with_tput
         check_git
     else
-        echo "Please set environment variable \"RabbitCommon_ROOT\" to \"RabbitCommon\" install root"
-        echo "Or install \"RabbitCommon\" from \"https://github.com/KangLin/RabbitCommon.git\" in the same directory as the project"
+        echo_color_error "Please set environment variable \"RabbitCommon_ROOT\" to \"RabbitCommon\" install root"
+        echo_color_error "Or install \"RabbitCommon\" from \"https://github.com/KangLin/RabbitCommon.git\" in the same directory as the project"
         exit 1
     fi
 
@@ -261,11 +259,11 @@ parse_with_getopts() {
                 #echo "Message set to: $MESSAGE"
                 ;;
             \?)
-                echo "Invalid option: -$OPTARG" >&2
+                echo_error "Invalid option: -$OPTARG" >&2
                 usage_long
                 ;;
             :)
-                echo "Option -$OPTARG requires an argument." >&2
+                echo_error "Option -$OPTARG requires an argument." >&2
                 usage_long
                 ;;
         esac
@@ -288,9 +286,9 @@ parse_with_getopts() {
     # 参数验证
     if [ -n "$VERSION" ]; then
         if [[ ! "$VERSION" =~ ^${VERSION_PATTERN}$ ]]; then
-            echo_error "X Invalid SemVer format: $VERSION" >&2
-            echo_error "  Expected format: [v]X.Y.Z[-prerelease][+build]" >&2
-            echo_error "  See: https://semver.org/" >&2
+            echo_color_error "X Invalid SemVer format: $VERSION" >&2
+            echo_color_error "  Expected format: [v]X.Y.Z[-prerelease][+build]" >&2
+            echo_color_error "  See: https://semver.org/" >&2
             exit 1
         fi
     fi
@@ -312,13 +310,24 @@ parse_with_getopts() {
     DATE_TIME_UTC=$(date -u +"%Y-%m-%d %H:%M:%S (UTC)")
 }
 
+# 检查版本
+check_version() {
+    local v1=$PRE_TAG
+    local v2=$VERSION
+    local result=`compare_versions "$PRE_TAG" "$VERSION";echo $?`
+    if [[ $result -ne 2 ]]; then
+        echo_error "The version \"$VERSION\" to be set is lower than the latest version \"$PRE_TAG\""
+        exit 1
+    fi
+}
+
 check_chang_log() {
     echo "  - Modified change log ?"
     local content=$(<${SOURCE_DIR}/ChangeLog.md)
     if [[ $content =~ "$VERSION" ]]; then
-        echo_success "    √ Modified in \"ChangeLog.md\""
+        echo_color_success "    √ Modified in \"ChangeLog.md\""
     else
-        echo_warn "    ! Warning: Don't include \"$VERSION\" in the file \"ChangeLog.md\""
+        echo_color_warn "    ! Warning: Don't include \"$VERSION\" in the file \"ChangeLog.md\""
     fi
 }
 
@@ -338,7 +347,7 @@ create_tag() {
 
         read -t 60 -p "? Deploy? (y/N): " INPUT
         if [ "${INPUT:-N}" != "Y" ] && [ "${INPUT:-N}" != "y" ]; then
-            echo_error "X Deployment cancelled"
+            echo_error "Deployment cancelled"
             exit 0
         fi
 
@@ -348,14 +357,14 @@ create_tag() {
         if git rev-parse "$VERSION" >/dev/null 2>&1; then
             echo "= Tag $VERSION already exists, deleting ......"
             git tag -d "$VERSION"
-            echo_success "√ Successfully delete tag $VERSION"
+            echo_success "Successfully delete tag $VERSION"
             echo ""
         fi
 
         # Create new tag
         echo "= Creating tag: $VERSION ......"
         git tag -a "$VERSION" -m "${MESSAGE}"
-        echo_success "√ Tag created: $VERSION"
+        echo_success "Tag created: $VERSION"
         echo ""
     fi
 }
@@ -367,9 +376,9 @@ commit_code() {
     # Commit if there are changes
     if ! git diff --cached --quiet; then
         git commit -m "$MESSAGE"
-        echo_success "√ Changes committed"
+        echo_success "Changes committed"
     else
-        echo_error "X No changes to commit"
+        echo_error "No changes to commit"
         exit 1
     fi
 }
@@ -388,7 +397,7 @@ push_remote_repository() {
         git push origin HEAD
         git push origin "$VERSION"
 
-        echo_success "√ Push to remote repository successfully!"
+        echo_success "Push to remote repository successfully!"
     fi
 }
 
@@ -400,13 +409,15 @@ parse_with_getopts "$@"
 
 show_value
 
+check_version
+
 create_tag
 
 echo "= Update version to $VERSION ......"
 
 update_verion
 
-echo_success "√ Version updated to $VERSION successfully!"
+echo_success "Version updated to $VERSION successfully!"
 #echo "  Time: $DATE_TIME_UTC"
 echo ""
 
