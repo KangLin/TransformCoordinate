@@ -175,7 +175,7 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           makensis.exe Install.nsi
           copy /Y TransformCoordinate_Setup_${{env.TransformCoordinate_VERSION}}.exe TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
-          copy /Y ${{github.workspace}}/build_dev/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_development.zip .
+          copy /Y ${{github.workspace}}\build_dev\TransformCoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.qt_arch}}_development.zip .
 
       - name: Update configure file
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
