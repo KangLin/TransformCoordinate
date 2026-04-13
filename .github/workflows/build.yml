@@ -5,7 +5,7 @@ name: build
 env:
   artifact_path: artifact_path
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TransformCoordinate_VERSION: "1.1.3"
+  TransformCoordinate_VERSION: "1.1.4"
 
 on:
   push:

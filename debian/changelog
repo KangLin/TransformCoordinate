@@ -1,13 +1,12 @@
-transformcoordinate (1.1.3) unstable; urgency=medium
+transformcoordinate (1.1.4) unstable; urgency=medium
 
+    * CI: add chang log
+    * Fix path separator in copy command for Windows
     * Modify deploy.sh
-    * Modify ci
-    * Modify CMakeLists.txt
-    * Fix: rename gpxtpx:trackpointextension to gpxtpx:TrackPointExtension #4
-    * Modify deploy.sh
-    * Modify donation
-    * CI: modify ci
-    * Use RC_SHOW_WINDOW
-    * CI: modify ci
+    * CI: modify build.yml
+    * Rename org.Rabbit.TransformCoordinate.desktop to io.github.KangLin.TransformCoordinate.desktop
+    * Modify README.md
+    * Add TrackPointExtension documents
+    * Update README.md
 
- -- Kang Lin <kl222@126.com>  Sat, 04 Apr 2026 16:02:47 +0800
+ -- Kang Lin <kl222@126.com>  Mon, 13 Apr 2026 12:35:45 +0800
