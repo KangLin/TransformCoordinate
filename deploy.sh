@@ -93,8 +93,8 @@ init_value() {
         source "${RabbitCommonBash}"
         check_git
     else
-        echo_color_error "Please set environment variable \"RabbitCommon_ROOT\" to \"RabbitCommon\" install root"
-        echo_color_error "Or install \"RabbitCommon\" from \"https://github.com/KangLin/RabbitCommon.git\" in the same directory as the project"
+        echo "Please set environment variable \"RabbitCommon_ROOT\" to \"RabbitCommon\" install root"
+        echo "Or install \"RabbitCommon\" from \"https://github.com/KangLin/RabbitCommon.git\" in the same directory as the project"
         exit 1
     fi
 
