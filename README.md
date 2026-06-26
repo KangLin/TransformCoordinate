@@ -58,18 +58,18 @@
 
 - Ubuntu
   - 包含玉兔公共库(RabbitCommon)
-    - [开发库 libtransformcoordinate-dev_1.1.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate-dev_1.1.4_RabbitCommon_amd64.deb)
-    - [运行库 libtransformcoordinate_1.1.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate_1.1.4_RabbitCommon_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.1.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/transformcoordinate_1.1.4_RabbitCommon_amd64.deb)
+    - [开发库 libtransformcoordinate-dev_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate-dev_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb)
+    - [运行库 libtransformcoordinate_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb)
+    - [转换示例程序 transformcoordinate_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/transformcoordinate_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb)
     - 安装
     
-          sudo apt install ./libtransformcoordinate_1.1.4_RabbitCommon_amd64.deb \
-                           ./transformcoordinate_1.1.4_RabbitCommon_amd64.deb
+          sudo apt install ./libtransformcoordinate_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb \
+                           ./transformcoordinate_1.1.4_RabbitCommon_ubuntu-24.04_amd64.deb
 
   - 不包含玉兔公共库(RabbitCommon)。安装前需要先从 [RabbitCommon](https://github.com/KangLin/RabbitCommon/releases/latest) 下载，并安装 RabbitCommon。
-    - [开发库 libtransformcoordinate-dev_1.1.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate-dev_1.1.4_amd64.deb)
-    - [运行库 libtransformcoordinate_1.1.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate_1.1.4_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.1.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/transformcoordinate_1.1.4_amd64.deb)
+    - [开发库 libtransformcoordinate-dev_1.1.4_ubuntu-24.04_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate-dev_1.1.4_ubuntu-24.04_amd64.deb)
+    - [运行库 libtransformcoordinate_1.1.4_ubuntu-24.04_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate_1.1.4_ubuntu-24.04_amd64.deb)
+    - [转换示例程序 transformcoordinate_1.1.4_ubuntu-24.04_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/transformcoordinate_1.1.4_ubuntu-24.04_amd64.deb)
 - Windows:
   - windows 7 及以后版本
     - [TransformCoordinate_v1.1.4_win64_msvc2022_amd64_qt6.10.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/TransformCoordinate_v1.1.4_win64_msvc2022_64_qt6.10.3_Setup.exe)

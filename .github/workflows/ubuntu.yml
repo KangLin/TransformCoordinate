@@ -17,8 +17,12 @@ jobs:
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
 
-    runs-on: ubuntu-latest
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
+    runs-on: ${{matrix.os}}
 
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
@@ -102,12 +106,12 @@ jobs:
       - name: copy
         working-directory: ${{github.workspace}}
         run: |
-          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
-          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
-          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
+          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_${{matrix.os}}_amd64.deb
+          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_${{matrix.os}}_amd64.deb
+          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_${{matrix.os}}_amd64.deb
+          cp ../transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb transformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
+          cp ../libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
+          cp ../libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
 
       - name: Update configure file
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -115,16 +119,16 @@ jobs:
         run: |
           sudo Xvfb :99 -ac &
           export DISPLAY=:99.0
-          sudo apt install ./libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
-          sudo apt install ./transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
-          MD5=`md5sum transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb|awk '{print $1}'`
+          sudo apt install ./libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
+          sudo apt install ./transformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
+          MD5=`md5sum transformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb|awk '{print $1}'`
           echo "MD5:${MD5}"
           ./test/test_linux.sh
           /opt/TransformCoordinate/bin/TransformCoordinate.sh \
               -f "${{github.workspace}}/version.json" \
               --md5 ${MD5} \
               -m "${{env.TransformCoordinate_VERSION}}" \
-              -u "https://github.com/KangLin/TransformCoordinate/releases/download/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb;https://sourceforge.net/projects/TransformCoordinate/files/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb"
+              -u "https://github.com/KangLin/TransformCoordinate/releases/download/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb;https://sourceforge.net/projects/TransformCoordinate/files/v${{env.TransformCoordinate_VERSION}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb"
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -132,12 +136,12 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-            ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-            ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_amd64.deb
-            ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
-            ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_amd64.deb
-            ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_amd64.deb
+            ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_${{matrix.os}}_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_RabbitCommon_${{matrix.os}}_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_RabbitCommon_${{matrix.os}}_amd64.deb
+            ${{github.workspace}}/transformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
+            ${{github.workspace}}/libtransformcoordinate-dev_${{env.TransformCoordinate_VERSION}}_${{matrix.os}}_amd64.deb
             ${{github.workspace}}/version.json
 
 #    - name: Upload To Github Release
