@@ -56,31 +56,6 @@
 
 ### [下载安装包](https://github.com/KangLin/TransformCoordinate/releases/latest)
 
-- Ubuntu
-  - 包含玉兔公共库(RabbitCommon)
-    - [开发库 libtransformcoordinate-dev_1.1.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate-dev_1.1.4_RabbitCommon_amd64.deb)
-    - [运行库 libtransformcoordinate_1.1.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate_1.1.4_RabbitCommon_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.1.4_RabbitCommon_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/transformcoordinate_1.1.4_RabbitCommon_amd64.deb)
-    - 安装
-    
-          sudo apt install ./libtransformcoordinate_1.1.4_RabbitCommon_amd64.deb \
-                           ./transformcoordinate_1.1.4_RabbitCommon_amd64.deb
-
-  - 不包含玉兔公共库(RabbitCommon)。安装前需要先从 [RabbitCommon](https://github.com/KangLin/RabbitCommon/releases/latest) 下载，并安装 RabbitCommon。
-    - [开发库 libtransformcoordinate-dev_1.1.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate-dev_1.1.4_amd64.deb)
-    - [运行库 libtransformcoordinate_1.1.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/libtransformcoordinate_1.1.4_amd64.deb)
-    - [转换示例程序 transformcoordinate_1.1.4_amd64.deb](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/transformcoordinate_1.1.4_amd64.deb)
-- Windows:
-  - windows 7 及以后版本
-    - [TransformCoordinate_v1.1.4_win64_msvc2022_amd64_qt6.10.3_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/TransformCoordinate_v1.1.4_win64_msvc2022_64_qt6.10.3_Setup.exe)
-    - [TransformCoordinate_v1.1.4_win32_msvc2017_qt5.12.12_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/TransformCoordinate_v1.1.4_win32_msvc2017_qt5.12.12_Setup.exe)
-  - windows xp
-    - [TransformCoordinate_v1.1.4_windows_xp_Setup.exe](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/TransformCoordinate_v1.1.4_windows_xp_Setup.exe)
-- Android: Android 9.0 及以后版本
-  - [TransformCoordinate_v1.1.4_android_arm64_v8a_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/TransformCoordinate_v1.1.4_android_arm64_v8a_qt6.10.3_Release.apk)
-  - [TransformCoordinate_v1.1.4_android_x86_64_qt6.10.3_Release.apk](https://github.com/KangLin/TransformCoordinate/releases/download/v1.1.4/TransformCoordinate_v1.1.4_android_x86_64_qt6.10.3_Release.apk)
-- [更多的下载包](https://github.com/KangLin/TransformCoordinate/releases/latest)
-
 ### 编译
 #### 下载源码
 
@@ -302,8 +277,7 @@
             qt6-tools-dev qt6-tools-dev-tools \
             qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
             libqt6svg6-dev qt6-l10n-tools qt6-translations-l10n \
-            qt6-scxml-dev qt6-multimedia-dev libqt6serialport6-dev \
-            qt6-webengine-dev qt6-webengine-dev-tools
+            qt6-scxml-dev
 
   + 详见: [ubuntu.yml](.github/workflows/ubuntu.yml)
   + 注意:

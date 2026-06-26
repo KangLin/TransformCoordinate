@@ -50,7 +50,9 @@ override_dh_auto_configure:
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMARK_SHARED=OFF \
         -DCMARK_TESTS=OFF \
-	    -DCMARK_STATIC=ON
+	    -DCMARK_STATIC=ON \
+		-DWITH_CMARK=ON \
+        -DWITH_CMARK_GFM=OFF \
 
 override_dh_auto_build:
 	cmake --build $(BUILD_DIR) --config Release \
