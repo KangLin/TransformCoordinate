@@ -7,15 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>404</width>
-    <height>568</height>
+    <height>569</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Coordinate conversion</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="TransformCoordinate">
-    <normaloff>.</normaloff>.</iconset>
+   <iconset theme="TransformCoordinate"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_6">
@@ -94,7 +93,7 @@
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -174,7 +173,7 @@
          <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -249,7 +248,7 @@
          <item>
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -312,6 +311,17 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="actionAbout_A">
    <property name="icon">
     <iconset resource="Resource/Resource.qrc">
@@ -352,8 +362,7 @@
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset theme="window-close">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="window-close"/>
    </property>
    <property name="text">
     <string>Exit</string>

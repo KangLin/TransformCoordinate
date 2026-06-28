@@ -1,7 +1,5 @@
 // 作者：康 林 <kl222@126.com>
 
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QFileDialog>
 #include "TransformCoordinate.h"
 #include <QLoggingCategory>
@@ -13,6 +11,8 @@
 #include <QLocale>
 #include <QStatusBar>
 #include <QStandardPaths>
+#include <QToolBar>
+#include <QToolButton>
 
 #ifdef RABBITCOMMON
     #include "DlgAbout.h"
@@ -21,9 +21,10 @@
     #include "RabbitCommonTools.h"
     #include "FrmStyle.h"
 #endif
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 static Q_LOGGING_CATEGORY(log, "main")
-    
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -51,6 +52,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cbDstCoor->addItems(lstCoor);
     ui->cbDstCoor->setCurrentIndex(GCJ02);
 
+#if defined(Q_OS_ANDROID)
+    auto pTbMenu = new QToolButton(ui->toolBar);
+    pTbMenu->setFocusPolicy(Qt::NoFocus);
+    pTbMenu->setPopupMode(QToolButton::InstantPopup);
+    //m_pTbMenu->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    pTbMenu->setText(tr("menu"));
+    pTbMenu->setIcon(QIcon::fromTheme("menu"));
+    pTbMenu->setToolTip(tr("menu"));
+    pTbMenu->setStatusTip(tr("menu"));
+    QMenu *pMenu = new QMenu(pTbMenu);
+    pMenu->addActions(this->menuBar()->actions());
+    pTbMenu->setMenu(pMenu);
+    ui->toolBar->addWidget(pTbMenu);
+#else
+    ui->toolBar->hide();
+#endif
     RabbitCommon::CTools::RestoreWidget(this);
 }
 

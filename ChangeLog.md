@@ -1,3 +1,8 @@
+### v1.1.5-dev
+  - Android:
+    - 增加菜单到工具栏上
+    - 修复多语言部里
+
 ### v1.1.4
   - 重命名　org.Rabbit.TransformCoordinate.desktop　到　io.github.KangLin.TransformCoordinate.desktop
 
