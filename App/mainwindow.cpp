@@ -44,13 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuTools->insertMenu(ui->actionExit,
                               RabbitCommon::CTools::GetLogMenu(this));
     ui->menuTools->insertSeparator(ui->actionExit);
-    
-    QStringList lstCoor;
-    lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";
-    ui->cbSrcCoor->addItems(lstCoor);
-    ui->cbSrcCoor->setCurrentIndex(WGS84);
-    ui->cbDstCoor->addItems(lstCoor);
-    ui->cbDstCoor->setCurrentIndex(GCJ02);
 
 #if defined(Q_OS_ANDROID)
     auto pTbMenu = new QToolButton(ui->toolBar);
@@ -69,6 +62,14 @@ MainWindow::MainWindow(QWidget *parent) :
 #else
     ui->toolBar->hide();
 #endif
+
+    QStringList lstCoor;
+    lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";
+    ui->cbSrcCoor->addItems(lstCoor);
+    ui->cbSrcCoor->setCurrentIndex(WGS84);
+    ui->cbDstCoor->addItems(lstCoor);
+    ui->cbDstCoor->setCurrentIndex(GCJ02);
+
     RabbitCommon::CTools::RestoreWidget(this);
 }
 
