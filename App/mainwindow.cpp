@@ -37,7 +37,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionAbout_A->setIcon(windowIcon());
 
     InitStatusBar();
-    
+
+    QStringList lstCoor;
+    lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";
+    ui->cbSrcCoor->addItems(lstCoor);
+    ui->cbSrcCoor->setCurrentIndex(WGS84);
+    ui->cbDstCoor->addItems(lstCoor);
+    ui->cbDstCoor->setCurrentIndex(GCJ02);
+
     CFrmUpdater updater;
     ui->actionUpdate_U->setIcon(updater.windowIcon());
     RabbitCommon::CTools::InsertStyleMenu(ui->menuTools, ui->actionExit);
@@ -61,16 +68,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBar->show();
 #else
     ui->toolBar->hide();
-#endif
-
-    QStringList lstCoor;
-    lstCoor << "WGS84" << "GCJ02" << "BD09LL" << "BD09MC";
-    ui->cbSrcCoor->addItems(lstCoor);
-    ui->cbSrcCoor->setCurrentIndex(WGS84);
-    ui->cbDstCoor->addItems(lstCoor);
-    ui->cbDstCoor->setCurrentIndex(GCJ02);
 
     RabbitCommon::CTools::RestoreWidget(this);
+#endif
+
 }
 
 MainWindow::~MainWindow()
@@ -80,7 +81,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+#if !defined(Q_OS_ANDROID)
     RabbitCommon::CTools::SaveWidget(this);
+#endif
     QMainWindow::closeEvent(event);
 }
 
