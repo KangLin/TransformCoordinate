@@ -3,9 +3,9 @@
 Name=black
 Comment=black
 Inherits=breeze
-Directories=svg, png, ico
+Directories=scalable/apps, png, ico
 
-[svg]
+[scalable/apps]
 Size=200
 MinSize＝16
 ManSize=256
