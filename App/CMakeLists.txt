@@ -97,7 +97,18 @@ INSTALL_FILE(SOURCES ${CMAKE_SOURCE_DIR}/etc/logqt.ini
         COMPONENT Application)
 
 set(APP_ID io.github.KangLin.TransformCoordinate)
-if(UNIX AND NOT ANDROID)
+if(ANDROID)
+    # 设置 Android 相关属性
+    # See: https://doc.qt.io/qt-6/zh/qt-android-generate-deployment-settings.html
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        # Android 包名
+        QT_ANDROID_PACKAGE_NAME "${APP_ID}"
+        # 最小 SDK 版本
+        #QT_ANDROID_MIN_SDK_VERSION 28
+        # 目标 SDK 版本
+        #QT_ANDROID_TARGET_SDK_VERSION 34
+    )
+elseif(UNIX AND NOT ANDROID)
     configure_file(${CMAKE_SOURCE_DIR}/Package/share/applications/${APP_ID}.desktop.in
         ${CMAKE_BINARY_DIR}/${APP_ID}.desktop)
     INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.desktop
