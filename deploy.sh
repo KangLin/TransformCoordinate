@@ -3,34 +3,35 @@
 
 set -e
 
-update_verion() {
-    sed -i "s/^\!define PRODUCT_VERSION.*/\!define PRODUCT_VERSION \"${VERSION}\"/g" ${SOURCE_DIR}/Install/Install.nsi
+update_version() {
+    $SED_CMD "s/^\!define PRODUCT_VERSION.*/\!define PRODUCT_VERSION \"${VERSION}\"/g" ${SOURCE_DIR}/Install/Install.nsi
 
-    sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
-    sed -i "s/^version: '.*{build}'/version: '${VERSION}.{build}'/g" ${SOURCE_DIR}/appveyor.yml
-    sed -i "s/  - set TransformCoordinate_VERSION=.*/  - set TransformCoordinate_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
-    #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/doxygen.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/android.yml
-    sed -i "s/v[0-9]\+\.[0-9]\+\.[0-9]\+/${VERSION}/g" ${SOURCE_DIR}/README*.md
-    sed -i "s/_[0-9]\+\.[0-9]\+\.[0-9]\+_/_${DEBIAN_VERSION}_/g" ${SOURCE_DIR}/README*.md
+    $SED_CMD "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
+    $SED_CMD "s/^version: '.*\{build\}'/version: '${VERSION}\.\{build\}'/g" ${SOURCE_DIR}/appveyor.yml
+    $SED_CMD "s/  - set TransformCoordinate_VERSION=.*/  - set TransformCoordinate_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
+    #$SED_CMD "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/doxygen.yml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/android.yml
+    $SED_CMD "s/v[0-9]\+\.[0-9]\+\.[0-9]\+/${VERSION}/g" ${SOURCE_DIR}/README*.md
+    $SED_CMD "s/_[0-9]\+\.[0-9]\+\.[0-9]\+_/_${DEBIAN_VERSION}_/g" ${SOURCE_DIR}/README*.md
 
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/build.yml
-    sed -i "s/    SET(TransformCoordinate_VERSION \"${SEMVER_PATTERN}\"/    SET(TransformCoordinate_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
-    sed -i "s/    SET(TransformCoordinate_VERSION.*/    SET(TransformCoordinate_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/App/CMakeLists.txt
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/ubuntu.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/macos.yml
-    sed -i "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/mingw.yml
-    sed -i "s/transformcoordinate (.*)/transformcoordinate (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
-    sed -i "s/transformcoordinate_[0-9]\+\.[0-9]\+\.[0-9]\+_amd64.deb/transformcoordinate_${DEBIAN_VERSION}_amd64.deb/g" ${SOURCE_DIR}/README*.md
-    sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/App/android/AndroidManifest.xml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/build.yml
+    $SED_CMD "s/    SET\(TransformCoordinate_VERSION \"${VERSION_PATTERN}\"\)/    SET\(TransformCoordinate_VERSION \"${DEBIAN_VERSION}\"\)/g" ${SOURCE_DIR}/CMakeLists.txt
+    $SED_CMD "s/    SET\(TransformCoordinate_VERSION \"${VERSION_PATTERN}\"\)/    SET\(TransformCoordinate_VERSION \"${DEBIAN_VERSION}\"\)/g" ${SOURCE_DIR}/App/CMakeLists.txt
+    $SED_CMD "s/    SET\(TransformCoordinate_Tag \"${VERSION_PATTERN}\"\)/    SET\(TransformCoordinate_Tag \"${DEBIAN_VERSION}\"\)/g" ${SOURCE_DIR}/App/CMakeLists.txt
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/ubuntu.yml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/macos.yml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/mingw.yml
+    $SED_CMD "s/transformcoordinate (.*)/transformcoordinate (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
+    $SED_CMD "s/transformcoordinate_[0-9]\+\.[0-9]\+\.[0-9]\+_amd64.deb/transformcoordinate_${DEBIAN_VERSION}_amd64.deb/g" ${SOURCE_DIR}/README*.md
+    $SED_CMD "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/App/android/AndroidManifest.xml
     if [ -f ${SOURCE_DIR}/vcpkg.json ]; then
-        sed -i "s/  \"version-string\":.*\"[0-9]\+\.[0-9]\+\.[0-9]\+\",/  \"version-string\": \"${DEBIAN_VERSION}\",/g" ${SOURCE_DIR}/vcpkg.json
+        $SED_CMD "s/  \"version-string\":.*\"[0-9]\+\.[0-9]\+\.[0-9]\+\",/  \"version-string\": \"${DEBIAN_VERSION}\",/g" ${SOURCE_DIR}/vcpkg.json
     fi
     if [ -f ${SOURCE_DIR}/vcpkg/manifests/vcpkg.json ]; then
-        sed -i "s/  \"version-string\":.*\"[0-9]\+\.[0-9]\+\.[0-9]\+\",/  \"version-string\": \"${DEBIAN_VERSION}\",/g" ${SOURCE_DIR}/vcpkg/manifests/vcpkg.json
+        $SED_CMD "s/  \"version-string\":.*\"[0-9]\+\.[0-9]\+\.[0-9]\+\",/  \"version-string\": \"${DEBIAN_VERSION}\",/g" ${SOURCE_DIR}/vcpkg/manifests/vcpkg.json
     fi
 
     CHANGLOG_TMP=${SOURCE_DIR}/debian/changelog.tmp
@@ -41,7 +42,7 @@ update_verion() {
     echo "" >> ${CHANGLOG_FILE}
     echo " -- `git log --pretty=format:'%an <%ae>' HEAD^..HEAD`  `date --rfc-email`" >> ${CHANGLOG_FILE}
 
-    sed -i "s/android:versionCode=.*android/android:versionCode=\"${MAJOR_VERSION}\" android/g"  ${SOURCE_DIR}/App/android/AndroidManifest.xml
+    $SED_CMD "s/android:versionCode=.*android/android:versionCode=\"${MAJOR_VERSION}\" android/g"  ${SOURCE_DIR}/App/android/AndroidManifest.xml
 }
 
 # Function to create sed-safe pattern
@@ -415,7 +416,7 @@ create_tag
 
 echo "= Update version to $VERSION ......"
 
-update_verion
+update_version
 
 echo_success "Version updated to $VERSION successfully!"
 #echo "  Time: $DATE_TIME_UTC"
