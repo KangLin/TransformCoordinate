@@ -78,7 +78,7 @@
     - 开发包： `https://github.com/KangLin/RabbitCommon/releases`
   
 #### CMake 配置参数
-  - [可选] QT_DIR: qt 安装位置。应用需要 qt
+  - [可选] QT_ROOT: qt 安装位置。应用需要 qt
     - [可选] Qt5_ROOT: qt5 安装位置
     - [可选] Qt6_ROOT: qt6 安装位置
   - [可选] RabbitCommon_ROOT: RabbitCommon 源码位置
