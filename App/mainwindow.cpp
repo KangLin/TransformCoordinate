@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pMenu->addActions(this->menuBar()->actions());
     pTbMenu->setMenu(pMenu);
     ui->toolBar->addWidget(pTbMenu);
+    ui->toolBar->show();
 #else
     ui->toolBar->hide();
 #endif

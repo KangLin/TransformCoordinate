@@ -33,11 +33,7 @@ int main(int argc, char *argv[])
     }
 #endif
     MainWindow w;
-#if defined(Q_OS_ANDROID)
-    w.showMaximized();
-#else    
-    w.show();
-#endif
+    RC_SHOW_WINDOW(&w);
 
     int nRet = a.exec();
     
