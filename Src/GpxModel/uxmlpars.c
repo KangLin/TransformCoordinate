@@ -336,7 +336,7 @@ static enum e_item UXML_findItem(T_uXml* pXML)
             else
             {
                 // read TAG
-                pXML->pTag[m_Counter++] = tolower(c);
+                pXML->pTag[m_Counter++] = c;//tolower(c);
                 while(pXML->pTag[m_Counter - read] != '>' &&
                       pXML->pTag[m_Counter - read] != ' ' &&
                       pXML->pTag[m_Counter - read] != '/' &&
@@ -458,7 +458,7 @@ static int UXML_scanAttributes(T_uXml* pXML)
     }
 
     // read attribute name
-    pXML->pAttribute[m_Counter++] = tolower(c);
+    pXML->pAttribute[m_Counter++] = c;//tolower(c);
     while (pXML->pAttribute[m_Counter - read] != '>' &&
         pXML->pAttribute[m_Counter - read] != '=' &&
         pXML->pAttribute[m_Counter - read] != ' ' &&
