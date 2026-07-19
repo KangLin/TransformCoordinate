@@ -504,9 +504,9 @@ unsigned int GcjEncryptor::wgtochina_lb(int wg_flag, unsigned int wg_lng,
         return 0xFFFF95FF;
     }
     x_l = wg_lng;
-    x_l = x_l / 3686400.0;
+    x_l = x_l / _COFF_;
     y_l = wg_lat;
-    y_l = y_l / 3686400.0;
+    y_l = y_l / _COFF_;
     if (x_l < 72.004) {
         *china_lng = 0;
         *china_lat = 0;
@@ -578,8 +578,8 @@ unsigned int GcjEncryptor::wgtochina_lb(int wg_flag, unsigned int wg_lng,
             + random_yj();
     y_add = y_add + h_add * 0.001 + yj_sin2(wg_time * 0.0174532925199433)
             + random_yj();
-    *china_lng = static_cast<int>((x_l + Transform_jy5(y_l, x_add)) * 3686400);
-    *china_lat = static_cast<int>((y_l + Transform_jyj5(y_l, y_add)) * 3686400);
+    *china_lng = static_cast<int>((x_l + Transform_jy5(y_l, x_add)) * _COFF_);
+    *china_lat = static_cast<int>((y_l + Transform_jyj5(y_l, y_add)) * _COFF_);
     return (0x00000000);
 }
 
