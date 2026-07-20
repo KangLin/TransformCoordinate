@@ -22,6 +22,11 @@ int main(int argc, char *argv[])
         RabbitCommon::CTools::Instance()->InstallTranslator("TransformCoordinateApp"); 
     app.setApplicationDisplayName(QObject::tr("Transform coordinate"));
 
+    QStringList lstPermissions;
+    lstPermissions << "android.permission.WRITE_EXTERNAL_STORAGE"
+                   << "android.permission.READ_EXTERNAL_STORAGE";
+    RabbitCommon::CTools::AndroidRequestPermission(lstPermissions);
+
 #ifdef HAVE_UPDATE
     // Check update version
     QScopedPointer<CFrmUpdater> pUpdater(new CFrmUpdater());
