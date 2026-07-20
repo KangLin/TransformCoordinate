@@ -3,11 +3,9 @@
 #include <QApplication>
 #include <QLoggingCategory>
 
-#ifdef RABBITCOMMON
-    #include "RabbitCommonDir.h"
-    #include "RabbitCommonTools.h"
-    #include "FrmUpdater.h"
-#endif
+#include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
+#include "FrmUpdater.h"
 #include "mainwindow.h"
 
 static Q_LOGGING_CATEGORY(log, "App.Main")

@@ -230,21 +230,19 @@ void MainWindow::on_pbConversionDir_clicked()
 
 void MainWindow::on_actionAbout_A_triggered()
 {
-#ifdef RABBITCOMMON
-    CDlgAbout about(this);
+    CDlgAbout* about = new CDlgAbout();
     QIcon icon = windowIcon();
     if(!icon.isNull()) {
         auto sizeList = icon.availableSizes();
         if(sizeList.isEmpty()) return;
         QPixmap p = icon.pixmap(*sizeList.begin());
-        about.m_AppIcon = p.toImage();
+        about->m_AppIcon = p.toImage();
     }
-    about.m_szHomePage = "https://github.com/KangLin/TransformCoordinate";
-    about.m_szCopyrightStartTime = "2018";
-    about.m_szVersion = TransformCoordinate_VERSION;
-    about.m_szVersionRevision = TransformCoordinate_REVISION;
-    RC_SHOW_WINDOW(&about);
-#endif
+    about->m_szHomePage = "https://github.com/KangLin/TransformCoordinate";
+    about->m_szCopyrightStartTime = "2018";
+    about->m_szVersion = TransformCoordinate_VERSION;
+    about->m_szVersionRevision = TransformCoordinate_REVISION;
+    RC_SHOW_WINDOW(about);
 }
 
 void MainWindow::on_actionUpdate_U_triggered()
