@@ -3,6 +3,9 @@
     - 增加菜单到工具栏上
     - 修复多语言错误
   - 修复 xml 解析时，把标签转换为小写错误
+  - 应用程序
+    - 为 Linux 增加 AppImage 包
+    - 增加 macOS 应用程序
 
 ### v1.1.4
   - 重命名　org.Rabbit.TransformCoordinate.desktop　到　io.github.KangLin.TransformCoordinate.desktop
