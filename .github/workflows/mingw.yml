@@ -20,16 +20,22 @@ jobs:
     defaults:
       run:
         shell: cmd
-        
+
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
     runs-on: windows-latest
 
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      BUILD_DIR:   ${{github.workspace}}/build
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOLS_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw
       TransformCoordinate_VERSION: "1.1.4"
       artifact_name: build_mingw
+      MSYSTEM: CLANG64
+      MSYSTEM_PREFIX: C:\msys64\clang64
 
     # Map the job outputs to step outputs
     outputs:
@@ -37,7 +43,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -54,23 +60,21 @@ jobs:
           PATH: C:\msys64\usr\bin
         run: | 
           C:\msys64\usr\bin\pacman -Syu --noconfirm
-          C:\msys64\usr\bin\pacman -S --noconfirm ^
-              mingw-w64-x86_64-cmake ^
-              mingw-w64-x86_64-make ^
-              mingw-w64-x86_64-nsis ^
-              mingw-w64-x86_64-gcc ^
-              mingw-w64-x86_64-qt6 ^
-              mingw-w64-x86_64-cmark ^
-              mingw-w64-x86_64-zlib ^
-              mingw-w64-x86_64-openssl ^
-              git base-devel
+          C:\msys64\usr\bin\pacman.exe -S --noconfirm ^
+            mingw-w64-clang-x86_64-cmake ^
+            mingw-w64-clang-x86_64-ninja ^
+            mingw-w64-clang-x86_64-nsis ^
+            mingw-w64-clang-x86_64-gcc ^
+            mingw-w64-clang-x86_64-qt6 ^
+            mingw-w64-clang-x86_64-cmark ^
+            mingw-w64-clang-x86_64-git base-devel
         
       - name: git clone TransformCoordinate
         working-directory: ${{env.SOURCE_DIR}}
         run: git clone https://github.com/KangLin/TransformCoordinate.git
 
       - name: Cache installed
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-installed
         with:
           path: |
@@ -86,10 +90,9 @@ jobs:
         working-directory: ${{github.workspace}}/build
         env:
           RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
-          MSYSTEM: MINGW64
-          PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
+          PATH: ${{env.MSYSTEM_PREFIX}}\bin;C:\msys64\usr\bin
         run: |
-          cmake .. -G"MinGW Makefiles" ^
+          cmake .. ^
               -DCMARK_SHARED=OFF ^
               -DCMARK_TESTS=OFF ^
               -DCMARK_STATIC=ON ^
@@ -98,8 +101,7 @@ jobs:
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
               -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
               -DRABBIT_ENABLE_INSTALL_QT=OFF ^
-              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF ^
-              -DBUILD_FREERDP=ON
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
       - name: Package

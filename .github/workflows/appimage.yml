@@ -1,0 +1,141 @@
+# Author: Kang Lin <kl222@126.com>
+
+name: appimage
+
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_appimage.outputs.name }}
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  build_appimage:
+    strategy:
+      matrix:
+        BUILD_TYPE: [Release]
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
+
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
+    runs-on: ${{matrix.os}}
+
+    env:
+      BUILD_TYPE:  ${{matrix.BUILD_TYPE}}
+      BUILD_DIR:   ${{github.workspace}}/build
+      SOURCE_DIR:  ${{github.workspace}}/.cache/source
+      TOOLS_DIR:   ${{github.workspace}}/.cache/tools
+      INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.os}}_${{matrix.BUILD_TYPE}}
+      TransformCoordinate_VERSION: "1.1.4"
+      artifact_name: build_appimage
+      qt_modules: 'qtscxml qt5compat'
+
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Make directories
+        run: |
+          cmake -E make_directory ${{env.BUILD_DIR}}
+          cmake -E make_directory ${{env.SOURCE_DIR}}
+          cmake -E make_directory ${{env.TOOLS_DIR}}
+          cmake -E make_directory ${{env.INSTALL_DIR}}
+
+      - name: Cache installed
+        uses: actions/cache@v5
+        id: cache-installed
+        with:
+          path: |
+            ${{env.INSTALL_DIR}}
+            ${{env.TOOLS_DIR}}/linuxdeploy-*
+            ${{env.TOOLS_DIR}}/qt_*
+          key: install_appimage
+
+      - name: Install apt packages
+        run: |
+          sudo apt update -y
+          sudo apt upgrade -y
+          sudo apt install -y -q cmake build-essential xvfb \
+              libglu1-mesa-dev libpulse-mainloop-glib0 \
+              debhelper fakeroot libcmark-dev cmark \
+              qt6-tools-dev qt6-tools-dev-tools \
+              qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
+              libqt6svg6-dev qt6-l10n-tools qt6-translations-l10n \
+              qt6-scxml-dev
+
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          git clone https://github.com/KangLin/RabbitCommon.git
+
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        env:
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
+        run: |
+          INSTALL_APP_DIR=AppDir/usr
+          cmake ${{github.workspace}} \
+            -DCMAKE_INSTALL_PREFIX=/usr \
+            -DCMARK_SHARED=OFF \
+            -DCMARK_TESTS=OFF \
+            -DCMARK_STATIC=ON \
+            -DWITH_CMARK=ON \
+            -DWITH_CMARK_GFM=OFF \
+            -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}}
+          cmake --build . --config ${{matrix.BUILD_TYPE}}
+          cmake --install . --config Release --strip --component DependLibraries --prefix ${INSTALL_APP_DIR}
+          cmake --install . --config Release --strip --component Runtime --prefix ${INSTALL_APP_DIR}
+          cmake --install . --config Release --strip --component Application --prefix ${INSTALL_APP_DIR}
+
+      - name: linuxdeploy
+        working-directory: ${{env.TOOLS_DIR}}
+        run: |
+          if [ ! -f linuxdeploy-`uname -m`.AppImage ]; then
+              wget https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-`uname -m`.AppImage
+              chmod u+x linuxdeploy-`uname -m`.AppImage
+          fi
+          if [ ! -f linuxdeploy-plugin-qt-`uname -m`.AppImage ]; then
+              wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-`uname -m`.AppImage
+              chmod u+x linuxdeploy-plugin-qt-`uname -m`.AppImage
+          fi
+
+      - name: build appimage
+        working-directory: ${{github.workspace}}/build
+        run: |
+          ${TOOLS_DIR}/linuxdeploy-`uname -m`.AppImage --appdir=AppDir ${DEPLOY_PARA} \
+            --plugin qt \
+            --output appimage
+
+      - name: update configure file
+        if: ${{ matrix.BUILD_TYPE == 'Release'}}
+        working-directory: ${{github.workspace}}/build
+        #continue-on-error: true
+        run: |
+          sudo Xvfb :91.0 -ac -screen 0 1200x900x24 &
+          sleep 1
+          export DISPLAY=:91.0
+          echo "Update update_linux.json ......"
+          export QT_XCB_GL_INTEGRATION=none
+          #export QT_DEBUG_PLUGINS=1
+          ARCH=`uname -m`
+          chmod a+x TransformCoordinate-`uname -m`.AppImage
+          mv TransformCoordinate-`uname -m`.AppImage TransformCoordinate--${{env.RabbitRemoteControl_VERSION}}-`uname -m`.AppImage
+
+      - name: Update artifact
+        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.artifact_name }}_${{matrix.os}}
+          path: |
+            ${{github.workspace}}/TransformCoordinate-${{env.RabbitRemoteControl_VERSION}}-*.AppImage

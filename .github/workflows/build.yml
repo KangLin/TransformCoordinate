@@ -15,6 +15,10 @@ jobs:
   ubuntu:
     uses: ./.github/workflows/ubuntu.yml
 
+  appimage:
+    uses: ./.github/workflows/appimage.yml
+    secrets: inherit
+
   msvc:
     uses: ./.github/workflows/msvc.yml
 
@@ -37,7 +41,7 @@ jobs:
   deploy:
     #if: ${{ startsWith(github.ref, 'refs/tags/') }}
     runs-on: ubuntu-latest
-    needs: [ubuntu, msvc, macos, android]
+    needs: [ubuntu, appimage, msvc, macos, android]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -59,6 +63,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.ubuntu.outputs.name }}
+          path: ${{ env.artifact_path }}
+          merge-multiple: true
+
+      - name: Download appimage
+        uses: actions/download-artifact@v7
+        with:
+          pattern: ${{ needs.appimage.outputs.name }}*
           path: ${{ env.artifact_path }}
           merge-multiple: true
 
@@ -100,7 +111,7 @@ jobs:
       - name: Process configure file
         run: |
           git clone https://github.com/KangLin/RabbitCommon.git
-          ./RabbitCommon/Install/MergeJsonFile.sh \
+          ./RabbitCommon/Script/MergeJsonFile.sh \
               "${{ github.workspace }}/update.json" \
               "${{ env.artifact_path }}" "${{ env.artifact_path }}/version.json"
           rm ${{ env.artifact_path }}/*.json

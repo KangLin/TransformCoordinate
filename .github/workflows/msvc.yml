@@ -15,41 +15,35 @@ jobs:
     strategy:
       matrix:
         include:
-          - CMAKE_GENERATOR_PLATFORM: x64
+          - CMAKE_GENERATOR: "Visual Studio 17 2022"
+            CMAKE_GENERATOR_PLATFORM: x64
             VCPKG_TARGET_TRIPLET: x64-windows
             VCPKG_PLATFORM_TOOLSET: v143
             BUILD_TYPE: Release
-            os: windows-2022
-            qt_arch: win64_msvc2022_64
             qt_version: 6.10.3
+            qt_arch: win64_msvc2022_64
             qt_modules: qtscxml qt5compat
+            os: windows-2022
 
-          - CMAKE_GENERATOR_PLATFORM: arm64
+          - CMAKE_GENERATOR: "Visual Studio 18 2026"
+            CMAKE_GENERATOR_PLATFORM: arm64
             VCPKG_TARGET_TRIPLET: arm64-windows
             VCPKG_PLATFORM_TOOLSET: v143
             BUILD_TYPE: Release
-            os: windows-11-arm
-            qt_arch: win64_msvc2022_arm64
             qt_version: 6.10.3
-            qt_modules: qtscxml qt5compat
+            qt_arch: win64_msvc2022_arm64
+            qt_modules: qt5compat qtscxml
+            os: windows-11-arm
 
-          # - CMAKE_GENERATOR_PLATFORM: x64
-          #   VCPKG_TARGET_TRIPLET: x64-windows
-          #   VCPKG_PLATFORM_TOOLSET: v143
-          #   VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
-          #   BUILD_TYPE: Release
-          #   os: windows-2022
-          #   qt_arch: win64_msvc2019_64
-          #   qt_version: 5.15.2
-
-          - CMAKE_GENERATOR_PLATFORM: Win32
+          - CMAKE_GENERATOR: "Visual Studio 17 2022"
+            CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
             VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
             BUILD_TYPE: Release
+            qt_version: 5.15.2
+            qt_arch: win32_msvc2019
             os: windows-2022
-            qt_arch: win32_msvc2017
-            qt_version: 5.12.12
 
     # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
     # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
@@ -58,15 +52,17 @@ jobs:
 
     env:
       TransformCoordinate_VERSION: "v1.1.4"
+      BUILD_DIR:   ${{github.workspace}}\build
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
-      TOOLS_DIR:   ${{github.workspace}}\.cache\tools
+      TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install
-      CMAKE_GENERATOR: "Visual Studio 17 2022"
-      CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      VCPKGGITCOMMITID: cb2981c4e03d421fa03b9bb5044cd1986180e7e4
+      VCPKGGITCOMMITID: d741c98f42a969e69cfc57ce5155aa6df8b1d5dc
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
-      VCPKG_MANIFEST_DIR: "${{github.workspace}}${{matrix.VCPKG_MANIFEST_DIR}}"
+      #VCPKG_MANIFEST_DIR: "${{github.workspace}}${{matrix.VCPKG_MANIFEST_DIR}}"
+      CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+      CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       qt_modules: ${{matrix.qt_modules}}
       artifact_name: build_msvc
 
@@ -124,8 +120,19 @@ jobs:
               -DCMARK_STATIC=ON ^
               -DWITH_CMARK=ON ^
               -DWITH_CMARK_GFM=OFF ^
-              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
-              -DCMAKE_INSTALL_PREFIX=%CD%/install ^
+              -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+              -DCMAKE_INSTALL_PREFIX=install ^
+              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
+              -DVCPKG_VERBOSE=ON ^
+              -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
+              -DVCPKG_APPLOCAL_DEPS=ON ^
+              -DVCPKG_TRACE_FIND_PACKAGE=ON ^
+              -DENABLE_UPDATE_TRANSLATIONS=ON ^
+              -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
+              -DRABBIT_ENABLE_INSTALL_QT=ON ^
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF ^
+              -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ^
               -DBUILD_APP=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
           cmake --install . --config ${{ matrix.BUILD_TYPE }}
@@ -147,25 +154,27 @@ jobs:
           RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           cmake ${{github.workspace}} ^
-              -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
-              -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
-              -DCMARK_SHARED=OFF ^
-              -DCMARK_TESTS=OFF ^
-              -DCMARK_STATIC=ON ^
-              -DWITH_CMARK=ON ^
-              -DWITH_CMARK_GFM=OFF ^
-              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
-              -DCMAKE_INSTALL_PREFIX=%CD%/install ^
-              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}\scripts\buildsystems\vcpkg.cmake ^
-              -DVCPKG_MANIFEST_DIR=${{env.VCPKG_MANIFEST_DIR}} ^
-              -DVCPKG_VERBOSE=ON ^
-              -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
-              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
-              -DVCPKG_APPLOCAL_DEPS=ON ^
-              -DENABLE_UPDATE_TRANSLATIONS=ON ^
-              -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
-              -DRABBIT_ENABLE_INSTALL_QT=ON ^
-              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=ON
+            -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+            -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
+            -DCMARK_SHARED=OFF ^
+            -DCMARK_TESTS=OFF ^
+            -DCMARK_STATIC=ON ^
+            -DWITH_CMARK=ON ^
+            -DWITH_CMARK_GFM=OFF ^
+            -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+            -DCMAKE_INSTALL_PREFIX=install ^
+            -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
+            -DVCPKG_VERBOSE=ON ^
+            -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
+            -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
+            -DVCPKG_APPLOCAL_DEPS=ON ^
+            -DVCPKG_TRACE_FIND_PACKAGE=ON ^
+            -DENABLE_UPDATE_TRANSLATIONS=ON ^
+            -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
+            -DRABBIT_ENABLE_INSTALL_QT=ON ^
+            -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF ^
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ^
+            -DBUILD_APP=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
       - name: Package

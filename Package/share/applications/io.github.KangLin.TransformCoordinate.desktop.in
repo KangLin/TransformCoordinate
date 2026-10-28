@@ -16,7 +16,8 @@ Type=Application
 #    $XDG_DATA_DIRS/icons
 #    /usr/share/pixmaps
 Icon=@APP_ID@
-Exec=/opt/TransformCoordinate/bin/TransformCoordinate.sh
+Exec=TransformCoordinateApp
+Path=@CMAKE_INSTALL_PREFIX@/bin
 Terminal=false
 StartupNotify=true
 
