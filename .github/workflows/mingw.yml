@@ -112,7 +112,7 @@ jobs:
           7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_mingw_x64.zip install/*
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        if: false #${{ matrix.BUILD_TYPE == 'Release' }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}

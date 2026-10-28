@@ -11,6 +11,7 @@ update_version() {
     $SED_CMD "s/  - set TransformCoordinate_VERSION=.*/  - set TransformCoordinate_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
     $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
     #$SED_CMD "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
+    $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/appimage.yml
     $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
     $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/doxygen.yml
     $SED_CMD "s/TransformCoordinate_VERSION:.*/TransformCoordinate_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/android.yml
@@ -43,6 +44,7 @@ update_version() {
     echo " -- `git log --pretty=format:'%an <%ae>' HEAD^..HEAD`  `date --rfc-email`" >> ${CHANGLOG_FILE}
 
 }
+
 
 # Function to create sed-safe pattern
 sed_safe_pattern() {
@@ -85,17 +87,9 @@ init_value() {
     TAG_RELEASE_PATTERN="v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)"
 
     SOURCE_DIR=$(dirname $(safe_readlink $0))
-    RabbitCommonBash=$RabbitCommon_ROOT/Script/RabbitCommon.sh
-    if [ ! -f ${RabbitCommonBash} ]; then
-        RabbitCommonBash=${SOURCE_DIR}/../RabbitCommon/Script/RabbitCommon.sh
-    fi
-    if [ -n "${RabbitCommonBash}" -a -f ${RabbitCommonBash} ]; then
-        source "${RabbitCommonBash}"
+    if [ -f ${SOURCE_DIR}/Script/common.sh ]; then
+        source ${SOURCE_DIR}/Script/common.sh
         check_git
-    else
-        echo "Please set environment variable \"RabbitCommon_ROOT\" to \"RabbitCommon\" install root"
-        echo "Or install \"RabbitCommon\" from \"https://github.com/KangLin/RabbitCommon.git\" in the same directory as the project"
-        exit 1
     fi
 
     CURRENT_VERSION=`git describe --tags --match "v*"`
@@ -286,9 +280,9 @@ parse_with_getopts() {
     # 参数验证
     if [ -n "$VERSION" ]; then
         if [[ ! "$VERSION" =~ ^${VERSION_PATTERN}$ ]]; then
-            echo_color_error "X Invalid SemVer format: $VERSION" >&2
-            echo_color_error "  Expected format: [v]X.Y.Z[-prerelease][+build]" >&2
-            echo_color_error "  See: https://semver.org/" >&2
+            echo_error "X Invalid SemVer format: $VERSION" >&2
+            echo_error "  Expected format: [v]X.Y.Z[-prerelease][+build]" >&2
+            echo_error "  See: https://semver.org/" >&2
             exit 1
         fi
     fi
@@ -324,8 +318,13 @@ check_version() {
 check_chang_log() {
     echo "  - Modified change log ?"
     local content=$(<${SOURCE_DIR}/ChangeLog.md)
-    if [[ $content =~ "$VERSION" ]]; then
+    local escaped_version="${VERSION//./\\.}"
+    #echo "Looking for version: $VERSION"
+    local pattern="$escaped_version([[:space:]]|\$|$)"
+    #echo "pattern: $pattern"
+    if [[ $content =~ $pattern ]]; then
         echo_color_success "    √ Modified in \"ChangeLog.md\""
+        #echo "匹配到的版本: ${BASH_REMATCH[0]}"
     else
         echo_color_warn "    ! Warning: Don't include \"$VERSION\" in the file \"ChangeLog.md\""
     fi
@@ -345,7 +344,7 @@ create_tag() {
         check_chang_log
         echo ""
 
-        read -t 60 -p "? Deploy? (y/N): " INPUT
+        read -t 60 -p "? Deploy? (y/N): " INPUT || true
         if [ "${INPUT:-N}" != "Y" ] && [ "${INPUT:-N}" != "y" ]; then
             echo_error "Deployment cancelled"
             exit 0
@@ -394,8 +393,8 @@ push_remote_repository() {
         git tag -a "$VERSION" -m "$MESSAGE"
 
         # Push commits and tags
-        git push origin HEAD
         git push origin "$VERSION"
+        git push origin HEAD
 
         echo_success "Push to remote repository successfully!"
     fi
@@ -411,7 +410,9 @@ show_value
 
 check_version
 
-create_tag
+if [ "$DEPLOY" = "ON" ]; then
+    create_tag
+fi
 
 echo "= Update version to $VERSION ......"
 
@@ -425,4 +426,6 @@ if [ "$COMMIT" = "ON" ]; then
     commit_code
 fi
 
-push_remote_repository
+if [ "$DEPLOY" = "ON" ]; then
+    push_remote_repository
+fi

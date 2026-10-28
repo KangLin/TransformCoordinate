@@ -30,7 +30,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOLS_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.os}}_${{matrix.BUILD_TYPE}}
-      TransformCoordinate_VERSION: "1.1.4"
+      TransformCoordinate_VERSION: "v1.1.4"
       artifact_name: build_appimage
       qt_modules: 'qtscxml qt5compat'
 
@@ -122,15 +122,15 @@ jobs:
         working-directory: ${{github.workspace}}/build
         #continue-on-error: true
         run: |
-          sudo Xvfb :91.0 -ac -screen 0 1200x900x24 &
-          sleep 1
-          export DISPLAY=:91.0
-          echo "Update update_linux.json ......"
-          export QT_XCB_GL_INTEGRATION=none
+          #sudo Xvfb :91.0 -ac -screen 0 1200x900x24 &
+          #sleep 1
+          #export DISPLAY=:91.0
+          #echo "Update update_linux.json ......"
+          #export QT_XCB_GL_INTEGRATION=none
           #export QT_DEBUG_PLUGINS=1
           ARCH=`uname -m`
           chmod a+x TransformCoordinate-`uname -m`.AppImage
-          mv TransformCoordinate-`uname -m`.AppImage TransformCoordinate--${{env.RabbitRemoteControl_VERSION}}-`uname -m`.AppImage
+          mv TransformCoordinate-`uname -m`.AppImage TransformCoordinate-${{env.TransformCoordinate_VERSION}}-`uname -m`.AppImage
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -138,4 +138,4 @@ jobs:
         with:
           name: ${{ env.artifact_name }}_${{matrix.os}}
           path: |
-            ${{github.workspace}}/TransformCoordinate-${{env.RabbitRemoteControl_VERSION}}-*.AppImage
+            ${{github.workspace}}/build/TransformCoordinate-${{env.TransformCoordinate_VERSION}}-*.AppImage

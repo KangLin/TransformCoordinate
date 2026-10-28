@@ -115,18 +115,18 @@ jobs:
             -DRABBIT_WITH_MACDEPLOY=OFF \
             -DENABLE_UPDATE_TRANSLATIONS=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
-          7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
+          7z a TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_`uname -m`.zip ./install/*
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.qt_version == '6.8.1' }}
+        if: ${{ matrix.BUILD_TYPE == 'Release' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}
+          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.VCPKG_TARGET_TRIPLET}}
           path: |
-            ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.tar.gz
-            ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_x86_64_setup.sh
-            ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip
+            ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_*_setup.tar.gz
+            ${{github.workspace}}/build/transformcoordinate_${{env.TransformCoordinate_VERSION}}_Darwin_*_setup.sh
+            ${{github.workspace}}/build/TransformCoordinate_${{env.TransformCoordinate_VERSION}}_macos*.zip
 
 #    - name: Upload To Github Release
 #      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}
