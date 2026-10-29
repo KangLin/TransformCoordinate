@@ -54,13 +54,13 @@ GET_VERSION(OUT_VERSION TransformCoordinate_VERSION
     OUT_TAG TransformCoordinate_Tag)
 message("TransformCoordinate_VERSION:${TransformCoordinate_VERSION};TransformCoordinate_REVISION:${TransformCoordinate_REVISION}")
 if(NOT TransformCoordinate_VERSION)
-    SET(TransformCoordinate_VERSION "1.1.4")
+    SET(TransformCoordinate_VERSION "1.1.5")
 endif()
 if(NOT(TransformCoordinate_VERSION MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+[+\\-^_~0-9A-Za-z]*"))
-    SET(TransformCoordinate_VERSION "1.1.4")
+    SET(TransformCoordinate_VERSION "1.1.5")
 endif()
 IF(NOT TransformCoordinate_Tag)
-    SET(TransformCoordinate_Tag "1.1.2")
+    SET(TransformCoordinate_Tag "1.1.5")
 ENDIF()
 
 set(HEAD_FILES

@@ -1,12 +1,26 @@
-transformcoordinate (1.1.4) unstable; urgency=medium
+transformcoordinate (1.1.5) unstable; urgency=medium
 
-    * CI: add chang log
-    * Fix path separator in copy command for Windows
+    * Script: modify deploy.sh
+    * Modify ChangeLog.md
+    * CI: add appimage.yml
+    * App: modify about dialog
+    * Android: Use cmake to generate AndroidManifest.xml, remove AndroidManifest.xml
+    * XML parsing without converting tags to lowercase
+    * _COFF_ repleace 3686400
+    * App: disable restore widget in android
+    * App: modify main.cpp
+    * Modify README.md
+    * Fix typo
+    * App: Modify main.cpp
+    * App: modify AndroidManifest.xml
+    * Modify translations
+    * Modify icons
+    * Modify deploy.sh
+    * Android: add menu in tool bar
+    * CI: modify build.yml
+    * Modify README.md
+    * CI: modify android.yml to remove resConfig
     * Modify deploy.sh
     * CI: modify build.yml
-    * Rename org.Rabbit.TransformCoordinate.desktop to io.github.KangLin.TransformCoordinate.desktop
-    * Modify README.md
-    * Add TrackPointExtension documents
-    * Update README.md
 
- -- Kang Lin <kl222@126.com>  Mon, 13 Apr 2026 12:35:45 +0800
+ -- Kang Lin <kl222@126.com>  Thu, 29 Oct 2026 12:02:58 +0800
